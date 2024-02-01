@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAcess", "DataAcess\Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{ECE8E190-DAB4-4AD2-9F6F-6B1E903D29F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reponsitory", "Reponsitory\Reponsitory.csproj", "{66E9ED92-683A-4B3B-9D7B-BCDB6DBE5D7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reponsitories", "Reponsitory\Reponsitories.csproj", "{66E9ED92-683A-4B3B-9D7B-BCDB6DBE5D7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
