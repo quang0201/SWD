@@ -1,0 +1,6 @@
+@PartyWeb.Server_HostAddress = http://localhost:5212
+
+GET {{PartyWeb.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
