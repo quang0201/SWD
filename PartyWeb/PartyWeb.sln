@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyWeb.Server", "PartyWeb.Server\PartyWeb.Server.csproj", "{F2BB6D38-A9EC-4B10-89E2-451EC3AA4E64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "PartyWeb.Server\Server.csproj", "{F2BB6D38-A9EC-4B10-89E2-451EC3AA4E64}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "partyweb.client", "partyweb.client\partyweb.client.esproj", "{D8A93E0C-E956-4BE0-8474-DB7BC7271CFC}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Client", "partyweb.client\Client.esproj", "{D8A93E0C-E956-4BE0-8474-DB7BC7271CFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
