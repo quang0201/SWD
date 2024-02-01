@@ -3,3 +3,9 @@ PartyWeb/PartyWeb.Server/bin/
 PartyWeb/PartyWeb.Server/obj/
 PartyWeb/partyweb.client/node_modules/
 PartyWeb/partyweb.client/obj/
+PartyWeb/BusinessObjects/bin/
+PartyWeb/BusinessObjects/obj/
+PartyWeb/Reponsitory/bin/
+PartyWeb/Reponsitory/obj/
+PartyWeb/DataAcess/bin/
+PartyWeb/DataAcess/obj/
