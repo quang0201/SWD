@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAcess\DataAcess.csproj" />
+    <ProjectReference Include="..\PartyWeb.BusinessObjects\BusinessObjects.csproj" />
   </ItemGroup>
 
 </Project>

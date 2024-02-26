@@ -5,15 +5,15 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "PartyWeb.Server\Server.csproj", "{F2BB6D38-A9EC-4B10-89E2-451EC3AA4E64}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Client", "partyweb.client\Client.esproj", "{D8A93E0C-E956-4BE0-8474-DB7BC7271CFC}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Client", "PartyWeb.Client\Client.esproj", "{D8A93E0C-E956-4BE0-8474-DB7BC7271CFC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAcess", "DataAcess\DataAcess.csproj", "{DE9F265C-79CF-41D6-BEBF-B207911B8FBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAcess", "PartyWeb.DataAcess\DataAcess.csproj", "{DE9F265C-79CF-41D6-BEBF-B207911B8FBE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{ECE8E190-DAB4-4AD2-9F6F-6B1E903D29F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjects", "PartyWeb.BusinessObjects\BusinessObjects.csproj", "{ECE8E190-DAB4-4AD2-9F6F-6B1E903D29F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reponsitories", "Reponsitory\Reponsitories.csproj", "{66E9ED92-683A-4B3B-9D7B-BCDB6DBE5D7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reponsitories", "PartyWeb.Reponsitory\Reponsitories.csproj", "{66E9ED92-683A-4B3B-9D7B-BCDB6DBE5D7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{935D9D5A-049D-463F-AAF1-438AA42D5BAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "PartyWeb.Services\Services.csproj", "{935D9D5A-049D-463F-AAF1-438AA42D5BAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
