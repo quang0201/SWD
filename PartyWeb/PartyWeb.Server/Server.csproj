@@ -24,4 +24,8 @@
     <ProjectReference Include="..\PartyWeb.Services\Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
