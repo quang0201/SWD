@@ -1,25 +1,104 @@
-﻿using BusinessObjects.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+using BusinessObjects.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PartyWeb.Server;
-using Server.Interface;
+using Services;
+using Services.Service;
 
-namespace Server.Controllers
+namespace PartyWeb.Server.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class FoodController : ControllerBase, IFood
+    [Route("[controller]")]
+    public class FoodController : ControllerBase
     {
-        [HttpGet("Get-All")]
-        public async Task<Food> AddOneFood(Food food)
+        private IFoodService _FoodService = new FoodService();
+        public FoodController()
         {
-            throw new NotImplementedException();
         }
-        [HttpPost("Add")]
-        public async Task<Food> GetAllFood()
+
+        [AllowAnonymous]
+        [HttpGet("GetFoods")]
+        public IActionResult GetFoods()
         {
-            throw new NotImplementedException();
+            try
+            {
+                
+                List<Food> Foods = _FoodService.GetFoods();
+                return Ok(Foods);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { error = "error" });
+            }
         }
+
+        [AllowAnonymous]
+        [HttpGet("GetFoodsById/{id}")]
+        public IActionResult GetFoodsById(int id)
+        {
+            try
+            {
+
+                Food Foods = _FoodService.GetFoodsById(id);
+                return Ok(Foods);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { error = "error" });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("CreateFoods")]
+        public IActionResult CreateFoods(Food d)
+        {
+            try
+            {
+                _FoodService.CreateFoods(d);
+                return Ok("Create Sucessfull");
+
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { error = "error" });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpDelete("DeleteFoods")]
+        public IActionResult DeleteFoods(int id)
+        {
+            try
+            {
+
+                _FoodService.DeleteFoods(id);
+                return Ok("Delete Sucessfull");
+
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { error = "error" });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPut("UpdateFoods")]
+        public IActionResult UpdateFoods(Food d)
+        {
+            try
+            {
+
+                _FoodService.UpdateFoods(d);
+                return Ok("Update Sucessfull");
+
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { error = "error" });
+            }
+        }
+
+
     }
 }
