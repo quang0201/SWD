@@ -1,0 +1,104 @@
+using BusinessObjects.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Services;
+using Services.Service;
+
+namespace PartyWeb.Server.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class DecorController : ControllerBase
+    {
+        private IDecorService _decorService = new DecorService();
+        public DecorController()
+        {
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetDecors")]
+        public IActionResult GetDecors()
+        {
+            try
+            {
+                
+                List<Decor> decors = _decorService.GetDecors();
+                return Ok(decors);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { error = "error" });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetDecorsById/{id}")]
+        public IActionResult GetDecorsById(int id)
+        {
+            try
+            {
+
+                Decor decors = _decorService.GetDecorsById(id);
+                return Ok(decors);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { error = "error" });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("CreateDecors")]
+        public IActionResult CreateDecors(Decor d)
+        {
+            try
+            {
+                _decorService.CreateDecors(d);
+                return Ok("Create Sucessfull");
+
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { error = "error" });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpDelete("DeleteDecors")]
+        public IActionResult DeleteDecors(int id)
+        {
+            try
+            {
+
+                _decorService.DeleteDecors(id);
+                return Ok("Delete Sucessfull");
+
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { error = "error" });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPut("UpdateDecors")]
+        public IActionResult UpdateDecors(Decor d)
+        {
+            try
+            {
+
+                _decorService.UpdateDecors(d);
+                return Ok("Update Sucessfull");
+
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { error = "error" });
+            }
+        }
+
+
+    }
+}
