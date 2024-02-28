@@ -12,4 +12,8 @@
     <ProjectReference Include="..\PartyWeb.Reponsitory\Reponsitories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interface\" />
+  </ItemGroup>
+
 </Project>

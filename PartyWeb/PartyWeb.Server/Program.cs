@@ -1,6 +1,10 @@
-using BusinessObjects.Models;
+﻿using BusinessObjects.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +17,80 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<SwdContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn")));
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Version = "v1",
+        Title = "API",
+        Description = "Đang làm",
+        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+        {
+            Name = "quang",
+            Email = "quang020102@gmail.com",
+        },
+    });
+    // Thêm JWT Bearer Token vào Swagger
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header sử dụng scheme Bearer.",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Name = "Authorization",
+        Scheme = "bearer"
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
+});
+
+builder.Services.AddAuthentication(e =>
+{
+    e.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    e.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddCookie(x =>
+{
+    x.Cookie.SameSite = SameSiteMode.Strict;
+    x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    x.Cookie.IsEssential = true;
+})
+  .AddJwtBearer(e =>
+  {
+      e.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateIssuer = true,
+          ValidateAudience = true,
+          ValidateLifetime = true,
+          ValidateIssuerSigningKey = true,
+          ValidIssuer = builder.Configuration.GetSection("JwtSettings:Issuer").Value!,
+          ValidAudience = builder.Configuration.GetSection("JwtSettings:Audience").Value!,
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JwtSettings:SecretKey").Value!))
+      };
+      e.SaveToken = true;
+      e.RequireHttpsMetadata = true;
+      e.Events = new JwtBearerEvents();
+      e.Events.OnMessageReceived = context => {
+
+          if (context.Request.Cookies.ContainsKey("JwtTokenCookie"))
+          {
+              context.Token = context.Request.Cookies["JwtTokenCookie"];
+          }
+
+          return Task.CompletedTask;
+      };
+  });
 
 var app = builder.Build();
 
