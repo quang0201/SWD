@@ -18,10 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PartyWeb.BusinessObjects\BusinessObjects.csproj" />
     <ProjectReference Include="..\partyweb.client\Client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\PartyWeb.ModelViews\ModelViews.csproj" />
+    <ProjectReference Include="..\PartyWeb.Reponsitory\Reponsitories.csproj" />
     <ProjectReference Include="..\PartyWeb.Services\Services.csproj" />
   </ItemGroup>
 
