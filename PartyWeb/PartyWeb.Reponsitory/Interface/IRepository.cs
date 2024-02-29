@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Reponsitories.IRepository
 {
-    internal class IRepository
+    public interface IRepository
     {
+
     }
 }
