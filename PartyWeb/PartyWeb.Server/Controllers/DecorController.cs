@@ -73,7 +73,7 @@ namespace PartyWeb.Server.Controllers
             {
 
                 _decorService.DeleteDecors(id);
-                return Ok("Delete Sucessfull");
+                return Ok(new { mess = "Delete Sucessfull" });
 
             }
             catch (Exception)
