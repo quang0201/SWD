@@ -1,5 +1,6 @@
 ﻿using BusinessObjects.Models;
 using Microsoft.EntityFrameworkCore;
+using ModelViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,20 +36,23 @@ namespace DataAcess.ControllerDAO
         {
             try
             {
-                using (var dbContext = new SwdContext())
-                {
-                    var accountList = await dbContext.Accounts.ToListAsync();
-                    Console.WriteLine(accountList.Count);
-                    if (accountList.Count == 0)
-                    {
-                        Console.WriteLine("Danh sách không có phần tử.");
-                    }
-                    return accountList;
-                }
-                return null;
-            }catch (Exception ex)
+                return await _dbContext.Accounts.ToListAsync();
+            }
+            catch (Exception ex)
             {
-                throw new Exception("Loi here");
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
+            }
+        }
+        public async Task<Account> Login(LoginModel login)
+        {
+            try
+            {
+                var account = await _dbContext.Accounts.FirstOrDefaultAsync(a => a.Username == login.UserName && a.Password == login.Password);
+                return account;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
             }
         }
     }
