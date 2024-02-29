@@ -31,7 +31,5 @@ public partial class Account
 
     public DateTime? DeletedTime { get; set; }
 
-    public DateTime? Dob { get; set; }
-
     public string? Infomation { get; set; }
 }

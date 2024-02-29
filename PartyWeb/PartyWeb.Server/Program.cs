@@ -4,6 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Reponsitories.Interface;
+using Reponsitories.Repositories;
+using Server.Interface;
+using Services.Interface;
+using Services.Service;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +19,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IUserService,UserService>();
+
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddDbContext<SwdContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn")));
