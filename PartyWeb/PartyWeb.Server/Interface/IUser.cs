@@ -10,5 +10,6 @@ namespace Server.Interface
         public Task<bool> Update(Account decor);
         public Task<bool> Delete(Account decor);
         public List<Task<Account>> Pagging(int page, int pageSize);
+
     }
 }

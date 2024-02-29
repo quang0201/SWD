@@ -1,6 +1,7 @@
 using BusinessObjects.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ModelViews;
 using Reponsitories.DecorRepositores;
 
 namespace PartyWeb.Server.Controllers
@@ -50,11 +51,11 @@ namespace PartyWeb.Server.Controllers
 
         [Authorize]
         [HttpPost("CreateDecors")]
-        public IActionResult CreateDecors(Decor d)
+        public IActionResult CreateDecors(FormTest d)
         {
             try
             {
-                _decorService.CreateDecors(d);
+                //_decorService.CreateDecors(d);
                 return Ok("Create Sucessfull");
 
             }
