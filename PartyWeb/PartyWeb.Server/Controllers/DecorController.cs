@@ -1,8 +1,7 @@
 using BusinessObjects.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services;
-using Services.Service;
+using Reponsitories.DecorRepositores;
 
 namespace PartyWeb.Server.Controllers
 {
@@ -15,7 +14,7 @@ namespace PartyWeb.Server.Controllers
         {
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("GetDecors")]
         public IActionResult GetDecors()
         {
@@ -32,7 +31,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("GetDecorsById/{id}")]
         public IActionResult GetDecorsById(int id)
         {
@@ -49,7 +48,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("CreateDecors")]
         public IActionResult CreateDecors(Decor d)
         {
@@ -65,7 +64,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete("DeleteDecors")]
         public IActionResult DeleteDecors(int id)
         {
@@ -82,7 +81,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut("UpdateDecors")]
         public IActionResult UpdateDecors(Decor d)
         {

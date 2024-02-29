@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Service
+namespace Reponsitories.RoomRepositores
 {
     public class RoomService : IRoomService
     {

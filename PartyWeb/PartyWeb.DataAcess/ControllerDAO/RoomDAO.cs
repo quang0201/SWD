@@ -90,8 +90,11 @@ namespace DataAcess.ControllerDAO
             {
                 using (var context = new SwdContext())
                 {
-                    var cusSkillsToDelete = context.Rooms.Where(js => js.Int == RoomId).ToList();
-                    context.Rooms.RemoveRange(cusSkillsToDelete);
+
+                    var RoomToDelete = context.Rooms
+                    .SingleOrDefault(c => c.Int == RoomId);
+                    RoomToDelete.Status = 0;
+                    context.Entry<Room>(RoomToDelete).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
                 }
             }

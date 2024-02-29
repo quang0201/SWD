@@ -1,8 +1,7 @@
 using BusinessObjects.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services;
-using Services.Service;
+using Reponsitories.FoodRepositores;
 
 namespace PartyWeb.Server.Controllers
 {
@@ -15,7 +14,7 @@ namespace PartyWeb.Server.Controllers
         {
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("GetFoods")]
         public IActionResult GetFoods()
         {
@@ -32,7 +31,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("GetFoodsById/{id}")]
         public IActionResult GetFoodsById(int id)
         {
@@ -49,7 +48,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("CreateFoods")]
         public IActionResult CreateFoods(Food d)
         {
@@ -65,7 +64,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete("DeleteFoods")]
         public IActionResult DeleteFoods(int id)
         {
@@ -82,7 +81,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut("UpdateFoods")]
         public IActionResult UpdateFoods(Food d)
         {

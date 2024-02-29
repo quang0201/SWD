@@ -1,8 +1,7 @@
 using BusinessObjects.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services;
-using Services.Service;
+using Reponsitories.RoomRepositores;
 
 namespace PartyWeb.Server.Controllers
 {
@@ -15,7 +14,7 @@ namespace PartyWeb.Server.Controllers
         {
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("GetRooms")]
         public IActionResult GetRooms()
         {
@@ -32,7 +31,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("GetRoomsById/{id}")]
         public IActionResult GetRoomsById(int id)
         {
@@ -49,7 +48,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("CreateRooms")]
         public IActionResult CreateRooms(Room d)
         {
@@ -65,7 +64,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete("DeleteRooms")]
         public IActionResult DeleteRooms(int id)
         {
@@ -82,7 +81,7 @@ namespace PartyWeb.Server.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut("UpdateRooms")]
         public IActionResult UpdateRooms(Room d)
         {
