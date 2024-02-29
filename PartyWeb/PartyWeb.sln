@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "PartyWeb.Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelViews", "PartyWeb.ModelViews\ModelViews.csproj", "{A7FF8DCD-276F-4CE7-B05A-83D24C7DD4F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Tools\Tools.csproj", "{EB23EEDB-342F-452B-8C8B-5555BEBD7818}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{A7FF8DCD-276F-4CE7-B05A-83D24C7DD4F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7FF8DCD-276F-4CE7-B05A-83D24C7DD4F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7FF8DCD-276F-4CE7-B05A-83D24C7DD4F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB23EEDB-342F-452B-8C8B-5555BEBD7818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB23EEDB-342F-452B-8C8B-5555BEBD7818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB23EEDB-342F-452B-8C8B-5555BEBD7818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB23EEDB-342F-452B-8C8B-5555BEBD7818}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

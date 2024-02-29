@@ -1,4 +1,5 @@
 ﻿using BusinessObjects.Models;
+using Microsoft.AspNetCore.Mvc;
 using ModelViews;
 
 namespace Server.Interface
@@ -6,8 +7,8 @@ namespace Server.Interface
     public interface IUser
     {
         Task<bool> Register(Account account);
-        Task<Account> Login(LoginModel account);
-        Task<List<Account>> GetAll();
+        Task<IActionResult> Login(LoginModel account);
+        Task<IActionResult> GetAll();
 
     }
 }
