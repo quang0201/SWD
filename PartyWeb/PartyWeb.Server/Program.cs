@@ -91,6 +91,10 @@ builder.Services.AddAuthentication(e =>
           return Task.CompletedTask;
       };
   });
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true;
+});
 
 var app = builder.Build();
 
