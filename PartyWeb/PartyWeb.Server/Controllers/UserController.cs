@@ -42,5 +42,17 @@ namespace Server.Controllers
             var list = await _userService.GetAll();
             return Ok(new { status = "00", data = list, mess = "lấy data thành công" });
         }
+        [HttpGet("GetAllRegisterHost")]
+        public async Task<IActionResult> GetAllRegisterHost()
+        {
+            var list = await _userService.GetAllRegisterHost();
+            return Ok(new { status = "00", data = list, mess = "lấy data thành công" });
+        }
+        [HttpGet("GetRegisterHostPagging")]
+        public async Task<IActionResult> GetRegisterHostPagging(int index,int max,string search)
+        {
+            var list = await _userService.GetRegisterHostPagging(index, max, search);
+            return Ok(new { status = "00", data = list, mess = "lấy data thành công" });
+        }
     }
 }

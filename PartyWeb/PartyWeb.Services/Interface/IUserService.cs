@@ -12,5 +12,8 @@ namespace Services.Interface
     {
         Task<List<Account>> GetAll();
         Task<Account> GetByLogin(LoginModel login);
+        Task<List<Account>> GetAllRegisterHost();
+        Task<List<Account>> GetRegisterHostPagging(int index,int max,string search);
+
     }
 }

@@ -43,6 +43,35 @@ namespace DataAcess.ControllerDAO
                 throw new Exception("Lỗi xảy ra: " + ex.Message);
             }
         }
+        public async Task<List<Account>> GetAllRegisterHost()
+        {
+            try
+            {
+                var items = await _dbContext.Accounts.Where(x => x.Role == 0 && x.Status == 2).ToListAsync();
+                return items;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
+            }
+        }
+        public async Task<List<Account>> GetRegisterHostPagging(int index, int max, string search)
+        {
+            try
+            {
+                var items = await _dbContext.Accounts
+                    .Where(x => x.Role == 0 && x.Status == 2)
+                    .Skip((index - 1) * max)
+                    .Take(max)
+                    .ToListAsync();
+                return items;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
+            }
+        }
+
         public async Task<Account> Login(LoginModel login)
         {
             try

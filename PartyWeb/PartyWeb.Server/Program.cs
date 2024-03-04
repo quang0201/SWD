@@ -19,13 +19,23 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//config repo
+
 builder.Services.AddScoped<IUserService,UserService>();
 
+//config service
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+//config database
+
 builder.Services.AddDbContext<SwdContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn")));
+
+
+
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo

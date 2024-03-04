@@ -30,6 +30,12 @@ namespace Services.Service
             return listUser;
         }
 
+        public async Task<List<Account>> GetAllRegisterHost()
+        {
+            var items = await _userrepository.GetAllRegisterHost();
+            return items;
+        }
+
         public async Task<Account> GetByLogin(LoginModel login)
         {
             try
@@ -43,6 +49,16 @@ namespace Services.Service
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<List<Account>> GetRegisterHostPagging(int index, int max, string search)
+        {
+            if(index <= 0)
+            {
+                throw new ArgumentOutOfRangeException("index must than 0");
+            }
+            var items = await _userrepository.GetRegisterHostPagging(index,max,search);
+            return items;
         }
     }
 }
