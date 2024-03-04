@@ -1,4 +1,5 @@
 ﻿using BusinessObjects.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -60,6 +61,24 @@ namespace Tools.Tool
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
+        }
+        public string GetUserIdFromHttpContext(HttpContext httpContext)
+        {
+            if (!httpContext.Request.Headers.ContainsKey("Authorization"))
+            {
+                throw new("Need Authorization");
+            }
+            string? authorizationHeader = httpContext.Request.Headers["Authorization"];
+
+            if (string.IsNullOrWhiteSpace(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
+            {
+                throw new($"Invalid authorization header: {authorizationHeader}");
+            }
+            string jwtToken = authorizationHeader["Bearer ".Length..];
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.ReadJwtToken(jwtToken);
+            var idClaim = token.Claims.FirstOrDefault(claim => claim.Type == "user");
+            return idClaim?.Value ?? throw new($"Can not get userId from token");
         }
     }
 }

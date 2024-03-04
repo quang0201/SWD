@@ -12,5 +12,8 @@ namespace Reponsitories.Interface
     {
         Task<List<Account>> GetAll();
         Task<Account> Login(LoginModel login);
+        Task<List<Account>> GetAllRegisterHost();
+        Task<List<Account>> GetRegisterHostPagging(int index, int max , string search);
+
     }
 }
