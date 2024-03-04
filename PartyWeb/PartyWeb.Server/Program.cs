@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen();
 
 //config repo
 
-builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 //config service
 
@@ -100,7 +100,8 @@ builder.Services.AddAuthentication(e =>
       e.SaveToken = true;
       e.RequireHttpsMetadata = true;
       e.Events = new JwtBearerEvents();
-      e.Events.OnMessageReceived = context => {
+      e.Events.OnMessageReceived = context =>
+      {
 
           if (context.Request.Cookies.ContainsKey("JwtTokenCookie"))
           {
@@ -121,11 +122,9 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
