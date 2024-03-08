@@ -7,33 +7,23 @@ public partial class Order
 {
     public int Id { get; set; }
 
-    public string IdNumber { get; set; } = null!;
+    public decimal? Price { get; set; }
 
-    public string? ListFood { get; set; }
+    public byte? Status { get; set; }
 
-    public string? ListDecor { get; set; }
+    public int? CreatedBy { get; set; }
 
-    public string? Room { get; set; }
-
-    public decimal PrePrice { get; set; }
-
-    public decimal ActualPrice { get; set; }
-
-    public byte Status { get; set; }
-
-    public byte Type { get; set; }
-
-    public string? Note { get; set; }
-
-    public string? CreatedBy { get; set; }
-
-    public DateTime CreatedTime { get; set; }
-
-    public string? UpdatedBy { get; set; }
+    public DateTime? CreatedTime { get; set; }
 
     public DateTime? UpdatedTime { get; set; }
 
-    public string? DeletedBy { get; set; }
-
     public DateTime? DeletedTime { get; set; }
+
+    public virtual Account? CreatedByNavigation { get; set; }
+
+    public virtual ICollection<OrderDecor> OrderDecors { get; set; } = new List<OrderDecor>();
+
+    public virtual ICollection<OrderFood> OrderFoods { get; set; } = new List<OrderFood>();
+
+    public virtual ICollection<OrderRoom> OrderRooms { get; set; } = new List<OrderRoom>();
 }

@@ -24,41 +24,75 @@ namespace Services.Service
             Authentication.Initialize(_configuration);
         }
 
-        public async Task<List<Account>> GetAll()
-        {
-            var listUser = await _userrepository.GetAll();
-            return listUser;
-        }
-
-        public async Task<List<Account>> GetAllRegisterHost()
-        {
-            var items = await _userrepository.GetAllRegisterHost();
-            return items;
-        }
-
-        public async Task<Account> GetByLogin(LoginModel login)
+        public async Task<Tuple<string,bool>> GetByLogin(LoginModel login)
         {
             try
             {
+                if (!RegexString.Instance.ValidateInput(login.username))
+                {
+                    return Tuple.Create($"tài khoản không hợp lệ", false);
+                }   
+                if (!RegexString.Instance.ValidateInput(login.password))
+                {
+                    return Tuple.Create($"mật khẩu không hợp lệ", false);
+                }
+                
                 var user = await _userrepository.Login(login);
+                if (user == null)
+                {
+                    return Tuple.Create($"tài khoản hoặc mật khẩu không chính xác", false);
+                }
                 var token = Authentication.Instance.CreateToken(user);
-                Console.WriteLine(token);
-                return user;
+                return Tuple.Create(token, true);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-
-        public async Task<List<Account>> GetRegisterHostPagging(int index, int max, string search)
+        public async Task<Tuple<string, bool>> Register(RegisterModel account)
         {
-            if(index <= 0)
+            try
             {
-                throw new ArgumentOutOfRangeException("index must than 0");
+                if (!RegexString.Instance.ValidateInput(account.Username))
+                {
+                    return Tuple.Create($"tài khoản không hợp lệ", false);
+                }
+                if (!RegexString.Instance.ValidateInput(account.Password))
+                {
+                    return Tuple.Create($"mật khẩu không hợp lệ", false);
+                }
+                if (await _userrepository.GetUserByUserName(account.Username))
+                {
+                    return Tuple.Create($"Tài khoản đã tồn tại", false);
+                }
+                var user = new Account()
+                {
+                    Username = account.Username,
+                    Password = account.Password,
+                    Email = account.Email,
+                    CreatedTime = DateTime.Now,
+                    UpdatedTime = DateTime.Now,
+                    Role = 0,
+                    Status = 1,
+                };
+                // role
+                // 0 = customer 
+                // 1 = host
+                // 2 = admin
+
+                //status
+                //0 = xoá
+                //1 = đang hoạt động
+                //2 = đang chặn
+                //3 = 
+                await _userrepository.Register(user);
+                return Tuple.Create("đăng kí thành công", true);
             }
-            var items = await _userrepository.GetRegisterHostPagging(index,max,search);
-            return items;
+            catch (Exception ex)
+            {
+                return Tuple.Create($"Error during registration: {ex.Message}", false);
+            }
         }
     }
 }

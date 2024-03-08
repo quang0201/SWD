@@ -1,103 +1,49 @@
-using BusinessObjects.Models;
+﻿using BusinessObjects.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Reponsitories.FoodRepositores;
+using ModelViews;
+using Services.Interface;
+using System.Text.Json;
 
-namespace PartyWeb.Server.Controllers
+namespace Server.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class FoodController : ControllerBase
     {
-        private IFoodService _FoodService = new FoodService();
-        public FoodController()
+        IFoodService _foodService;
+        public FoodController(IFoodService foodService) { 
+            _foodService = foodService;
+        }
+        [HttpGet("getall")]
+        public async Task<IActionResult> GetAll()
         {
+            var result = await _foodService.GetAll();
+            return Ok(result);
         }
 
         [Authorize]
-        [HttpGet("GetFoods")]
-        public IActionResult GetFoods()
+        [HttpPost("addfood")]
+        public async Task<IActionResult> AddFood(FoodModel food)
         {
-            try
+            var user = User.FindFirst("user")?.Value;
+            if (user != null)
             {
-                
-                List<Food> Foods = _FoodService.GetFoods();
-                return Ok(Foods);
+                var acc = JsonSerializer.Deserialize<Account>(user);
+                var result = await _foodService.AddFood(food,acc);
+                if (!result.Item2)
+                {
+                    return Ok(new { status = "00", data = result.Item1, mess = "thêm thất bại" });
+                }
+                return Ok(new { status = "00",data = result.Item1 ,mess = "thêm food thành công" });
+            }
+            else
+            {
+                return Unauthorized(new { status = "01", mess = "Lỗi author" });
+            }
 
-            }
-            catch (Exception)
-            {
-                return BadRequest(new { error = "error" });
-            }
         }
-
-        [Authorize]
-        [HttpGet("GetFoodsById/{id}")]
-        public IActionResult GetFoodsById(int id)
-        {
-            try
-            {
-
-                Food Foods = _FoodService.GetFoodsById(id);
-                return Ok(Foods);
-
-            }
-            catch (Exception)
-            {
-                return BadRequest(new { error = "error" });
-            }
-        }
-
-        [Authorize]
-        [HttpPost("CreateFoods")]
-        public IActionResult CreateFoods(Food d)
-        {
-            try
-            {
-                _FoodService.CreateFoods(d);
-                return Ok("Create Sucessfull");
-
-            }
-            catch (Exception)
-            {
-                return BadRequest(new { error = "error" });
-            }
-        }
-
-        [Authorize]
-        [HttpDelete("DeleteFoods")]
-        public IActionResult DeleteFoods(int id)
-        {
-            try
-            {
-
-                _FoodService.DeleteFoods(id);
-                return Ok("Delete Sucessfull");
-
-            }
-            catch (Exception)
-            {
-                return BadRequest(new { error = "error" });
-            }
-        }
-
-        [Authorize]
-        [HttpPut("UpdateFoods")]
-        public IActionResult UpdateFoods(Food d)
-        {
-            try
-            {
-
-                _FoodService.UpdateFoods(d);
-                return Ok("Update Sucessfull");
-
-            }
-            catch (Exception)
-            {
-                return BadRequest(new { error = "error" });
-            }
-        }
-
-
     }
 }

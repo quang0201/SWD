@@ -19,26 +19,22 @@ public partial class SwdContext : DbContext
 
     public virtual DbSet<Decor> Decors { get; set; }
 
-    public virtual DbSet<FeedBack> FeedBacks { get; set; }
-
     public virtual DbSet<Food> Foods { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
 
-    public virtual DbSet<Package> Packages { get; set; }
+    public virtual DbSet<OrderDecor> OrderDecors { get; set; }
 
-    public virtual DbSet<Party> Parties { get; set; }
+    public virtual DbSet<OrderFood> OrderFoods { get; set; }
 
-    public virtual DbSet<Payment> Payments { get; set; }
+    public virtual DbSet<OrderRoom> OrderRooms { get; set; }
+
+    public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Room> Rooms { get; set; }
 
-    public virtual DbSet<Tran> Trans { get; set; }
-
-    public virtual DbSet<Voucher> Vouchers { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("server =(local); database = swd;uid=sa;pwd=sa;TrustServerCertificate=true");
+        => optionsBuilder.UseSqlServer("server =localhost; database = swd;uid=sa;pwd=sa;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,31 +42,17 @@ public partial class SwdContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Account__3213E83F2BDA6CF1");
 
-            entity.ToTable("Account");
-
-            entity.HasIndex(e => e.IdNumber, "number").IsUnique();
+            entity.ToTable("account");
 
             entity.HasIndex(e => e.Username, "username").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
             entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
             entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("email");
-            entity.Property(e => e.IdNumber)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("id_number");
             entity.Property(e => e.Infomation)
                 .HasColumnType("ntext")
                 .HasColumnName("infomation");
@@ -80,106 +62,57 @@ public partial class SwdContext : DbContext
                 .HasColumnName("password");
             entity.Property(e => e.Role).HasColumnName("role");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.UpdatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("updated_by");
             entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
             entity.Property(e => e.Username)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("username");
+
+            entity.HasOne(d => d.RoleNavigation).WithMany(p => p.Accounts)
+                .HasForeignKey(d => d.Role)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_account_role_id");
         });
 
         modelBuilder.Entity<Decor>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Decor__3213E83FA0308936");
+            entity.HasKey(e => e.Id).HasName("PK__food__3213E83F0AE3A13E_copy_1_copy_1");
 
-            entity.ToTable("Decor");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
-            entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
-            entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
-            entity.Property(e => e.Name)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("name");
-            entity.Property(e => e.Price)
-                .HasColumnType("money")
-                .HasColumnName("price");
-            entity.Property(e => e.Status)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("status");
-            entity.Property(e => e.Type)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("type");
-            entity.Property(e => e.UpdatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("updated_by");
-            entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
-        });
-
-        modelBuilder.Entity<FeedBack>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__FeedBack__3213E83F6043647A");
-
-            entity.ToTable("FeedBack");
+            entity.ToTable("decor");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Content)
                 .HasColumnType("ntext")
                 .HasColumnName("content");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
             entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
-            entity.Property(e => e.IdParty)
+            entity.Property(e => e.Name)
                 .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("id_party");
-            entity.Property(e => e.UpdatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("updated_by");
+                .HasColumnName("name");
+            entity.Property(e => e.Price)
+                .HasColumnType("money")
+                .HasColumnName("price");
+            entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Decors)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("fk_decor_account_id");
         });
 
         modelBuilder.Entity<Food>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Food__3213E83F0641FA08");
+            entity.HasKey(e => e.Id).HasName("PK__food__3213E83F0AE3A13E");
 
-            entity.ToTable("Food");
+            entity.ToTable("food");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Content)
                 .HasColumnType("ntext")
                 .HasColumnName("content");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
             entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
@@ -187,281 +120,149 @@ public partial class SwdContext : DbContext
             entity.Property(e => e.Price)
                 .HasColumnType("money")
                 .HasColumnName("price");
-            entity.Property(e => e.Quality).HasColumnName("quality");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.Type).HasColumnName("type");
-            entity.Property(e => e.UpdatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("updated_by");
             entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Foods)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("fk_food_account_id");
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F14AF5DB6");
+            entity.HasKey(e => e.Id).HasName("PK__food__3213E83F0AE3A13E_copy_1_copy_1_copy_1");
 
-            entity.ToTable("Order");
-
-            entity.HasIndex(e => e.IdNumber, "number_order").IsUnique();
-
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
-            entity.Property(e => e.ActualPrice)
-                .HasColumnType("money")
-                .HasColumnName("actual_price");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
-            entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
-            entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
-            entity.Property(e => e.IdNumber)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("id_number");
-            entity.Property(e => e.ListDecor)
-                .HasColumnType("text")
-                .HasColumnName("list_decor");
-            entity.Property(e => e.ListFood)
-                .HasColumnType("text")
-                .HasColumnName("list_food");
-            entity.Property(e => e.Note)
-                .HasColumnType("ntext")
-                .HasColumnName("note");
-            entity.Property(e => e.PrePrice)
-                .HasColumnType("money")
-                .HasColumnName("pre_price");
-            entity.Property(e => e.Room)
-                .HasColumnType("text")
-                .HasColumnName("room");
-            entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.Type).HasColumnName("type");
-            entity.Property(e => e.UpdatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("updated_by");
-            entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
-        });
-
-        modelBuilder.Entity<Package>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Package__3213E83FA519874B");
-
-            entity.ToTable("Package");
+            entity.ToTable("order");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Content)
-                .HasMaxLength(1)
-                .HasColumnName("content");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
             entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
-            entity.Property(e => e.Name)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("name");
             entity.Property(e => e.Price)
                 .HasColumnType("money")
                 .HasColumnName("price");
-            entity.Property(e => e.Status)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("status");
-            entity.Property(e => e.Type)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("type");
-            entity.Property(e => e.UpdatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("updated_by");
-            entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
-        });
-
-        modelBuilder.Entity<Party>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Party__3213E83F57A5724C");
-
-            entity.ToTable("Party");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Content)
-                .HasColumnType("ntext")
-                .HasColumnName("content");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
-            entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
-            entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
-            entity.Property(e => e.Name)
-                .HasMaxLength(1)
-                .HasColumnName("name");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.Type).HasColumnName("type");
-            entity.Property(e => e.UpdatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("updated_by");
             entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("fk_order_account_id");
         });
 
-        modelBuilder.Entity<Payment>(entity =>
+        modelBuilder.Entity<OrderDecor>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Payment__3213E83F15738CFD");
+            entity.HasKey(e => e.Id).HasName("PK__order_de__3213E83FCF2C3A66");
 
-            entity.ToTable("Payment");
+            entity.ToTable("order_decor");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Content)
+            entity.Property(e => e.IdDecor).HasColumnName("id_decor");
+            entity.Property(e => e.IdOrder).HasColumnName("id_order");
+            entity.Property(e => e.Quality).HasColumnName("quality");
+            entity.Property(e => e.TotalPrice)
+                .HasColumnType("money")
+                .HasColumnName("total_price");
+
+            entity.HasOne(d => d.IdDecorNavigation).WithMany(p => p.OrderDecors)
+                .HasForeignKey(d => d.IdDecor)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_order_decor_decor_id");
+
+            entity.HasOne(d => d.IdOrderNavigation).WithMany(p => p.OrderDecors)
+                .HasForeignKey(d => d.IdOrder)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_order_decor_order_id");
+        });
+
+        modelBuilder.Entity<OrderFood>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__order_fo__3213E83FBA641C1D");
+
+            entity.ToTable("order_food");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.IdFood).HasColumnName("id_food");
+            entity.Property(e => e.IdOrder).HasColumnName("id_order");
+            entity.Property(e => e.Quality).HasColumnName("quality");
+            entity.Property(e => e.TotalPrice)
+                .HasColumnType("money")
+                .HasColumnName("total_price");
+
+            entity.HasOne(d => d.IdFoodNavigation).WithMany(p => p.OrderFoods)
+                .HasForeignKey(d => d.IdFood)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_order_food_food_id");
+
+            entity.HasOne(d => d.IdOrderNavigation).WithMany(p => p.OrderFoods)
+                .HasForeignKey(d => d.IdOrder)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_order_food_order_id");
+        });
+
+        modelBuilder.Entity<OrderRoom>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__order_ro__3213E83FF864F977");
+
+            entity.ToTable("order_room");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.IdOrder).HasColumnName("id_order");
+            entity.Property(e => e.IdRoom).HasColumnName("id_room");
+            entity.Property(e => e.StartDate).HasColumnName("start_date");
+            entity.Property(e => e.TotalPrice)
+                .HasColumnType("money")
+                .HasColumnName("total_price");
+
+            entity.HasOne(d => d.IdOrderNavigation).WithMany(p => p.OrderRooms)
+                .HasForeignKey(d => d.IdOrder)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_order_room_order_id");
+
+            entity.HasOne(d => d.IdRoomNavigation).WithMany(p => p.OrderRooms)
+                .HasForeignKey(d => d.IdRoom)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_order_room_room_id");
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__role__3213E83F6E9CDBB5");
+
+            entity.ToTable("role");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .IsUnicode(false)
-                .HasColumnName("content");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
-            entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
-            entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
-            entity.Property(e => e.IdPayment)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("id_payment");
-            entity.Property(e => e.Money)
-                .HasColumnType("decimal(18, 0)")
-                .HasColumnName("money");
-            entity.Property(e => e.Status)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("status");
-            entity.Property(e => e.Type)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("type");
-            entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<Room>(entity =>
         {
-            entity.HasKey(e => e.Int).HasName("PK__Room__DC50F6D88CA75E56");
+            entity.HasKey(e => e.Id).HasName("PK__food__3213E83F0AE3A13E_copy_1");
 
-            entity.ToTable("Room");
+            entity.ToTable("room");
 
-            entity.HasIndex(e => e.Number, "numberr").IsUnique();
-
-            entity.Property(e => e.Int).HasColumnName("int");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Content)
+                .HasColumnType("ntext")
+                .HasColumnName("content");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
             entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
-            entity.Property(e => e.MaxCapacity).HasColumnName("max_capacity");
-            entity.Property(e => e.Number)
+            entity.Property(e => e.Name)
                 .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("number");
+                .HasColumnName("name");
             entity.Property(e => e.Price)
                 .HasColumnType("money")
                 .HasColumnName("price");
-            entity.Property(e => e.Size).HasColumnName("size");
             entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.Type).HasColumnName("type");
-            entity.Property(e => e.UpdatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("updated_by");
             entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
-        });
 
-        modelBuilder.Entity<Tran>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Trans__3213E83F3CBCFE47");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
-            entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
-            entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
-            entity.Property(e => e.IdNumber)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("id_number");
-            entity.Property(e => e.IdPayment)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("id_payment");
-            entity.Property(e => e.Status)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("status");
-            entity.Property(e => e.Type)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("type");
-            entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
-        });
-
-        modelBuilder.Entity<Voucher>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Voucher__3213E83F372D42F3");
-
-            entity.ToTable("Voucher");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("created_by");
-            entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.DeletedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("deleted_by");
-            entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
-            entity.Property(e => e.Discount).HasColumnName("discount");
-            entity.Property(e => e.Name)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("name");
-            entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.Type).HasColumnName("type");
-            entity.Property(e => e.UpdatedBy)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("updated_by");
-            entity.Property(e => e.UpdatedTime).HasColumnName("updated_time");
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Rooms)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("fk_room_account_id");
         });
 
         OnModelCreatingPartial(modelBuilder);

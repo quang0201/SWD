@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ModelViews;
-using Server.Interface;
 using Services.Interface;
 using System.Collections.Generic;
 using System.Text.Json;
+using Tools.Tool;
 
 namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase, IUser
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
         public UserController(IUserService userService)
@@ -24,35 +24,30 @@ namespace Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel account)
         {
-            var user = await _userService.GetByLogin(account);
-            return Ok(new { status = "00", data = user, mess = "Đăng nhập thành công" });
+            var result = await _userService.GetByLogin(account);
+            if (result.Item2)
+            {
+                return Ok(new { status = "00", data =result.Item1, mess = "Đăng nhập thành công" });
+            }
+            else
+            {
+
+                return BadRequest(new { status = "00", data = $"{result.Item1}", mess = "đăng nhập thất bại" });
+            }
+
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public Task<bool> Register(Account account)
+        public async Task<IActionResult> Register(RegisterModel account)
         {
-            throw new NotImplementedException();
+            var result = await _userService.Register(account);
+            if (!result.Item2)
+            {
+                return BadRequest(new { status = "00",data = $"{result.Item1}" ,mess = "Đăng kí thất bại" });
+            }
+            return Ok(new { status = "00", mess = "Đăng kí thành công" });
         }
 
-
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            var list = await _userService.GetAll();
-            return Ok(new { status = "00", data = list, mess = "lấy data thành công" });
-        }
-        [HttpGet("GetAllRegisterHost")]
-        public async Task<IActionResult> GetAllRegisterHost()
-        {
-            var list = await _userService.GetAllRegisterHost();
-            return Ok(new { status = "00", data = list, mess = "lấy data thành công" });
-        }
-        [HttpGet("GetRegisterHostPagging")]
-        public async Task<IActionResult> GetRegisterHostPagging(int index,int max,string search)
-        {
-            var list = await _userService.GetRegisterHostPagging(index, max, search);
-            return Ok(new { status = "00", data = list, mess = "lấy data thành công" });
-        }
     }
 }

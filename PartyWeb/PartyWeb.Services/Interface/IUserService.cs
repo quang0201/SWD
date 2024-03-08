@@ -10,10 +10,7 @@ namespace Services.Interface
 {
     public interface IUserService
     {
-        Task<List<Account>> GetAll();
-        Task<Account> GetByLogin(LoginModel login);
-        Task<List<Account>> GetAllRegisterHost();
-        Task<List<Account>> GetRegisterHostPagging(int index,int max,string search);
-
+        Task<Tuple<string,bool>> GetByLogin(LoginModel account);
+        Task<Tuple<string,bool>> Register(RegisterModel account);
     }
 }

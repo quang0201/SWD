@@ -45,8 +45,7 @@ namespace Tools.Tool
             List<Claim> claims = new List<Claim>
             {
                 new Claim("user", JsonSerializer.Serialize(user)),
-                new Claim("exp", now.Ticks.ToString()),
-                new Claim("role", "user")
+                new Claim("exp", now.Ticks.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JwtSettings:SecretKey").Value ?? ""));
@@ -62,23 +61,6 @@ namespace Tools.Tool
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
-        public string GetUserIdFromHttpContext(HttpContext httpContext)
-        {
-            if (!httpContext.Request.Headers.ContainsKey("Authorization"))
-            {
-                throw new("Need Authorization");
-            }
-            string? authorizationHeader = httpContext.Request.Headers["Authorization"];
-
-            if (string.IsNullOrWhiteSpace(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
-            {
-                throw new($"Invalid authorization header: {authorizationHeader}");
-            }
-            string jwtToken = authorizationHeader["Bearer ".Length..];
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.ReadJwtToken(jwtToken);
-            var idClaim = token.Claims.FirstOrDefault(claim => claim.Type == "user");
-            return idClaim?.Value ?? throw new($"Can not get userId from token");
-        }
+        
     }
 }

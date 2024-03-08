@@ -7,8 +7,6 @@ public partial class Account
 {
     public int Id { get; set; }
 
-    public string IdNumber { get; set; } = null!;
-
     public string Username { get; set; } = null!;
 
     public string Password { get; set; } = null!;
@@ -17,19 +15,23 @@ public partial class Account
 
     public byte Role { get; set; }
 
-    public byte Status { get; set; }
+    public byte? Status { get; set; }
 
-    public string? CreatedBy { get; set; }
-
-    public DateTime CreatedTime { get; set; }
-
-    public string? UpdatedBy { get; set; }
+    public DateTime? CreatedTime { get; set; }
 
     public DateTime? UpdatedTime { get; set; }
-
-    public string? DeletedBy { get; set; }
 
     public DateTime? DeletedTime { get; set; }
 
     public string? Infomation { get; set; }
+
+    public virtual ICollection<Decor> Decors { get; set; } = new List<Decor>();
+
+    public virtual ICollection<Food> Foods { get; set; } = new List<Food>();
+
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual Role RoleNavigation { get; set; } = null!;
+
+    public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }

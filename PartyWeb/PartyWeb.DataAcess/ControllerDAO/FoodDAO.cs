@@ -1,10 +1,8 @@
 ﻿using BusinessObjects.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Buffers;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,97 +10,88 @@ namespace DataAcess.ControllerDAO
 {
     public class FoodDAO
     {
-        public static List<Food> GetFoods()
+        private static FoodDAO instance = default!;
+        public static FoodDAO Instance
         {
-            var Foods = new List<Food>();
-            try
+            get
             {
-                using (var context = new SwdContext())
+                if (instance == null)
                 {
-                    Foods = context.Foods.ToList();
+                    instance = new FoodDAO();
                 }
+                return instance;
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return Foods;
-
         }
-
-        public static Food GetFoodsById(int id)
+        public async Task<List<Food>> GetAll()
         {
-            var Foods = new Food();
             try
             {
-                using (var context = new SwdContext())
+                using (var dbContext = new SwdContext())
                 {
-                    Foods = context.Foods
-                    .SingleOrDefault(c => c.Id == id);
-
+                    
+                    return await dbContext.Foods.ToListAsync();
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
             }
-            return Foods;
-
         }
-
-        public static void CreateFoods(Food d)
+        public async Task<bool> Add(Food food)
         {
             try
             {
-                using (var context = new SwdContext())
+                using (var dbContext = new SwdContext())
                 {
-                    context.Foods.Add(d);
-                    context.SaveChanges();
+                    await dbContext.Foods.AddAsync(food);
+                    await dbContext.SaveChangesAsync();
+                    return true;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
             }
-
         }
-
-        public static void UpdateFoods(Food d)
+        public async Task<List<Food>> GetOrdersPagingAsync(int index, int pageSize, string? search, int? sortDate, int? sortPrice, int? sortName)
         {
             try
             {
-                using (var context = new SwdContext())
+                using (var dbContext = new SwdContext())
                 {
-                    context.Entry<Food>(d).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    context.SaveChanges();
+                    // Start with the base query
+                    var query = dbContext.Foods.AsQueryable();
+
+                    // Apply search filter if provided
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        query = query.Where(f => f.Name.Contains(search));
+                    }
+
+                    // Apply sorting based on parameters
+                    if (sortDate.HasValue)
+                    {
+                        query = sortDate == 1 ? query.OrderBy(f => f.CreatedTime) : query.OrderByDescending(f => f.CreatedTime);
+                    }
+                    else if (sortPrice.HasValue)
+                    {
+                        query = sortPrice == 1 ? query.OrderBy(f => f.Price) : query.OrderByDescending(f => f.Price);
+                    }
+                    else if (sortName.HasValue)
+                    {
+                        query = sortName == 1 ? query.OrderBy(f => f.Name) : query.OrderByDescending(f => f.Name);
+                    }
+
+                    // Apply paging
+                    var result = await query.Skip(index * pageSize).Take(pageSize).ToListAsync();
+
+                    return result;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
             }
-
-        }
-
-        public static void DeleteFoods(int FoodId)
-        {
-            try
-            {
-                using (var context = new SwdContext())
-                {
-
-                    var FoodToDelete = context.Foods
-                    .SingleOrDefault(c => c.Id == FoodId);
-                    FoodToDelete.Status = 0;
-                    context.Entry<Food>(FoodToDelete).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    context.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
         }
     }
 }

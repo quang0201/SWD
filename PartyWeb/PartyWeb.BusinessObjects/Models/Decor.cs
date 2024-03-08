@@ -7,23 +7,23 @@ public partial class Decor
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; }
 
-    public decimal Price { get; set; }
+    public string? Content { get; set; }
 
-    public string? Type { get; set; }
+    public decimal? Price { get; set; }
 
-    public string? Status { get; set; }
+    public byte? Status { get; set; }
 
-    public string? CreatedBy { get; set; }
+    public int? CreatedBy { get; set; }
 
-    public DateTime CreatedTime { get; set; }
-
-    public string? UpdatedBy { get; set; }
+    public DateTime? CreatedTime { get; set; }
 
     public DateTime? UpdatedTime { get; set; }
 
-    public string? DeletedBy { get; set; }
-
     public DateTime? DeletedTime { get; set; }
+
+    public virtual Account? CreatedByNavigation { get; set; }
+
+    public virtual ICollection<OrderDecor> OrderDecors { get; set; } = new List<OrderDecor>();
 }
