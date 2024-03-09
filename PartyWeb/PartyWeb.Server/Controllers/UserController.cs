@@ -27,14 +27,12 @@ namespace Server.Controllers
             try
             {
                 var result = await _userService.GetByLogin(account);
-                return Ok(new { status = "200", tilte = "Success", data = account,token = result, mess = "Login success" });
+                return Ok(new { status = 200, tilte = "Success", data = account,token = result, mess = "Login success" });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { status = "400", tilte = "Error", error = ex.Message, mess = "Login fail" });
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Login fail" });
             }
-
-
         }
 
         [AllowAnonymous]

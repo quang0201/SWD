@@ -30,7 +30,7 @@ namespace DataAcess.ControllerDAO
             {
                 using (var dbContext = new SwdContext())
                 {
-                    var user = await dbContext.Accounts.FirstOrDefaultAsync(a => a.Username == account.Username && a.Password == account.Password);
+                    var user = await dbContext.Accounts.Where(x => x.Status == 1).FirstOrDefaultAsync(a => a.Username == account.Username && a.Password == account.Password);
                     return user;
                 }
             }

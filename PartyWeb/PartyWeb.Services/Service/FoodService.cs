@@ -52,6 +52,7 @@ namespace Services.Service
                 //1 là active
                 //0 là delete
                 //2 là chờ approve
+                //3 là bị từ chối
                 var result = await _foodRepo.Add(foodDTO);
                 if (!result)
                 {
