@@ -24,47 +24,68 @@ namespace Services.Service
             Authentication.Initialize(_configuration);
         }
 
-        public async Task<Tuple<string,bool>> GetByLogin(LoginModel login)
+        public async Task<string> GetByLogin(LoginModel login)
         {
             try
             {
-                if (!RegexString.Instance.ValidateInput(login.username))
+                if (!RegexString.Instance.CheckStringMinMax(login.Username, 2, 100))
                 {
-                    return Tuple.Create($"tài khoản không hợp lệ", false);
-                }   
-                if (!RegexString.Instance.ValidateInput(login.password))
-                {
-                    return Tuple.Create($"mật khẩu không hợp lệ", false);
+                    throw new Exception("Length of username invalid");
                 }
-                
-                var user = await _userrepository.Login(login);
-                if (user == null)
+                if (!RegexString.Instance.ValidateInput(login.Username))
                 {
-                    return Tuple.Create($"tài khoản hoặc mật khẩu không chính xác", false);
+                    throw new Exception("Username contains special letters");
+                }
+                if (!RegexString.Instance.CheckStringMinMax(login.Password, 2, 100))
+                {
+                    throw new Exception("length of password invalid");
+                }
+                if (!RegexString.Instance.ValidateInput(login.Password))
+                {
+                    throw new Exception("Password contains special letters");
+                }
+                var user = await _userrepository.Login(login);
+                if(user == null)
+                {
+                    throw new Exception("Not exist account");
                 }
                 var token = Authentication.Instance.CreateToken(user);
-                return Tuple.Create(token, true);
+                return token;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new (ex.Message);
             }
         }
-        public async Task<Tuple<string, bool>> Register(RegisterModel account)
+        public async Task<bool> Register(RegisterModel account)
         {
             try
             {
+                if (!RegexString.Instance.CheckStringMinMax(account.Username,2,100))
+                {
+                    throw new Exception("Length of username invalid");
+                }
                 if (!RegexString.Instance.ValidateInput(account.Username))
                 {
-                    return Tuple.Create($"tài khoản không hợp lệ", false);
+                    throw new Exception("Username contains special letters");
+                }
+                if (!RegexString.Instance.CheckStringMinMax(account.Password, 2, 100))
+                {
+                    throw new Exception("length of password invalid");
                 }
                 if (!RegexString.Instance.ValidateInput(account.Password))
                 {
-                    return Tuple.Create($"mật khẩu không hợp lệ", false);
+                    throw new Exception("Password contains special letters");
                 }
-                if (await _userrepository.GetUserByUserName(account.Username))
+                if (!RegexString.Instance.ValidateEmail(account.Email))
                 {
-                    return Tuple.Create($"Tài khoản đã tồn tại", false);
+                    throw new Exception("Invalid email");
+                }
+
+                var checkExist = await _userrepository.GetUserByUserName(account.Username);
+                if (checkExist)
+                {
+                    throw new Exception("Username exist");
                 }
                 var user = new Account()
                 {
@@ -87,11 +108,11 @@ namespace Services.Service
                 //2 = đang chặn
                 //3 = 
                 await _userrepository.Register(user);
-                return Tuple.Create("đăng kí thành công", true);
+                return true;
             }
             catch (Exception ex)
             {
-                return Tuple.Create($"Error during registration: {ex.Message}", false);
+                throw new(ex.Message);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using BusinessObjects.Models;
+using DataAcess.ControllerDAO;
 using ModelViews;
 using Reponsitories.Interface;
 using Services.Interface;
@@ -25,44 +26,71 @@ namespace Services.Service
             return await _foodRepo.GetAll();
         }
 
-        public async Task<Tuple<string, bool>> AddFood(FoodModel food, Account account)
+        public async Task<bool> AddFood(FoodModel food, Account account)
         {
-            if (!RegexString.Instance.ValidateInputVietnamese(food.Name))
+            try
             {
-                return Tuple.Create("Tên không phù hợp", false);
+                if (string.IsNullOrWhiteSpace(food.Name))
+                {
+
+                }
+                if (int.Parse(food.Price) < 0)
+                {
+                    throw new Exception("Money must than 0");
+                }
+                var foodDTO = new Food()
+                {
+                    Name = food.Name,
+                    Content = food.Content,
+                    Price = int.Parse(food.Price),
+                    CreatedBy = account.Id,
+                    Status = 2,
+                    CreatedTime = DateTime.UtcNow,
+                    UpdatedTime = DateTime.UtcNow
+                };
+                //status 
+                //1 là active
+                //0 là delete
+                //2 là chờ approve
+                var result = await _foodRepo.Add(foodDTO);
+                if (!result)
+                {
+                    throw new Exception("add fail");
+                }
+                return true;
             }
-            if (!RegexString.Instance.ValidateInputVietnamese(food.Content))
-            {
-                return Tuple.Create("Nội dung không phù hợp", false);
+            catch (Exception ex) {
+                throw new(ex.Message);   
             }
-            if (!RegexString.Instance.ValidateInputDigitsLengthMinMax(food.Price, 1, 15))
+        }
+
+        public async Task<List<Food>> PaggingFood(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
+        {
+
+            try
             {
-                return Tuple.Create("Giá tiền không phù hợp", false);
+                if (index < 0)
+                {
+                    throw new ArgumentOutOfRangeException("index must be >= 0");
+                }
+                if (pageSize < 0 || pageSize > 100)
+                {
+                    throw new ArgumentOutOfRangeException("range 1-100");
+                }
+
+                var items = await FoodDAO.Instance.PaggingFood(index, pageSize, search, sortDateAsc, sortPriceAsc, sortNameAsc);
+
+                return items; // Trả về dữ liệu thành công
             }
-            if (int.Parse(food.Price) < 0)
+            catch (Exception ex)
             {
-                return Tuple.Create("Nhập một số hợp lệ", false);
+                throw new(ex.Message);
             }
-            var foodDTO = new Food()
-            {
-                Name = food.Name,
-                Content = food.Content,
-                Price = int.Parse(food.Price),
-                CreatedBy = account.Id,
-                Status = 2,
-                CreatedTime = DateTime.UtcNow,
-                UpdatedTime = DateTime.UtcNow
-            };
-            //status 
-            //1 là active
-            //0 là delete
-            //2 là chờ approve
-            var result = await _foodRepo.Add(foodDTO);
-            if (!result)
-            {
-                return Tuple.Create("Lỗi", false);
-            }
-            return Tuple.Create(JsonSerializer.Serialize(food), true);
+        }
+
+        public Task<bool> Update()
+        {
+            throw new NotImplementedException();
         }
     }
 }

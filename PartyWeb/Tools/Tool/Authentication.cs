@@ -15,7 +15,7 @@ namespace Tools.Tool
     public class Authentication
     {
         private readonly IConfiguration _configuration;
-        private static Authentication instance;
+        private static Authentication instance = default;
 
         public Authentication(IConfiguration configuration)
         {

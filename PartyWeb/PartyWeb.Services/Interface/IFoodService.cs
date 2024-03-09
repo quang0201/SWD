@@ -11,6 +11,8 @@ namespace Services.Interface
     public interface IFoodService
     {
         Task<List<Food>> GetAll();
-        public Task<Tuple<string, bool>> AddFood(FoodModel food,Account account);
+        public Task<bool> AddFood(FoodModel food,Account account);
+        public Task<List<Food>> PaggingFood(int index, int pageSize, string? search, bool? sortDate, bool? sortPrice, bool? sortName);
+        public Task<bool> Update();
     }
 }

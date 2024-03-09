@@ -24,16 +24,16 @@ namespace Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel account)
         {
-            var result = await _userService.GetByLogin(account);
-            if (result.Item2)
+            try
             {
-                return Ok(new { status = "00", data =result.Item1, mess = "Đăng nhập thành công" });
+                var result = await _userService.GetByLogin(account);
+                return Ok(new { status = "200", tilte = "Success", data = account,token = result, mess = "Login success" });
             }
-            else
+            catch (Exception ex)
             {
+                return BadRequest(new { status = "400", tilte = "Error", error = ex.Message, mess = "Login fail" });
+            }
 
-                return BadRequest(new { status = "00", data = $"{result.Item1}", mess = "đăng nhập thất bại" });
-            }
 
         }
 
@@ -41,12 +41,15 @@ namespace Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterModel account)
         {
-            var result = await _userService.Register(account);
-            if (!result.Item2)
+            try
             {
-                return BadRequest(new { status = "00",data = $"{result.Item1}" ,mess = "Đăng kí thất bại" });
+                var result = await _userService.Register(account);
+                return Ok(new { status = 200, tilte = "Success", data = account, mess = "Register success" });
             }
-            return Ok(new { status = "00", mess = "Đăng kí thành công" });
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Register fail" });
+            }
         }
 
     }

@@ -7,7 +7,7 @@ public partial class Food
 {
     public int Id { get; set; }
 
-    public string? Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public string? Content { get; set; }
 
@@ -15,7 +15,7 @@ public partial class Food
 
     public byte? Status { get; set; }
 
-    public int? CreatedBy { get; set; }
+    public int CreatedBy { get; set; }
 
     public DateTime? CreatedTime { get; set; }
 
@@ -23,7 +23,7 @@ public partial class Food
 
     public DateTime? DeletedTime { get; set; }
 
-    public virtual Account? CreatedByNavigation { get; set; }
+    public virtual Account CreatedByNavigation { get; set; } = null!;
 
     public virtual ICollection<OrderFood> OrderFoods { get; set; } = new List<OrderFood>();
 }

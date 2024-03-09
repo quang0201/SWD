@@ -28,7 +28,7 @@ namespace DataAcess.ControllerDAO
             {
                 using (var dbContext = new SwdContext())
                 {
-                    
+
                     return await dbContext.Foods.ToListAsync();
                 }
             }
@@ -53,7 +53,7 @@ namespace DataAcess.ControllerDAO
                 throw new Exception("Lỗi xảy ra: " + ex.Message);
             }
         }
-        public async Task<List<Food>> GetOrdersPagingAsync(int index, int pageSize, string? search, int? sortDate, int? sortPrice, int? sortName)
+        public async Task<List<Food>> PaggingFood(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
         {
             try
             {
@@ -65,27 +65,63 @@ namespace DataAcess.ControllerDAO
                     // Apply search filter if provided
                     if (!string.IsNullOrEmpty(search))
                     {
-                        query = query.Where(f => f.Name.Contains(search));
+                        query = query.Where(f => EF.Functions.Like(f.Name, $"%{search}%"));
                     }
 
                     // Apply sorting based on parameters
-                    if (sortDate.HasValue)
+                    if (sortDateAsc.HasValue)
                     {
-                        query = sortDate == 1 ? query.OrderBy(f => f.CreatedTime) : query.OrderByDescending(f => f.CreatedTime);
+                        query = sortDateAsc == true ? query.OrderBy(f => f.CreatedTime) : query.OrderByDescending(f => f.CreatedTime);
                     }
-                    else if (sortPrice.HasValue)
+
+                    else if (sortPriceAsc.HasValue)
                     {
-                        query = sortPrice == 1 ? query.OrderBy(f => f.Price) : query.OrderByDescending(f => f.Price);
+                        query = sortPriceAsc == true ? query.OrderBy(f => f.Price) : query.OrderByDescending(f => f.Price);
                     }
-                    else if (sortName.HasValue)
+                    else if (sortNameAsc.HasValue)
                     {
-                        query = sortName == 1 ? query.OrderBy(f => f.Name) : query.OrderByDescending(f => f.Name);
+                        query = sortNameAsc == true ? query.OrderBy(f => f.Name) : query.OrderByDescending(f => f.Name);
                     }
 
                     // Apply paging
-                    var result = await query.Skip(index * pageSize).Take(pageSize).ToListAsync();
+                    var result = await query.Skip((index - 1) * pageSize).Take(pageSize).ToListAsync();
 
                     return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
+            }
+        }
+        public async Task<bool> Update(Food food)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    await dbContext.Foods.AddAsync(food);
+                    await dbContext.SaveChangesAsync();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
+            }
+        }
+        public async Task<Food> GetById(int id)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    var food = await dbContext.Foods.FindAsync(id);
+                    if (food == null)
+                    {
+                        return null;
+                    }
+                    return food;
                 }
             }
             catch (Exception ex)
