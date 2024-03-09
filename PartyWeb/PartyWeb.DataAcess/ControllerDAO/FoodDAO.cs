@@ -60,7 +60,7 @@ namespace DataAcess.ControllerDAO
                 using (var dbContext = new SwdContext())
                 {
                     // Start with the base query
-                    var query = dbContext.Foods.AsQueryable();
+                    var query = dbContext.Foods.Where(x => x.Status == 1).AsQueryable();
 
                     // Apply search filter if provided
                     if (!string.IsNullOrEmpty(search))
@@ -100,7 +100,7 @@ namespace DataAcess.ControllerDAO
             {
                 using (var dbContext = new SwdContext())
                 {
-                    await dbContext.Foods.AddAsync(food);
+                    dbContext.Entry(food).State = EntityState.Modified;
                     await dbContext.SaveChangesAsync();
                     return true;
                 }
@@ -117,10 +117,6 @@ namespace DataAcess.ControllerDAO
                 using (var dbContext = new SwdContext())
                 {
                     var food = await dbContext.Foods.FindAsync(id);
-                    if (food == null)
-                    {
-                        return null;
-                    }
                     return food;
                 }
             }

@@ -26,17 +26,42 @@ namespace Services.Service
             return await _foodRepo.GetAll();
         }
 
-        public async Task<bool> AddFood(FoodModel food, Account account)
+        public async Task<bool> AddFood(FoodModel food, string user)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(food.Name))
+                if (!RegexString.Instance.CheckStringMinMax(food.Name, 2, 255))
                 {
-
+                    throw new Exception("Length of Name invalid");
                 }
-                if (int.Parse(food.Price) < 0)
+                if (RegexString.Instance.ValidateInputVietnamese(food.Name))
                 {
-                    throw new Exception("Money must than 0");
+                    throw new Exception("Name contains special letters");
+                }
+                if (!RegexString.Instance.CheckStringMinMax(food.Content, 2, 1000))
+                {
+                    throw new Exception("length of content invalid");
+                }
+                if (RegexString.Instance.ValidateInputVietnamese(food.Content))
+                {
+                    throw new Exception("Content contains special letters");
+                }
+                if (!RegexString.Instance.ValidateInputOnlyNumber(food.Price))
+                {
+                    throw new Exception("price only number");
+                }
+                if (int.Parse(food.Price) <= 0)
+                {
+                    throw new Exception("number invaild");
+                }
+                var account = JsonSerializer.Deserialize<Account>(user);
+                if (account == null)
+                {
+                    throw new Exception("User happen error");
+                }
+                if (account.Role ==0)
+                {
+                    throw new Exception("you not role host");
                 }
                 var foodDTO = new Food()
                 {
@@ -56,12 +81,13 @@ namespace Services.Service
                 var result = await _foodRepo.Add(foodDTO);
                 if (!result)
                 {
-                    throw new Exception("add fail");
+                    throw new Exception("Add Fail");
                 }
                 return true;
             }
-            catch (Exception ex) {
-                throw new(ex.Message);   
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
             }
         }
 
@@ -89,9 +115,111 @@ namespace Services.Service
             }
         }
 
-        public Task<bool> Update()
+
+        public async Task<bool> Update(UpdateFoodModel food, string user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!RegexString.Instance.ValidateInputOnlyNumber(food.Id))
+                {
+                    throw new Exception("id only number");
+                }
+                if (!RegexString.Instance.CheckStringMinMax(food.Food.Name, 2, 255))
+                {
+                    throw new Exception("Length of Name invalid");
+                }
+                if (RegexString.Instance.ValidateInputVietnamese(food.Food.Name))
+                {
+                    throw new Exception("Name contains special letters");
+                }
+                if (!RegexString.Instance.CheckStringMinMax(food.Food.Content, 2, 1000))
+                {
+                    throw new Exception("length of content invalid");
+                }
+                if (RegexString.Instance.ValidateInputVietnamese(food.Food.Content))
+                {
+                    throw new Exception("Content contains special letters");
+                }
+                if (!RegexString.Instance.ValidateInputOnlyNumber(food.Food.Price))
+                {
+                    throw new Exception("price only number");
+                }
+                if (int.Parse(food.Food.Price) <= 0)
+                {
+                    throw new Exception("number invaild");
+                }
+                var account = JsonSerializer.Deserialize<Account>(user);
+                if (account == null)
+                {
+                    throw new Exception("User happen error");
+                }
+                var foodDTO = await _foodRepo.GetById(int.Parse(food.Id));
+                if (foodDTO == null)
+                {
+                    throw new Exception("Food not found");
+                }
+                if (foodDTO.Status != 1)
+                {
+                    throw new Exception("Food not active");
+                }
+                if (account.Role != 1)
+                {
+                    if (foodDTO.CreatedBy != account.Id)
+                    {
+                        throw new Exception("Food not yours");
+                    }
+                }
+                foodDTO.Name = food.Food.Name;
+                foodDTO.Price = int.Parse(food.Food.Price);
+                foodDTO.Content = food.Food.Content;
+                foodDTO.UpdatedTime = DateTime.Now;
+                var result = await _foodRepo.Update(foodDTO);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
+        }
+
+        public async Task<bool> Delete(int id, string user)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    throw new Exception("number invaild");
+                }
+                var account = JsonSerializer.Deserialize<Account>(user);
+                if (account == null)
+                {
+                    throw new Exception("User happen error");
+                }
+                var foodDTO = await _foodRepo.GetById(id);
+                if (foodDTO == null)
+                {
+                    throw new Exception("Food not found");
+                }
+                if (foodDTO.Status != 1)
+                {
+                    throw new Exception("Food not active");
+                }
+                if (account.Role != 1)
+                {
+                    if (foodDTO.CreatedBy != account.Id)
+                    {
+                        throw new Exception("Food not yours");
+                    }
+                }
+                foodDTO.Status = 0;
+                foodDTO.DeletedTime = DateTime.Now;
+                var result = await _foodRepo.Update(foodDTO);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
         }
     }
 }

@@ -36,27 +36,15 @@ namespace Server.Controllers
             try
             {
                 var user = User.FindFirst("user")?.Value;
-                if (user != null)
-                {
-                    var acc = JsonSerializer.Deserialize<Account>(user);
-                    if (acc != null)
-                    {
-                        var result = await _foodService.AddFood(food, acc);
+                var result = await _foodService.AddFood(food, user);
+                return Ok(new { status = 200, tilte = "Success", data = food, mess = "Add food fail" });
 
-                        return Ok(new { status = "00", data = result, mess = "thêm food thành công" });
-                    }
-                    return Unauthorized(new { status = "01", mess = "Lỗi account" });
-                }
-                else
-                {
-                    return Unauthorized(new { status = "01", mess = "Lỗi author" });
-                }
             }
             catch (Exception ex)
             {
-                return BadRequest(new { status = "01", data = ex.Message, mess = "Error" });
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Add food fail" });
             }
-            
+
         }
 
         [AllowAnonymous]
@@ -66,39 +54,42 @@ namespace Server.Controllers
             try
             {
                 var items = await _foodService.PaggingFood(index, pageSize, search, sortDateAsc, sortPriceAsc, sortNameAsc);
-                return Ok(new { status = "00", data = items, mess = "Get items success" });
+                return Ok(new { status = 200, tilte = "Success", data = items, mess = "Get items success" });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { status = "01", data = ex.Message, mess = "Error" });
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Get items fail" });
             }
         }
 
         [Authorize]
-        [HttpPut("food-update/{id}")]
-        public IActionResult UpdateFood(int id, FoodModel food)
+        [HttpPut("food-update")]
+        public async Task<IActionResult> UpdateFood(UpdateFoodModel food)
         {
             try
             {
-                return Ok(new { status = "00", data = "", mess = "Update success" });
+                var user = User.FindFirst("user")?.Value;
+                var items = await _foodService.Update(food, user);
+                return Ok(new { status = 200, tilte = "Success", data = items, mess = "Update success" });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { status = "01", data = ex.Message, mess = "Error" });
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Update fail" });
             }
         }
         [Authorize]
         [HttpDelete("food-delete/{id}")]
-        public ActionResult DeleteFood(int id)
+        public async Task<ActionResult> DeleteFood(int id)
         {
             try
             {
-
-                return Ok(new { status = "00", data = "", mess = "Delete success" });
+                var user = User.FindFirst("user")?.Value;
+                var items =  await _foodService.Delete(id, user);
+                return Ok(new { status = 200, tilte = "Success", mess = "Delete success" });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { status = "01", data = ex.Message, mess = "Error" });
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Delete fail" });
             }
         }
     }

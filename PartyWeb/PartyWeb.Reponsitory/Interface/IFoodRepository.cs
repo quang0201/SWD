@@ -11,5 +11,7 @@ namespace Reponsitories.Interface
     {
         Task<List<Food>> GetAll();
         Task<bool> Add(Food food);
+        Task<bool> Update(Food food);
+        Task<Food> GetById(int id);
     }
 }
