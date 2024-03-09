@@ -14,7 +14,6 @@ namespace ModelViews
         public string Name { get; set; } = default!;
 
         [Required(ErrorMessage = "Content is required.")]
-        [StringLength(1, ErrorMessage = "Name length must be greater than 0.")]
         public string Content { get; set; } = default!;
 
         [Required(ErrorMessage = "Price is required.")]
