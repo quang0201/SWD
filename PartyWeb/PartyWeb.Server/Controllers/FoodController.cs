@@ -54,6 +54,7 @@ namespace Server.Controllers
             try
             {
                 var items = await _foodService.PaggingFood(index, pageSize, search, sortDateAsc, sortPriceAsc, sortNameAsc);
+
                 return Ok(new { status = 200, tilte = "Success", data = items, mess = "Get items success" });
             }
             catch (Exception ex)
