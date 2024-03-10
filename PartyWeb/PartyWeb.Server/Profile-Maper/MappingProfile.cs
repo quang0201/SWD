@@ -11,6 +11,9 @@ namespace Server.Profile_Maper
         {
             CreateMap<Food, FoodViewModel>()
                     .ForMember(dest => dest.FoodProvider, opt => opt.MapFrom(src => src.CreatedByNavigation.Username));
+            CreateMap<OrderFood, OrderFoodModel>();
+            CreateMap<OrderDecor, OrderDecorModel>();
+            CreateMap<OrderRoom, OrderRoomModel>();
         }
     }
 }

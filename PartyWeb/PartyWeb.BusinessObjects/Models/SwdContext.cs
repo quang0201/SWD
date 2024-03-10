@@ -123,7 +123,6 @@ public partial class SwdContext : DbContext
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Foods)
                 .HasForeignKey(d => d.CreatedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_food_account_id");
         });
 
@@ -168,12 +167,10 @@ public partial class SwdContext : DbContext
 
             entity.HasOne(d => d.IdDecorNavigation).WithMany(p => p.OrderDecors)
                 .HasForeignKey(d => d.IdDecor)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_order_decor_decor_id");
 
             entity.HasOne(d => d.IdOrderNavigation).WithMany(p => p.OrderDecors)
                 .HasForeignKey(d => d.IdOrder)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_order_decor_order_id");
         });
 
@@ -194,12 +191,10 @@ public partial class SwdContext : DbContext
 
             entity.HasOne(d => d.IdFoodNavigation).WithMany(p => p.OrderFoods)
                 .HasForeignKey(d => d.IdFood)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_order_food_food_id");
 
             entity.HasOne(d => d.IdOrderNavigation).WithMany(p => p.OrderFoods)
                 .HasForeignKey(d => d.IdOrder)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_order_food_order_id");
         });
 
@@ -221,12 +216,10 @@ public partial class SwdContext : DbContext
 
             entity.HasOne(d => d.IdOrderNavigation).WithMany(p => p.OrderRooms)
                 .HasForeignKey(d => d.IdOrder)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_order_room_order_id");
 
             entity.HasOne(d => d.IdRoomNavigation).WithMany(p => p.OrderRooms)
                 .HasForeignKey(d => d.IdRoom)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_order_room_room_id");
         });
 

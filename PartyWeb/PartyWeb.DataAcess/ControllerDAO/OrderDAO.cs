@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessObjects.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,22 @@ namespace DataAcess.ControllerDAO
                     instance = new OrderDAO();
                 }
                 return instance;
+            }
+        }
+        public async Task<bool> Add(Order order)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    await dbContext.Orders.AddAsync(order);
+                    await dbContext.SaveChangesAsync();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
             }
         }
     }

@@ -1,10 +1,13 @@
-﻿using ModelViews.Models;
+﻿using AutoMapper;
+using BusinessObjects.Models;
+using ModelViews.Models;
 using Reponsitories.Interface;
 using Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Tools.Tool;
 
@@ -13,8 +16,11 @@ namespace Services.Service
     public class OrderService : IOrderService
     {
         IOrderRepository _orderRepo = default!;
-        public OrderService(IOrderRepository orderRepository)
+        private readonly IMapper _mapper;
+
+        public OrderService(IOrderRepository orderRepository,IMapper mapper)
         {
+            _mapper = mapper;
             _orderRepo = orderRepository;
         }
         public Task<OrderModel> Add(OrderModel model, string user)
@@ -48,7 +54,14 @@ namespace Services.Service
                         throw new Exception("Quatity must integer number");
                     }
                 }
-
+                var account = JsonSerializer.Deserialize<Account>(user);
+                if (account == null)
+                {
+                    throw new Exception("User happen error");
+                }
+                var itemsMapper = _mapper.Map<List<OrderDecor>>(model.orderDecors);
+                
+               
                 return null;
             }
             catch (Exception ex)

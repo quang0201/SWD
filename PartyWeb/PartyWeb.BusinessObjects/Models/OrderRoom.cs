@@ -7,9 +7,9 @@ public partial class OrderRoom
 {
     public int Id { get; set; }
 
-    public int IdOrder { get; set; }
+    public int? IdOrder { get; set; }
 
-    public int IdRoom { get; set; }
+    public int? IdRoom { get; set; }
 
     public DateTime? StartDate { get; set; }
 
@@ -19,7 +19,7 @@ public partial class OrderRoom
 
     public byte? Status { get; set; }
 
-    public virtual Order IdOrderNavigation { get; set; } = null!;
+    public virtual Order? IdOrderNavigation { get; set; }
 
-    public virtual Room IdRoomNavigation { get; set; } = null!;
+    public virtual Room? IdRoomNavigation { get; set; }
 }

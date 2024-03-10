@@ -1,4 +1,5 @@
 ﻿using BusinessObjects.Models;
+using DataAcess.ControllerDAO;
 using Reponsitories.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,6 @@ namespace Reponsitories.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        public Task<bool> Add(Order order)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<bool> Add(Order order) => OrderDAO.Instance.Add(order);
     }
 }

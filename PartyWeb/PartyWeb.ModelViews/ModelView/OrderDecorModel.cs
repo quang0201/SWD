@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ModelViews.Models
 {
-    public class OrderDecor
+    public class OrderDecorModel
     {
         public int Id { get; set; }
 
-        public int Quality { get; set; }
+        public int? Quality { get; set; }
 
     }
 }

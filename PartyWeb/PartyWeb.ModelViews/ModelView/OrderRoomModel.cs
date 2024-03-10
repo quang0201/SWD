@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelViews.Models
 {
-    public class OrderRoom
+    public class OrderRoomModel
     {
         public int IdRoom { get; set; }
 

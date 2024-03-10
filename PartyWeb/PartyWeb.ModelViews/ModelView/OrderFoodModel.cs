@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModelViews.Models
 {
-    public class OrderFood
+    public class OrderFoodModel
     {
         public int Id { get; set; }
         public int Quatity { get; set; }
