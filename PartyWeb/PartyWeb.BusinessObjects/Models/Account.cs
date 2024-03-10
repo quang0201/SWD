@@ -31,7 +31,5 @@ public partial class Account
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual Role RoleNavigation { get; set; } = null!;
-
     public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }

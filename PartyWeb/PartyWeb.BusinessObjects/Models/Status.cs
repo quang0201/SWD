@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace BusinessObjects.Models;
 
-public partial class Role
+public partial class Status
 {
-    public byte Id { get; set; }
+    public int Id { get; set; }
 
     public string? Name { get; set; }
 }

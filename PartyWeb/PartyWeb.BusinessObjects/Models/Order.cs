@@ -19,6 +19,8 @@ public partial class Order
 
     public DateTime? DeletedTime { get; set; }
 
+    public string? Note { get; set; }
+
     public virtual Account? CreatedByNavigation { get; set; }
 
     public virtual ICollection<OrderDecor> OrderDecors { get; set; } = new List<OrderDecor>();

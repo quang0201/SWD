@@ -44,7 +44,6 @@ namespace Server.Controllers
             {
                 return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Add food fail" });
             }
-
         }
 
         [AllowAnonymous]
@@ -91,6 +90,21 @@ namespace Server.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Delete fail" });
+            }
+        }
+        [Authorize]
+        [HttpPut("food-approve")]
+        public async Task<ActionResult> ApproveFood(int id)
+        {
+            try
+            {
+                var user = User.FindFirst("user")?.Value;
+                var items = await _foodService.Approve(id, user);
+                return Ok(new { status = 200, data =items,tilte = "Success", mess = "Active success" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Active fail" });
             }
         }
     }

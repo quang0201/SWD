@@ -60,7 +60,7 @@ namespace DataAcess.ControllerDAO
                 using (var dbContext = new SwdContext())
                 {
                     // Start with the base query
-                    var query = dbContext.Foods.Where(x => x.Status == 1).AsQueryable();
+                    var query = dbContext.Foods.Where(x => x.Status == 1).Include(x => x.CreatedByNavigation).AsQueryable();
 
                     // Apply search filter if provided
                     if (!string.IsNullOrEmpty(search))

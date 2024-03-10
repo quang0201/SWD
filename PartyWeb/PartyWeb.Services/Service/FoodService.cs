@@ -1,6 +1,8 @@
-﻿using BusinessObjects.Models;
+﻿using AutoMapper;
+using BusinessObjects.Models;
 using DataAcess.ControllerDAO;
 using ModelViews;
+using ModelViews.Models;
 using Reponsitories.Interface;
 using Services.Interface;
 using System;
@@ -16,10 +18,12 @@ namespace Services.Service
     public class FoodService : IFoodService
     {
         private readonly IFoodRepository _foodRepo;
+        private readonly IMapper _mapper;
 
-        public FoodService(IFoodRepository foodRepository)
+        public FoodService(IFoodRepository foodRepository, IMapper mapper)
         {
             _foodRepo = foodRepository;
+            _mapper = mapper;
         }
         public async Task<List<Food>> GetAll()
         {
@@ -59,7 +63,7 @@ namespace Services.Service
                 {
                     throw new Exception("User happen error");
                 }
-                if (account.Role ==0)
+                if (account.Role == 0)
                 {
                     throw new Exception("you not role host");
                 }
@@ -91,7 +95,7 @@ namespace Services.Service
             }
         }
 
-        public async Task<List<Food>> PaggingFood(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
+        public async Task<List<FoodViewModel>> PaggingFood(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
         {
 
             try
@@ -106,8 +110,8 @@ namespace Services.Service
                 }
 
                 var items = await FoodDAO.Instance.PaggingFood(index, pageSize, search, sortDateAsc, sortPriceAsc, sortNameAsc);
-
-                return items; // Trả về dữ liệu thành công
+                var itemsMapper = _mapper.Map<List<FoodViewModel>>(items);
+                return itemsMapper; // Trả về dữ liệu thành công
             }
             catch (Exception ex)
             {
@@ -215,6 +219,43 @@ namespace Services.Service
                 foodDTO.DeletedTime = DateTime.Now;
                 var result = await _foodRepo.Update(foodDTO);
                 return true;
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
+        }
+
+        public async Task<Food> Approve(int id, string user)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    throw new Exception("number invaild");
+                }
+                var account = JsonSerializer.Deserialize<Account>(user);
+                if (account == null)
+                {
+                    throw new Exception("User happen error");
+                }
+                var foodDTO = await _foodRepo.GetById(id);
+                if (foodDTO == null)
+                {
+                    throw new Exception("Food not found");
+                }
+                if (foodDTO.Status == 1)
+                {
+                    throw new Exception("Food is actived");
+                }
+                if (account.Role != 1)
+                {
+                    throw new Exception("Dont Access");
+                }
+                foodDTO.Status = 1;
+                foodDTO.UpdatedTime = DateTime.Now;
+                var result = await _foodRepo.Update(foodDTO);
+                return foodDTO;
             }
             catch (Exception ex)
             {

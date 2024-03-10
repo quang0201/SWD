@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace ModelViews.Models
 {
-    public class FoodView
+    public class OrderFood
     {
         public int Id { get; set; }
-
-        public string Name { get; set; } = null!;
-
-        public string? Content { get; set; }
-
-        public decimal? Price { get; set; }
+        public int Quatity { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

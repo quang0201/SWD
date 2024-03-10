@@ -1,4 +1,5 @@
-﻿using BusinessObjects.Models;
+﻿using AutoMapper;
+using BusinessObjects.Models;
 using Microsoft.Extensions.Configuration;
 using ModelViews;
 using Reponsitories.Interface;
@@ -15,12 +16,14 @@ namespace Services.Service
 {
     public class UserService : IUserService
     {
+        private readonly IMapper _mapper;
         private readonly IUserRepository _userrepository;
         private readonly IConfiguration _configuration;
-        public UserService(IUserRepository userRepository, IConfiguration configuration)
+        public UserService(IUserRepository userRepository, IConfiguration configuration, IMapper mapper)
         {
             _userrepository = userRepository;
             _configuration = configuration;
+            _mapper = mapper;
             Authentication.Initialize(_configuration);
         }
 

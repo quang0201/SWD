@@ -33,7 +33,10 @@ public partial class SwdContext : DbContext
 
     public virtual DbSet<Room> Rooms { get; set; }
 
+    public virtual DbSet<Status> Statuses { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("server =localhost; database = swd;uid=sa;pwd=sa;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -67,11 +70,6 @@ public partial class SwdContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("username");
-
-            entity.HasOne(d => d.RoleNavigation).WithMany(p => p.Accounts)
-                .HasForeignKey(d => d.Role)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_account_role_id");
         });
 
         modelBuilder.Entity<Decor>(entity =>
@@ -139,6 +137,9 @@ public partial class SwdContext : DbContext
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
             entity.Property(e => e.CreatedTime).HasColumnName("created_time");
             entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
+            entity.Property(e => e.Note)
+                .HasColumnType("ntext")
+                .HasColumnName("note");
             entity.Property(e => e.Price)
                 .HasColumnType("money")
                 .HasColumnName("price");
@@ -264,6 +265,21 @@ public partial class SwdContext : DbContext
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Rooms)
                 .HasForeignKey(d => d.CreatedBy)
                 .HasConstraintName("fk_room_account_id");
+        });
+
+        modelBuilder.Entity<Status>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__status__3213E83FD3D5B31E");
+
+            entity.ToTable("status");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("name");
         });
 
         OnModelCreatingPartial(modelBuilder);
