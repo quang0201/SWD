@@ -8,22 +8,34 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Tools.Tool
 {
-    public class RegexString
+    public class Validation
     {
-        private static RegexString instance = default!;
+        private static Validation instance = default!;
 
-        public static RegexString Instance
+        public static Validation Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new RegexString();
+                    instance = new Validation();
                 }
                 return instance;
             }
         }
-
+        public bool CheckDateTime(DateTime time1, DateTime time2)
+        {
+            if (time1 > DateTime.Now || time2 > DateTime.Now)
+            {
+                return true;
+            }
+            // Kiểm tra xem time2 có lớn hơn time1 không
+            if (time2 < time1)
+            {
+                return true;
+            }
+            return false;
+        }
         public bool CheckStringMinMax(string pattern, int min, int max)
         {
             if (string.IsNullOrWhiteSpace(pattern))

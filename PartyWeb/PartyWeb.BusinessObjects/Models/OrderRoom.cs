@@ -17,6 +17,8 @@ public partial class OrderRoom
 
     public decimal? TotalPrice { get; set; }
 
+    public byte? Status { get; set; }
+
     public virtual Order IdOrderNavigation { get; set; } = null!;
 
     public virtual Room IdRoomNavigation { get; set; } = null!;

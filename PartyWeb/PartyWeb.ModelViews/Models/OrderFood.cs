@@ -10,6 +10,5 @@ namespace ModelViews.Models
     {
         public int Id { get; set; }
         public int Quatity { get; set; }
-        public decimal TotalPrice { get; set; }
     }
 }

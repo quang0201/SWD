@@ -12,6 +12,5 @@ namespace ModelViews.Models
 
         public int Quality { get; set; }
 
-        public decimal TotalPrice { get; set; }
     }
 }

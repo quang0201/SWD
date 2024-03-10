@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelViews
+namespace ModelViews.Models
 {
     public class FoodModel
     {

@@ -22,14 +22,14 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-//config repo
+//config service
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFoodService, FoodService>();
-
-//config service
+builder.Services.AddScoped<IOrderService, OrderService>();
+//config repo
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFoodRepository, FoodRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 //config database
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModelViews;
 using ModelViews.Models;
+using Services.Interface;
 
 namespace Server.Controllers
 {
@@ -10,13 +11,19 @@ namespace Server.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
+        IOrderService _orderService = default!;
+        public OrderController(IOrderService orderService) { 
+            _orderService = orderService;
+        }
+
         [HttpPost("add-order")]
         public async Task<IActionResult> AddOrder(OrderModel orderModel)
         {
             try
             {
-
-                return Ok(new { status = 200, tilte = "Success", data = "", mess = "Add food fail" });
+                var user = User.FindFirst("user")?.Value;
+                var result = _orderService.Add(orderModel,user);
+                return Ok(new { status = 200, tilte = "Success", data = orderModel, mess = "Add food fail" });
             }
             catch (Exception ex)
             {

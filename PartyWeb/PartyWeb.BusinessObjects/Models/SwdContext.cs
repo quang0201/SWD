@@ -161,6 +161,7 @@ public partial class SwdContext : DbContext
             entity.Property(e => e.IdDecor).HasColumnName("id_decor");
             entity.Property(e => e.IdOrder).HasColumnName("id_order");
             entity.Property(e => e.Quality).HasColumnName("quality");
+            entity.Property(e => e.Status).HasColumnName("status ");
             entity.Property(e => e.TotalPrice)
                 .HasColumnType("money")
                 .HasColumnName("total_price");
@@ -186,6 +187,7 @@ public partial class SwdContext : DbContext
             entity.Property(e => e.IdFood).HasColumnName("id_food");
             entity.Property(e => e.IdOrder).HasColumnName("id_order");
             entity.Property(e => e.Quality).HasColumnName("quality");
+            entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.TotalPrice)
                 .HasColumnType("money")
                 .HasColumnName("total_price");
@@ -212,6 +214,7 @@ public partial class SwdContext : DbContext
             entity.Property(e => e.IdOrder).HasColumnName("id_order");
             entity.Property(e => e.IdRoom).HasColumnName("id_room");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
+            entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.TotalPrice)
                 .HasColumnType("money")
                 .HasColumnName("total_price");

@@ -1,6 +1,6 @@
 ﻿using BusinessObjects.Models;
 using Microsoft.EntityFrameworkCore;
-using ModelViews;
+using ModelViews.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

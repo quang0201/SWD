@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BusinessObjects.Models;
 using Microsoft.Extensions.Configuration;
-using ModelViews;
+using ModelViews.Models;
 using Reponsitories.Interface;
 using Reponsitories.Repositories;
 using Services.Interface;
@@ -31,19 +31,19 @@ namespace Services.Service
         {
             try
             {
-                if (!RegexString.Instance.CheckStringMinMax(login.Username, 2, 100))
+                if (!Validation.Instance.CheckStringMinMax(login.Username, 2, 100))
                 {
                     throw new Exception("Length of username invalid");
                 }
-                if (!RegexString.Instance.ValidateInput(login.Username))
+                if (!Validation.Instance.ValidateInput(login.Username))
                 {
                     throw new Exception("Username contains special letters");
                 }
-                if (!RegexString.Instance.CheckStringMinMax(login.Password, 2, 100))
+                if (!Validation.Instance.CheckStringMinMax(login.Password, 2, 100))
                 {
                     throw new Exception("length of password invalid");
                 }
-                if (!RegexString.Instance.ValidateInput(login.Password))
+                if (!Validation.Instance.ValidateInput(login.Password))
                 {
                     throw new Exception("Password contains special letters");
                 }
@@ -64,23 +64,23 @@ namespace Services.Service
         {
             try
             {
-                if (!RegexString.Instance.CheckStringMinMax(account.Username,2,100))
+                if (!Validation.Instance.CheckStringMinMax(account.Username,2,100))
                 {
                     throw new Exception("Length of username invalid");
                 }
-                if (!RegexString.Instance.ValidateInput(account.Username))
+                if (!Validation.Instance.ValidateInput(account.Username))
                 {
                     throw new Exception("Username contains special letters");
                 }
-                if (!RegexString.Instance.CheckStringMinMax(account.Password, 2, 100))
+                if (!Validation.Instance.CheckStringMinMax(account.Password, 2, 100))
                 {
                     throw new Exception("length of password invalid");
                 }
-                if (!RegexString.Instance.ValidateInput(account.Password))
+                if (!Validation.Instance.ValidateInput(account.Password))
                 {
                     throw new Exception("Password contains special letters");
                 }
-                if (!RegexString.Instance.ValidateEmail(account.Email))
+                if (!Validation.Instance.ValidateEmail(account.Email))
                 {
                     throw new Exception("Invalid email");
                 }

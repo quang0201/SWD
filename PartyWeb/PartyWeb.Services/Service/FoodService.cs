@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BusinessObjects.Models;
 using DataAcess.ControllerDAO;
-using ModelViews;
 using ModelViews.Models;
 using Reponsitories.Interface;
 using Services.Interface;
@@ -34,23 +33,23 @@ namespace Services.Service
         {
             try
             {
-                if (!RegexString.Instance.CheckStringMinMax(food.Name, 2, 255))
+                if (!Validation.Instance.CheckStringMinMax(food.Name, 2, 255))
                 {
                     throw new Exception("Length of Name invalid");
                 }
-                if (RegexString.Instance.ValidateInputVietnamese(food.Name))
+                if (Validation.Instance.ValidateInputVietnamese(food.Name))
                 {
                     throw new Exception("Name contains special letters");
                 }
-                if (!RegexString.Instance.CheckStringMinMax(food.Content, 2, 1000))
+                if (!Validation.Instance.CheckStringMinMax(food.Content, 2, 1000))
                 {
                     throw new Exception("length of content invalid");
                 }
-                if (RegexString.Instance.ValidateInputVietnamese(food.Content))
+                if (Validation.Instance.ValidateInputVietnamese(food.Content))
                 {
                     throw new Exception("Content contains special letters");
                 }
-                if (!RegexString.Instance.ValidateInputOnlyNumber(food.Price))
+                if (!Validation.Instance.ValidateInputOnlyNumber(food.Price))
                 {
                     throw new Exception("price only number");
                 }
@@ -124,27 +123,27 @@ namespace Services.Service
         {
             try
             {
-                if (!RegexString.Instance.ValidateInputOnlyNumber(food.Id))
+                if (!Validation.Instance.ValidateInputOnlyNumber(food.Id))
                 {
                     throw new Exception("id only number");
                 }
-                if (!RegexString.Instance.CheckStringMinMax(food.Food.Name, 2, 255))
+                if (!Validation.Instance.CheckStringMinMax(food.Food.Name, 2, 255))
                 {
                     throw new Exception("Length of Name invalid");
                 }
-                if (RegexString.Instance.ValidateInputVietnamese(food.Food.Name))
+                if (Validation.Instance.ValidateInputVietnamese(food.Food.Name))
                 {
                     throw new Exception("Name contains special letters");
                 }
-                if (!RegexString.Instance.CheckStringMinMax(food.Food.Content, 2, 1000))
+                if (!Validation.Instance.CheckStringMinMax(food.Food.Content, 2, 1000))
                 {
                     throw new Exception("length of content invalid");
                 }
-                if (RegexString.Instance.ValidateInputVietnamese(food.Food.Content))
+                if (Validation.Instance.ValidateInputVietnamese(food.Food.Content))
                 {
                     throw new Exception("Content contains special letters");
                 }
-                if (!RegexString.Instance.ValidateInputOnlyNumber(food.Food.Price))
+                if (!Validation.Instance.ValidateInputOnlyNumber(food.Food.Price))
                 {
                     throw new Exception("price only number");
                 }
