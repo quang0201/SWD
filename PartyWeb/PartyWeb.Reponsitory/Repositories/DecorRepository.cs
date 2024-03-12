@@ -12,6 +12,7 @@ namespace Reponsitories.Repositories
     public class DecorRepository : IDecorRepository
     {
         public async Task<bool> Add(Decor decor) => await DecorDAO.Instance.Add(decor);
+        public async Task<bool> Update(Decor decor) => await DecorDAO.Instance.Update(decor);
 
         public Task<Decor> GetById(int id) => DecorDAO.Instance.GetById(id);
 

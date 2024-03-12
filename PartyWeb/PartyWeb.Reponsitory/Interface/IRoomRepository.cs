@@ -11,5 +11,7 @@ namespace Reponsitories.Interface
     {
         Task<bool> Add(Room room);
         Task<Room> GetById(int id);
+        Task<bool> Update(Room room);
+
     }
 }
