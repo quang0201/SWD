@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import MainLayout from '../components/MainLayout';
 import { Link } from 'react-router-dom';
-import toast, { Toaster } from "react-toast";
 
 import {
     MDBContainer,
