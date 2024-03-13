@@ -8,7 +8,7 @@ namespace ModelViews.Models
 {
     public class UpdateFoodModel
     {
-        public string Id { get; set; } = default!;
+        public int Id { get; set; } = default!;
         public FoodModel Food { get; set; } = default!;
     }
 }

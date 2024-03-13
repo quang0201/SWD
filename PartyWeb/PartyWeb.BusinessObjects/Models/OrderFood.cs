@@ -9,7 +9,7 @@ public partial class OrderFood
 
     public int? IdFood { get; set; }
 
-    public int? Quality { get; set; }
+    public int Quality { get; set; }
 
     public decimal? TotalPrice { get; set; }
 

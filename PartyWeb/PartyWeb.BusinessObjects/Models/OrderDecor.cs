@@ -11,7 +11,7 @@ public partial class OrderDecor
 
     public int? IdDecor { get; set; }
 
-    public int? Quality { get; set; }
+    public int Quality { get; set; }
 
     public decimal? TotalPrice { get; set; }
 

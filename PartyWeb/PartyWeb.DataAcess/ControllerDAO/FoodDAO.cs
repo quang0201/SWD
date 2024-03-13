@@ -116,8 +116,9 @@ namespace DataAcess.ControllerDAO
             {
                 using (var dbContext = new SwdContext())
                 {
-                    var food = await dbContext.Foods.FindAsync(id);
-                    return food;
+                    var item = await dbContext.Foods.SingleOrDefaultAsync(x => x.Id == id);
+                    Console.WriteLine(item);
+                    return item;
                 }
             }
             catch (Exception ex)

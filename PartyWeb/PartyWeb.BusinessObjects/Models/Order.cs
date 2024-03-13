@@ -27,5 +27,5 @@ public partial class Order
 
     public virtual ICollection<OrderFood> OrderFoods { get; set; } = new List<OrderFood>();
 
-    public virtual ICollection<OrderRoom> OrderRooms { get; set; } = new List<OrderRoom>();
+    public virtual OrderRoom? OrderRoom { get; set; }
 }

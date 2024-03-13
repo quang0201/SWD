@@ -10,6 +10,6 @@ namespace Reponsitories.Interface
     public interface IRoomRepository
     {
         Task<bool> Add(Room room);
-
+        Task<Room> GetById(int id);
     }
 }

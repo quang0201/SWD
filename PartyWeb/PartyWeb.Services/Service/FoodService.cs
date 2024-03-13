@@ -123,10 +123,7 @@ namespace Services.Service
         {
             try
             {
-                if (!Validation.Instance.ValidateInputOnlyNumber(food.Id))
-                {
-                    throw new Exception("id only number");
-                }
+               
                 if (!Validation.Instance.CheckStringMinMax(food.Food.Name, 2, 255))
                 {
                     throw new Exception("Length of Name invalid");
@@ -156,7 +153,7 @@ namespace Services.Service
                 {
                     throw new Exception("User happen error");
                 }
-                var foodDTO = await _foodRepo.GetById(int.Parse(food.Id));
+                var foodDTO = await _foodRepo.GetById(food.Id);
                 if (foodDTO == null)
                 {
                     throw new Exception("Food not found");

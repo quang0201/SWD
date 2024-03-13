@@ -10,7 +10,7 @@ namespace ModelViews.Models
     {
         public int Id { get; set; }
 
-        public int? Quality { get; set; }
+        public int Quality { get; set; }
 
     }
 }

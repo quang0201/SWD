@@ -30,6 +30,8 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFoodRepository, FoodRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IDecorRepository, DecorRepository>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 
 //config database
 

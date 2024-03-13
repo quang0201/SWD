@@ -17,21 +17,34 @@ namespace Services.Service
     {
         IOrderRepository _orderRepo = default!;
         private readonly IMapper _mapper;
-
-        public OrderService(IOrderRepository orderRepository,IMapper mapper)
+        IRoomRepository _roomRepo = default!;
+        IFoodRepository _foodRepo = default!;
+        IDecorRepository _decorRepo = default!;
+        public OrderService(IOrderRepository orderRepository,IMapper mapper, IRoomRepository roomRepo, IFoodRepository foodRepo, IDecorRepository decorRepo)
         {
             _mapper = mapper;
             _orderRepo = orderRepository;
+            _roomRepo = roomRepo;
+            _foodRepo = foodRepo;
+            _decorRepo = decorRepo;
         }
-        public Task<OrderModel> Add(OrderModel model, string user)
+        public async Task<bool> Add(OrderModel model, string user)
         {
             try
             {
+                List<OrderFood> foods = default!;
+                List<OrderDecor> decors = default!;
                 if(Validation.Instance.CheckDateTime(model.orderRooms.StartDate,model.orderRooms.EndDate))
                 {
                     throw new Exception("The day not alivable");
                 }
-
+                var room = await _roomRepo.GetById(model.orderRooms.IdRoom);
+                Console.WriteLine(room == null);
+                if (room == null)
+                {
+                    throw new Exception("Not found room");
+                }
+                var roomOrder = _mapper.Map<OrderRoom>(model.orderRooms);
                 foreach (var item in model.orderDecors)
                 {
                     if (item.Id < 0)
@@ -41,6 +54,10 @@ namespace Services.Service
                     if (item.Quality < 0)
                     {
                         throw new Exception("Quatity must integer number");
+                    }
+                    if(_decorRepo.GetById(item.Id) == null)
+                    {
+                        throw new Exception("Not found decor");
                     }
                 }
                 foreach (var item in model.orderFoods)
@@ -53,16 +70,29 @@ namespace Services.Service
                     {
                         throw new Exception("Quatity must integer number");
                     }
+                    if (_foodRepo.GetById(item.Id) == null)
+                    {
+                        throw new Exception("Not found food");
+                    }
                 }
                 var account = JsonSerializer.Deserialize<Account>(user);
                 if (account == null)
                 {
                     throw new Exception("User happen error");
                 }
-                var itemsMapper = _mapper.Map<List<OrderDecor>>(model.orderDecors);
-                
-               
-                return null;
+
+                var order = new Order()
+                {
+                    Status = 2,
+                    CreatedTime = DateTime.Now,
+                    CreatedBy = account.Id,
+                };
+                var result = await _orderRepo.Add(order);
+                if (result)
+                {
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {

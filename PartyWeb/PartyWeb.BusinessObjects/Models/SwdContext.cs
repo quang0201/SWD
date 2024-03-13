@@ -204,6 +204,8 @@ public partial class SwdContext : DbContext
 
             entity.ToTable("order_room");
 
+            entity.HasIndex(e => e.IdOrder, "id_order_unique").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
             entity.Property(e => e.IdOrder).HasColumnName("id_order");
@@ -214,8 +216,8 @@ public partial class SwdContext : DbContext
                 .HasColumnType("money")
                 .HasColumnName("total_price");
 
-            entity.HasOne(d => d.IdOrderNavigation).WithMany(p => p.OrderRooms)
-                .HasForeignKey(d => d.IdOrder)
+            entity.HasOne(d => d.IdOrderNavigation).WithOne(p => p.OrderRoom)
+                .HasForeignKey<OrderRoom>(d => d.IdOrder)
                 .HasConstraintName("fk_order_room_order_id");
 
             entity.HasOne(d => d.IdRoomNavigation).WithMany(p => p.OrderRooms)

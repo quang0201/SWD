@@ -10,10 +10,12 @@ namespace Server.Profile_Maper
         public MappingProfile()
         {
             CreateMap<Food, FoodViewModel>()
-                    .ForMember(dest => dest.FoodProvider, opt => opt.MapFrom(src => src.CreatedByNavigation.Username));
-            CreateMap<OrderFood, OrderFoodModel>();
-            CreateMap<OrderDecor, OrderDecorModel>();
-            CreateMap<OrderRoom, OrderRoomModel>();
+                    .ForMember(dest => dest.FoodProvider, opt => opt.MapFrom(src => src.CreatedByNavigation.Username)).ReverseMap();
+            CreateMap<OrderFood, OrderFoodModel>().ReverseMap();
+            CreateMap<OrderDecor, OrderDecorModel>().ReverseMap();
+            CreateMap<OrderRoom, OrderRoomModel>().ReverseMap();
+            CreateMap<OrderRoomModel, OrderRoom>().ReverseMap();
+
         }
     }
 }

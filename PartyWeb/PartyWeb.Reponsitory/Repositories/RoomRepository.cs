@@ -13,5 +13,6 @@ namespace Reponsitories.Repositories
     {
         public async Task<bool> Add(Room room) => await RoomDAO.Instance.Add(room);
 
+        public Task<Room> GetById(int id) => RoomDAO.Instance.GetById(id);
     }
 }

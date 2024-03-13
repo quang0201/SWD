@@ -13,5 +13,11 @@ namespace Reponsitories.Repositories
     {
         public async Task<bool> Add(Decor decor) => await DecorDAO.Instance.Add(decor);
 
+        public Task<Decor> GetById(int id) => DecorDAO.Instance.GetById(id);
+
+        public Task<List<Decor>> PaggingDecor(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
+        {
+            return DecorDAO.Instance.PaggingFood(index,pageSize,search,sortDateAsc,sortPriceAsc,sortNameAsc);
+        }
     }
 }

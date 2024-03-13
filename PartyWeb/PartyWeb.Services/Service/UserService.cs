@@ -110,7 +110,11 @@ namespace Services.Service
                 //1 = đang hoạt động
                 //2 = đang chặn
                 //3 = 
-                await _userrepository.Register(user);
+                var result = await _userrepository.Register(user);
+                if (!result)
+                {
+                    throw new Exception("Username Lỗi");
+                }
                 return true;
             }
             catch (Exception ex)
