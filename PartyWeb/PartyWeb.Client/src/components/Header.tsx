@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
     return (
-        <header id="header" className="header fixed-top d-flex align-items-center">
-            <div className="container d-flex align-items-center justify-content-between">
+        <header id="header" className="heade ">
+            <div className="container">
                 <div className="header">
                     <div className="container">
                         <Link to="/" className="logo d-flex align-items-center me-auto me-lg-0">

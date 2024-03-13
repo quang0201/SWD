@@ -130,6 +130,7 @@ section {
     z-index: 997;
     height: 90px;
     border-bottom: 1px solid #fff;
+
 }
 
 @media (max-width: 575px) {
@@ -176,6 +177,7 @@ section {
         color: #fff;
         background: rgba(206, 18, 18, 0.8);
     }
+
     /*--------------------------------------------------------------
 # Breadcrumbs
 --------------------------------------------------------------*/
@@ -470,7 +472,7 @@ section {
 .check {
     border-radius: 5px;
     width: 450px;
-    height: 60px;
+    min-height: 60px; /* Đảm bảo thông báo có chiều cao tối thiểu */
     text-align: left;
     display: flex;
     align-items: center;
@@ -480,11 +482,18 @@ section {
     color: #0ad406;
     margin: 20px auto; /* Canh giữa theo chiều ngang */
     text-align: center; /* Canh giữa theo chiều dọc */
-    top: 20px; /* Đặt thông báo ở phía trên cùng của trang */
-    right: 20px; /* Đặt thông báo ở phía bên phải */
-    z-index: 9999; /* Đảm bảo thông báo hiển thị trên tất cả các phần tử khác */
-    position: fixed; /* Giữ container ở vị trí cố định trên trang */
+    position: relative; /* Đảm bảo thông báo được hiển thị ở vị trí tương đối */
+    z-index: 999; /* Đảm bảo thông báo được hiển thị trên các phần tử khác */
+
 }
+
+.messages {
+    position: absolute; /* Đảm bảo thông báo nằm ở vị trí tuyệt đối */
+    top: 20px; /* Đặt vị trí trên cùng */
+    left: 50%; /* Canh giữa theo chiều ngang */
+    transform: translateX(-50%); /* Dịch chuyển thông báo để căn giữa theo chiều ngang */
+}
+
     .check:hover {
         background-color: rgba(147, 209, 117, 0.50);
         transition: 0.5s;
@@ -565,7 +574,14 @@ section {
 .shine {
     animation: shine 2s linear infinite;
 }
-
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 18px;
+}
 @keyframes spin {
     0% {
         transform: rotate(0deg);
