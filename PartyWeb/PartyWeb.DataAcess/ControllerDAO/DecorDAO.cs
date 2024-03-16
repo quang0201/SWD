@@ -75,7 +75,7 @@ namespace DataAcess.ControllerDAO
                 throw new Exception("Lỗi xảy ra: " + ex.Message);
             }
         }
-        public async Task<List<Decor>> PaggingFood(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
+        public async Task<List<Decor>> PaggingDecor(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
         {
             try
             {
