@@ -24,7 +24,7 @@ namespace Server.Controllers
             {
                 var user = User.FindFirst("user")?.Value;
                 var result = await _DecorService.AddDecor(Decor, user);
-                return Ok(new { status = 200, tilte = "Success", data = Decor, mess = "Add Decor fail" });
+                return Ok(new { status = 200, tilte = "Success", data = Decor, mess = "Add Decor success" });
 
             }
             catch (Exception ex)
