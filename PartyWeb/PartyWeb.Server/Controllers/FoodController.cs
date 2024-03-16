@@ -37,7 +37,7 @@ namespace Server.Controllers
             {
                 var user = User.FindFirst("user")?.Value;
                 var result = await _foodService.AddFood(food, user);
-                return Ok(new { status = 200, tilte = "Success", data = food, mess = "Add food fail" });
+                return Ok(new { status = 200, tilte = "Success", data = food, mess = "Add food success" });
 
             }
             catch (Exception ex)

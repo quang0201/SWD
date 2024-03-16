@@ -26,7 +26,7 @@ namespace Server.Controllers
             {
                 var user = User.FindFirst("user")?.Value;
                 var result = await _RoomService.AddRoom(Room, user);
-                return Ok(new { status = 200, tilte = "Success", data = Room, mess = "Add Room fail" });
+                return Ok(new { status = 200, tilte = "Success", data = Room, mess = "Add Room success" });
 
             }
             catch (Exception ex)

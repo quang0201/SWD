@@ -26,6 +26,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<IDecorService, DecorService>();
+
 //config repo
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFoodRepository, FoodRepository>();

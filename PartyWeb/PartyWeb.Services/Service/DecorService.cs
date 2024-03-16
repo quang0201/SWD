@@ -15,7 +15,7 @@ using Tools.Tool;
 
 namespace Services.Service
 {
-    internal class DecorService : IDecorService
+    public class DecorService : IDecorService
     {
         private readonly IDecorRepository _DecorRepo;
         private readonly IMapper _mapper;
