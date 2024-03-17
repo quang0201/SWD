@@ -23,6 +23,22 @@ namespace DataAcess.ControllerDAO
                 return instance;
             }
         }
+        public async Task<bool> Update(Room food)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    dbContext.Entry(food).State = EntityState.Modified;
+                    await dbContext.SaveChangesAsync();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
+            }
+        }
 
         public async Task<bool> Add(Room food)
         {
