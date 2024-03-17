@@ -6,12 +6,13 @@ import {
     MDBInput,
     MDBCheckbox,
 } from 'mdb-react-ui-kit';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [notification, setNotification] = useState('');
+
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,22 +26,38 @@ const Login: React.FC = () => {
             });
             if (response.ok) {
                 const data = await response.json();
+                toast.success(data.error, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 localStorage.setItem('jwt', data.token);
 
             } else {
                 const errorData = await response.json();
-                setNotification(errorData.error);
-                console.log(errorData.error)
+                toast.error(errorData.error, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
 
             }
         } catch (error) {
             console.log('Error')
         }
     };
-
+    
     return (
         <MainLayout>
-            {notification && <div className="notification">{notification}</div>}
+            <ToastContainer />
             <main id="main">
                 <form onSubmit={handleSubmit}>
                     <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
@@ -68,7 +85,7 @@ const Login: React.FC = () => {
                             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
                             <a href="!#">Forgot password?</a>
                         </div>
-                        <button>Đăng nhập</button>
+                        <button className="btn btn-green">Đăng nhập</button>
                         <div className="text-center">
                             <p>Bạn chưa có tài khoản? <Link to="/register">Đăng kí</Link></p>
                         </div>

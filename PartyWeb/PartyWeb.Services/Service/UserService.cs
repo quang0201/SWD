@@ -31,7 +31,7 @@ namespace Services.Service
         {
             try
             {
-                if (!Validation.Instance.CheckStringMinMax(login.Username, 2, 100))
+                if (!Validation.Instance.CheckStringMinMax(login.Username, 5, 100))
                 {
                     throw new Exception("Length of username invalid");
                 }
@@ -39,7 +39,7 @@ namespace Services.Service
                 {
                     throw new Exception("Username contains special letters");
                 }
-                if (!Validation.Instance.CheckStringMinMax(login.Password, 2, 100))
+                if (!Validation.Instance.CheckStringMinMax(login.Password, 5,100))
                 {
                     throw new Exception("length of password invalid");
                 }

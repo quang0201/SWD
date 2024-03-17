@@ -71,11 +71,10 @@ a{
 .success:hover {
     background-color: #C7FCB2;
 }
-
-.success:nth-child(2) {
-    top: 80px; /* Điều chỉnh vị trí của thông báo thứ hai */
+.btn.btn-green {
+    background: #84b813;
+    border-color: #84b813;
+    color: #ffffff !important;
+    transition: 1s;
 }
-
-.success:nth-child(3) {
-    top: 160px; /* Điều chỉnh vị trí của thông báo thứ ba */
-}
+/**/
