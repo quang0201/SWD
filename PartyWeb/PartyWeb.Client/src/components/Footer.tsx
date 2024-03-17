@@ -1,35 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
     return (
-        <footer id="footer" className="footer">
-            <div className="container">
-                <div className="row gy-3">
-                    <div className="col-lg-3 col-md-6 d-flex">
-                        <i className="bi bi-geo-alt icon"></i>
-                        <div>
-                            
-
-                        </div>
-
-                        <div className="col-lg-3 col-md-6 footer-links d-flex">
-                           
-
-                        </div>
-                    </div>
-
-                    <div className="container">
-                        <div className="copyright">
-                            &copy; Copyright <strong><span>Yummy</span></strong>. All Rights Reserved
-                        </div>
-                        <div className="credits">
-                            Designed by <a href="#">Quang</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </footer >
+        <footer>
+            <p>Desgin by Quang</p>
+            <p>Quang's website copyright @2024</p>
+            <Link to="https://www.facebook.com/">Connect Me</Link>
+        </footer>
     );
 };
 export default Header;

@@ -11,6 +11,7 @@ import {
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [notification, setNotification] = useState('');
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,16 +26,21 @@ const Login: React.FC = () => {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('jwt', data.token);
+
             } else {
+                const errorData = await response.json();
+                setNotification(errorData.error);
+                console.log(errorData.error)
+
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.log('Error')
         }
     };
 
-
     return (
         <MainLayout>
+            {notification && <div className="notification">{notification}</div>}
             <main id="main">
                 <form onSubmit={handleSubmit}>
                     <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
@@ -68,7 +74,6 @@ const Login: React.FC = () => {
                         </div>
                     </MDBContainer>
                 </form>
-                
             </main>
         </MainLayout>
     );

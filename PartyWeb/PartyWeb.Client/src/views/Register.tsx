@@ -37,12 +37,7 @@ const Register: React.FC = () => {
     return (
         <MainLayout>
             <main id="main">
-                <section className="sample-page">
-                    <div className="container" data-aos="fade-up">
-                    </div>
-                </section>
                 <form onSubmit={handleSubmit}>
-
                     <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
                         <h2>Đăng kí</h2>
                         <label>
