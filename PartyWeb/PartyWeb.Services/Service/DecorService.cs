@@ -15,7 +15,7 @@ using Tools.Tool;
 
 namespace Services.Service
 {
-    internal class DecorService : IDecorService
+    public class DecorService : IDecorService
     {
         private readonly IDecorRepository _DecorRepo;
         private readonly IMapper _mapper;
@@ -153,7 +153,7 @@ namespace Services.Service
                 throw new(ex.Message);
             }
         }
-
+        
 
         public async Task<bool> Delete(int id, string user)
         {
@@ -195,5 +195,27 @@ namespace Services.Service
             }
         }
 
+        public async Task<List<DecorViewModel>> PaggingDecor(int index, int pageSize, string? search, bool? sortDate, bool? sortPrice, bool? sortName)
+        {
+            try
+            {
+                if (index < 0)
+                {
+                    throw new ArgumentOutOfRangeException("index must be >= 0");
+                }
+                if (pageSize < 0 || pageSize > 100)
+                {
+                    throw new ArgumentOutOfRangeException("range 1-100");
+                }
+
+                var items = await DecorDAO.Instance.PaggingDecor(index, pageSize, search, sortDate, sortPrice, sortName);
+                var itemsMapper = _mapper.Map<List<DecorViewModel>>(items);
+                return itemsMapper; // Trả về dữ liệu thành công
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
+        }
     }
 }

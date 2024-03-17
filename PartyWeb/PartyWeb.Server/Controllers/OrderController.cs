@@ -23,7 +23,7 @@ namespace Server.Controllers
             {
                 var user = User.FindFirst("user")?.Value;
                 var result = await _orderService.Add(orderModel,user);
-                return Ok(new { status = 200, tilte = "Success", data = orderModel, mess = "Create order success" });
+                return Ok(new { status = 200, tilte = "Success", data = orderModel, mess = "Create order successfully" });
             }
             catch (Exception ex)
             {

@@ -15,7 +15,7 @@ using Tools.Tool;
 
 namespace Services.Service
 {
-    internal class RoomService : IRoomService
+    public class RoomService : IRoomService
     {
         private readonly IRoomRepository _RoomRepo;
         private readonly IMapper _mapper;
