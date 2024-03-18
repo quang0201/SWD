@@ -4,9 +4,9 @@ namespace Reponsitories.Interface
 {
     public interface IPartyHostRepository
     {
-        Task<PartyHost> GetPartyHostModelById(int id);
-        Task<bool> AddNewPartyHostModel(PartyHost partyHost);
-        Task<bool> DeletePartyHostModel(int id);
-        Task<bool> UpdatePartyHostModel(PartyHost partyHost);
+        Task<PartyHost> GetPartyHostById(int id);
+        Task<bool> AddNewPartyHost(PartyHost partyHost);
+        Task<bool> DeletePartyHost(int id);
+        Task<bool> UpdatePartyHost(PartyHost partyHost);
     }
 }

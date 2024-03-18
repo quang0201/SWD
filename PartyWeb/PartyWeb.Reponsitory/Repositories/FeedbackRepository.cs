@@ -6,10 +6,9 @@ namespace Reponsitories.Repositories
 {
     public class FeedbackRepository : IFeedbackRepository
     {
-        public Task<bool> AddNewFeedback(Feedback feedback) => FeedbackDAO.Instance.AddFeedback(feedback);
-        public Task<bool> DeleteFeedback(int id) => FeedbackDAO.Instance.DeleteFeedback(id);
-        public Task<Feedback> GetFeedbackById(int id) => FeedbackDAO.Instance.GetFeedbackById(id);
-
-        public Task<bool> UpdateFeedback(Feedback feedback) => FeedbackDAO.Instance.UpdateFeedback(feedback);
+        public async Task<bool> AddNewFeedback(Feedback feedback) => await FeedbackDAO.Instance.AddFeedback(feedback);
+        public async Task<bool> DeleteFeedback(int id) => await FeedbackDAO.Instance.DeleteFeedback(id);
+        public async Task<Feedback> GetFeedbackById(int id) => await FeedbackDAO.Instance.GetFeedbackById(id);
+        public async Task<bool> UpdateFeedback(Feedback feedback) => await FeedbackDAO.Instance.UpdateFeedback(feedback);
     }
 }

@@ -6,12 +6,9 @@ namespace Reponsitories.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        public Task<bool> AddNewAccount(Account account) => AccountDAO.Instance.AddAccount(account);
-
-        public Task<bool> DeleteAccount(string email) => AccountDAO.Instance.DeleteAccount(email);
-
-        public Task<Account> GetAccountByEmail(string email) => AccountDAO.Instance.GetAccountByEmail(email);
-
-        public Task<bool> UpdateAccount(Account account) => AccountDAO.Instance.UpdateAccount(account);
+        public async Task<bool> AddNewAccount(Account account) => await AccountDAO.Instance.AddAccount(account);
+        public async Task<bool> DeleteAccount(string email) => await AccountDAO.Instance.DeleteAccount(email);
+        public async Task<Account> GetAccountByEmail(string email)  => await AccountDAO.Instance.GetAccountByEmail(email);
+        public async Task<bool> UpdateAccount(Account account) => await AccountDAO.Instance.UpdateAccount(account);
     }
 }
