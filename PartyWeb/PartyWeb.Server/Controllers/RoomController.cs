@@ -24,7 +24,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 var result = await _RoomService.AddRoom(Room, user);
                 return Ok(new { status = 200, tilte = "Success", data = Room, mess = "Add Room success" });
 
@@ -41,7 +41,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 var items = await _RoomService.Update(Room, user);
                 return Ok(new { status = 200, tilte = "Success", data = items, mess = "Update success" });
             }
@@ -56,7 +56,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 var items = await _RoomService.Delete(id, user);
                 return Ok(new { status = 200, tilte = "Success", mess = "Delete success" });
             }

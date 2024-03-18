@@ -25,6 +25,12 @@ public partial class Account
 
     public string? Infomation { get; set; }
 
+    public string? Address { get; set; }
+
+    public DateTime? Dob { get; set; }
+
+    public string? Fullname { get; set; }
+
     public virtual ICollection<Decor> Decors { get; set; } = new List<Decor>();
 
     public virtual ICollection<Food> Foods { get; set; } = new List<Food>();

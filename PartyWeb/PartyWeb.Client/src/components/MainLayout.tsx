@@ -1,16 +1,19 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/css/main.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import '../styles/css/Style.css'
 interface MainLayoutProps {
     children: React.ReactNode;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     return (
-        <div>
-            <Header />
+        <div className="sub_page">
+            <div className="hero_area">
+                <Header />
+            </div>
+            
             {children}
             <Footer />
         </div>

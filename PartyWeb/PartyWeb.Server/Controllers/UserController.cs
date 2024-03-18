@@ -72,7 +72,7 @@ namespace Server.Controllers
             {
                 var idUser = User.FindFirst("id")?.Value;
                 var user = await _userService.GetUserByIdToken(int.Parse(idUser));
-                return Ok(new { status = 200, tilte = "Success", data = user, mess = "Register success" });
+                return Ok(new { status = 200, tilte = "Success", data = user, mess = "get user success" });
             }
             catch (Exception ex)
             {

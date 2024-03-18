@@ -21,7 +21,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 var result = await _orderService.Add(orderModel,user);
                 return Ok(new { status = 200, tilte = "Success", data = orderModel, mess = "Create order successfully" });
             }
@@ -36,7 +36,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 return Ok(new { status = 200, tilte = "Success", data = "fine", mess = "Create order success" });
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 return Ok(new { status = 200, tilte = "Success", data = "fine", mess = "Create order success" });
             }
             catch (Exception ex)
@@ -64,7 +64,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 return Ok(new { status = 200, tilte = "Success", data = "fine", mess = "Create order success" });
             }
             catch (Exception ex)

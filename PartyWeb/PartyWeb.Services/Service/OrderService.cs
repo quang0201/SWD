@@ -2,6 +2,7 @@
 using BusinessObjects.Models;
 using ModelViews.Models;
 using Reponsitories.Interface;
+using Reponsitories.Repositories;
 using Services.Interface;
 using System;
 using System.Collections.Generic;
@@ -20,15 +21,17 @@ namespace Services.Service
         IRoomRepository _roomRepo = default!;
         IFoodRepository _foodRepo = default!;
         IDecorRepository _decorRepo = default!;
-        public OrderService(IOrderRepository orderRepository,IMapper mapper, IRoomRepository roomRepo, IFoodRepository foodRepo, IDecorRepository decorRepo)
+        IUserRepository _userRepository;
+        public OrderService(IUserRepository userRepository,IOrderRepository orderRepository,IMapper mapper, IRoomRepository roomRepo, IFoodRepository foodRepo, IDecorRepository decorRepo)
         {
             _mapper = mapper;
             _orderRepo = orderRepository;
             _roomRepo = roomRepo;
             _foodRepo = foodRepo;
             _decorRepo = decorRepo;
+            _userRepository = userRepository;
         }
-        public async Task<bool> Add(OrderModel model, string user)
+        public async Task<bool> Add(OrderModel model, string userId)
         {
             try
             {
@@ -75,17 +78,17 @@ namespace Services.Service
                         throw new Exception("Not found food");
                     }
                 }
-                var account = JsonSerializer.Deserialize<Account>(user);
-                if (account == null)
+                var user = await _userRepository.GetUserById(int.Parse(userId));
+                if (user == null)
                 {
-                    throw new Exception("User happen error");
+                    throw new Exception("not found your account");
                 }
 
                 var order = new Order()
                 {
                     Status = 2,
                     CreatedTime = DateTime.Now,
-                    CreatedBy = account.Id,
+                    CreatedBy = user.Id,
                 };
                 var result = await _orderRepo.Add(order);
                 if (result)

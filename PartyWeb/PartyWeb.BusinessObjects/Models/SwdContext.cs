@@ -50,12 +50,19 @@ public partial class SwdContext : DbContext
             entity.HasIndex(e => e.Username, "username").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Address)
+                .HasMaxLength(1)
+                .HasColumnName("address");
             entity.Property(e => e.CreatedTime).HasColumnName("created_time");
             entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
+            entity.Property(e => e.Dob).HasColumnName("dob");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("email");
+            entity.Property(e => e.Fullname)
+                .HasMaxLength(1)
+                .HasColumnName("fullname");
             entity.Property(e => e.Infomation)
                 .HasColumnType("ntext")
                 .HasColumnName("infomation");

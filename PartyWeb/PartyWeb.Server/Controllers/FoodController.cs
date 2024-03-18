@@ -35,7 +35,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 var result = await _foodService.AddFood(food, user);
                 return Ok(new { status = 200, tilte = "Success", data = food, mess = "Add food success" });
 
@@ -68,7 +68,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 var items = await _foodService.Update(food, user);
                 return Ok(new { status = 200, tilte = "Success", data = items, mess = "Update success" });
             }
@@ -83,7 +83,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 var items =  await _foodService.Delete(id, user);
                 return Ok(new { status = 200, tilte = "Success", mess = "Delete success" });
             }
@@ -98,7 +98,7 @@ namespace Server.Controllers
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 var items = await _foodService.Approve(id, user);
                 return Ok(new { status = 200, data =items,tilte = "Success", mess = "Active success" });
             }

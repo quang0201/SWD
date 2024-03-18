@@ -3,6 +3,7 @@ using BusinessObjects.Models;
 using DataAcess.ControllerDAO;
 using ModelViews.Models;
 using Reponsitories.Interface;
+using Reponsitories.Repositories;
 using Services.Interface;
 using System;
 using System.Collections.Generic;
@@ -18,18 +19,20 @@ namespace Services.Service
     {
         private readonly IFoodRepository _foodRepo;
         private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
 
-        public FoodService(IFoodRepository foodRepository, IMapper mapper)
+        public FoodService(IFoodRepository foodRepository, IMapper mapper, IUserRepository userRepo)
         {
             _foodRepo = foodRepository;
             _mapper = mapper;
+            _userRepository = userRepo;
         }
         public async Task<List<Food>> GetAll()
         {
             return await _foodRepo.GetAll();
         }
 
-        public async Task<bool> AddFood(FoodModel food, string user)
+        public async Task<bool> AddFood(FoodModel food, string userId)
         {
             try
             {
@@ -57,12 +60,17 @@ namespace Services.Service
                 {
                     throw new Exception("number invaild");
                 }
-                var account = JsonSerializer.Deserialize<Account>(user);
-                if (account == null)
+                var user = await _userRepository.GetUserById(int.Parse(userId));
+                if (user == null)
                 {
-                    throw new Exception("User happen error");
+                    throw new Exception("not found your account");
                 }
-                if (account.Role == 0)
+                if (user.Role == 0)
+                {
+                    throw new Exception("you have access");
+                }
+               
+                if (user.Role == 0)
                 {
                     throw new Exception("you not role host");
                 }
@@ -71,7 +79,7 @@ namespace Services.Service
                     Name = food.Name,
                     Content = food.Content,
                     Price = int.Parse(food.Price),
-                    CreatedBy = account.Id,
+                    CreatedBy = user.Id,
                     Status = 2,
                     CreatedTime = DateTime.UtcNow,
                     UpdatedTime = DateTime.UtcNow
@@ -119,7 +127,7 @@ namespace Services.Service
         }
 
 
-        public async Task<bool> Update(UpdateFoodModel food, string user)
+        public async Task<bool> Update(UpdateFoodModel food, string userId)
         {
             try
             {
@@ -148,10 +156,14 @@ namespace Services.Service
                 {
                     throw new Exception("number invaild");
                 }
-                var account = JsonSerializer.Deserialize<Account>(user);
-                if (account == null)
+                var user = await _userRepository.GetUserById(int.Parse(userId));
+                if (user == null)
                 {
-                    throw new Exception("User happen error");
+                    throw new Exception("not found your account");
+                }
+                if (user.Role == 0)
+                {
+                    throw new Exception("you have access");
                 }
                 var foodDTO = await _foodRepo.GetById(food.Id);
                 if (foodDTO == null)
@@ -162,9 +174,9 @@ namespace Services.Service
                 {
                     throw new Exception("Food not active");
                 }
-                if (account.Role != 1)
+                if (user.Role != 1)
                 {
-                    if (foodDTO.CreatedBy != account.Id)
+                    if (foodDTO.CreatedBy != user.Id)
                     {
                         throw new Exception("Food not yours");
                     }
@@ -182,7 +194,7 @@ namespace Services.Service
             }
         }
 
-        public async Task<bool> Delete(int id, string user)
+        public async Task<bool> Delete(int id, string userId)
         {
             try
             {
@@ -190,10 +202,14 @@ namespace Services.Service
                 {
                     throw new Exception("number invaild");
                 }
-                var account = JsonSerializer.Deserialize<Account>(user);
-                if (account == null)
+                var user = await _userRepository.GetUserById(int.Parse(userId));
+                if (user == null)
                 {
-                    throw new Exception("User happen error");
+                    throw new Exception("not found your account");
+                }
+                if (user.Role == 0)
+                {
+                    throw new Exception("you have access");
                 }
                 var foodDTO = await _foodRepo.GetById(id);
                 if (foodDTO == null)
@@ -204,9 +220,9 @@ namespace Services.Service
                 {
                     throw new Exception("Food not active");
                 }
-                if (account.Role != 1)
+                if (user.Role != 1)
                 {
-                    if (foodDTO.CreatedBy != account.Id)
+                    if (foodDTO.CreatedBy != user.Id)
                     {
                         throw new Exception("Food not yours");
                     }
@@ -222,7 +238,7 @@ namespace Services.Service
             }
         }
 
-        public async Task<Food> Approve(int id, string user)
+        public async Task<Food> Approve(int id, string userId)
         {
             try
             {
@@ -230,10 +246,14 @@ namespace Services.Service
                 {
                     throw new Exception("number invaild");
                 }
-                var account = JsonSerializer.Deserialize<Account>(user);
-                if (account == null)
+                var user = await _userRepository.GetUserById(int.Parse(userId));
+                if (user == null)
                 {
-                    throw new Exception("User happen error");
+                    throw new Exception("not found your account");
+                }
+                if (user.Role == 0)
+                {
+                    throw new Exception("you have access");
                 }
                 var foodDTO = await _foodRepo.GetById(id);
                 if (foodDTO == null)
@@ -244,7 +264,7 @@ namespace Services.Service
                 {
                     throw new Exception("Food is actived");
                 }
-                if (account.Role != 1)
+                if (user.Role != 1)
                 {
                     throw new Exception("Dont Access");
                 }
