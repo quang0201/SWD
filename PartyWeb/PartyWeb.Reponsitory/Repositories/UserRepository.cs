@@ -12,6 +12,8 @@ namespace Reponsitories.Repositories
 {
     public class UserRepository : IUserRepository
     {
+        public Task<Account> GetUserById(int id)=> AccountDAO.Instance.GetUserByUserId(id);
+
         public Task<bool> GetUserByUserName(string userName) => AccountDAO.Instance.GetUserByUserName(userName);
         public Task<Account> Login(LoginModel login) => AccountDAO.Instance.Login(login);
 

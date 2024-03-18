@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MainLayout from '../components/MainLayout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     MDBContainer,
     MDBInput,
@@ -12,8 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-
+    const navigate = useNavigate();
+    
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
@@ -26,28 +26,12 @@ const Login: React.FC = () => {
             });
             if (response.ok) {
                 const data = await response.json();
-                toast.success(data.error, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                toast.success(data.mess);
                 localStorage.setItem('jwt', data.token);
 
             } else {
                 const errorData = await response.json();
-                toast.error(errorData.error, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                toast.error(errorData.error);
 
             }
         } catch (error) {

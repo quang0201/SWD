@@ -12,5 +12,9 @@ namespace Services.Interface
     {
         Task<string> GetByLogin(LoginModel account);
         Task<bool>Register(RegisterModel account);
+        Task<Account> GetUserById(int id,int idUserToken);
+        Task<Account> GetUserByIdToken(int id);
+
+
     }
 }

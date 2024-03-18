@@ -49,6 +49,35 @@ namespace Server.Controllers
                 return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Register fail" });
             }
         }
-
+        [Authorize]
+        [HttpGet("get-user/{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            try
+            {
+                var idUser = User.FindFirst("id")?.Value;
+                var user = await _userService.GetUserById(id,int.Parse(idUser));
+                return Ok(new { status = 200, tilte = "Success", data = user, mess = "Register success" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Register fail" });
+            }
+        }
+        [Authorize]
+        [HttpGet("get-user")]
+        public async Task<IActionResult> GetUserByIdToken()
+        {
+            try
+            {
+                var idUser = User.FindFirst("id")?.Value;
+                var user = await _userService.GetUserByIdToken(int.Parse(idUser));
+                return Ok(new { status = 200, tilte = "Success", data = user, mess = "Register success" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Register fail" });
+            }
+        }
     }
 }

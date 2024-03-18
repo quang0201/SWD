@@ -2,6 +2,7 @@
 using AutoMapper;
 using BusinessObjects.Models;
 using ModelViews.Models;
+using ModelViews.ModelView;
 
 namespace Server.Profile_Maper
 {
@@ -15,6 +16,8 @@ namespace Server.Profile_Maper
             CreateMap<OrderDecor, OrderDecorModel>().ReverseMap();
             CreateMap<OrderRoom, OrderRoomModel>().ReverseMap();
             CreateMap<OrderRoomModel, OrderRoom>().ReverseMap();
+            CreateMap<Decor, DecorViewModel>()
+                    .ForMember(dest => dest.DecorProvider, opt => opt.MapFrom(src => src.CreatedByNavigation.Username)).ReverseMap();
 
         }
     }

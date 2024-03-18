@@ -25,13 +25,13 @@ namespace Server.Controllers
         }
 
         [Authorize]
-        [HttpPost("add-Decor")]
+        [HttpPost("add-decor")]
         public async Task<IActionResult> AddDecor(DecorModel Decor)
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
-                var result = await _DecorService.AddDecor(Decor, user);
+                var idUser = User.FindFirst("id")?.Value;
+                var result = await _DecorService.AddDecor(Decor, idUser);
                 return Ok(new { status = 200, tilte = "Success", data = Decor, mess = "Add Decor success" });
 
             }
@@ -41,7 +41,7 @@ namespace Server.Controllers
             }
         }
         [AllowAnonymous]
-        [HttpGet("pagging-deocr")]
+        [HttpGet("pagging-decor")]
         public async Task<IActionResult> GetOrdersPaging(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
         {
             try
@@ -57,12 +57,12 @@ namespace Server.Controllers
         }
 
         [Authorize]
-        [HttpPut("Decor-update")]
+        [HttpPut("update-decor")]
         public async Task<IActionResult> UpdateDecor(UpdateDecorModel Decor)
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
+                var user = User.FindFirst("id")?.Value;
                 var items = await _DecorService.Update(Decor, user);
                 return Ok(new { status = 200, tilte = "Success", data = items, mess = "Update success" });
             }
@@ -72,13 +72,13 @@ namespace Server.Controllers
             }
         }
         [Authorize]
-        [HttpDelete("Decor-delete/{id}")]
+        [HttpDelete("delete-decor/{id}")]
         public async Task<ActionResult> DeleteDecor(int id)
         {
             try
             {
-                var user = User.FindFirst("user")?.Value;
-                var items = await _DecorService.Delete(id, user);
+                var idUser = User.FindFirst("id")?.Value;
+                var items = await _DecorService.Delete(id, idUser);
                 return Ok(new { status = 200, tilte = "Success", mess = "Delete success" });
             }
             catch (Exception ex)

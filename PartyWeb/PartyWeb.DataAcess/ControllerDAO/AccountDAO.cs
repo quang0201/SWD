@@ -74,5 +74,20 @@ namespace DataAcess.ControllerDAO
                 throw new Exception("Lỗi xảy ra: " + ex.Message);
             }
         }
+        public async Task<Account> GetUserByUserId(int id)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Id == id);
+                    return user;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
+            }
+        }
     }
 }

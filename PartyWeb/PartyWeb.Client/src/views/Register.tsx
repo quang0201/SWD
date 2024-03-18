@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
 import MainLayout from '../components/MainLayout';
-import { Link } from 'react-router-dom';
-import { MDBContainer, MDBInput, MDBCheckbox } from 'mdb-react-ui-kit';
+import { Link,useNavigate  } from 'react-router-dom';
+import { MDBContainer, MDBInput } from 'mdb-react-ui-kit';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingComponent from '../components/Loading';
 
 const Register: React.FC = () => {
+
+    
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [isButtonDisabled, setIsButtonDisabled] = useState(true); // Initially disabled
-
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+    
+    const [isLoading, setIsLoading] = useState(false); 
+    const navigate = useNavigate();
+    
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        const toastId = toast.loading('Đang tải dữ liệu...');
         e.preventDefault();
-        const isValid = username.trim() !== '' && password.trim() !== '' && email.trim() !== '';
-        setIsButtonDisabled(!isValid);
-
+        const toastId = toast.loading('Đang tải dữ liệu...');
+        if (!email || !password || !username) {
+            toast.error('Vui lòng điền đầy đủ thông tin.');
+            toast.dismiss(toastId);
+            return;
+        }
+        setButtonDisabled(true);
+        setIsLoading(true); // Set loading to true before the action
         try {
             const response = await fetch('/api/user/register', {
                 method: 'POST',
@@ -28,29 +38,28 @@ const Register: React.FC = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                
+                toast.dismiss(toastId);
+                toast.success(data.mess);
+                toast.success('Chờ chuyển hướng đến đăng nhập sau vài giây.');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 3000); // 3 seconds delay
             } else {
                 const errorData = await response.json();
                 toast.dismiss(toastId);
-                toast.error(errorData.error, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                toast.error(errorData.error);
+                setButtonDisabled(false);
             }
         } catch (error) {
             console.error('Error:', error);
         } finally {
-            setIsButtonDisabled(false);
+            setButtonDisabled(false);
         }
     };
 
     return (
         <MainLayout>
+            {isLoading && <LoadingComponent />}
             <ToastContainer />
             <main id="main">
                 <form onSubmit={handleSubmit}>
@@ -71,11 +80,7 @@ const Register: React.FC = () => {
                             <MDBInput wrapperClass='mb-4' type='text' value={email}
                                 onChange={(e) => setEmail(e.target.value)} />
                         </label>
-                        <div className="d-flex justify-content-between mx-3 mb-4">
-                            <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
-                            <a href="!#">Forgot password?</a>
-                        </div>
-                        <button className="btn btn-green" disabled={isButtonDisabled}>Đăng kí</button>
+                        <button disabled={buttonDisabled} className="btn btn-green">Đăng kí</button>
                         <div className="text-center">
                             <p>Bạn có tài khoản?<Link to="/login">Đăng nhập</Link>
                             </p>

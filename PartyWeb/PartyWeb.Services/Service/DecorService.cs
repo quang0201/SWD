@@ -19,14 +19,15 @@ namespace Services.Service
     {
         private readonly IDecorRepository _DecorRepo;
         private readonly IMapper _mapper;
-
-        public DecorService(IDecorRepository DecorRepository, IMapper mapper)
+        private readonly IUserRepository _userRepository;
+        public DecorService(IDecorRepository DecorRepository, IMapper mapper, IUserRepository userRepository)
         {
             _DecorRepo = DecorRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
-        public async Task<bool> AddDecor(DecorModel Decor, string user)
+        public async Task<bool> AddDecor(DecorModel Decor, string userId)
         {
             try
             {
@@ -54,21 +55,21 @@ namespace Services.Service
                 {
                     throw new Exception("number invaild");
                 }
-                var account = JsonSerializer.Deserialize<Account>(user);
-                if (account == null)
+                var user = await _userRepository.GetUserById(int.Parse(userId));
+                if (user == null)
                 {
-                    throw new Exception("User happen error");
+                    throw new Exception("not found your account");
                 }
-                if (account.Role == 0)
-                {
-                    throw new Exception("you not role host");
+                if(user.Role == 0) {
+                    throw new Exception("you have access");
                 }
+                
                 var DecorDTO = new Decor()
                 {
                     Name = Decor.Name,
                     Content = Decor.Content,
                     Price = int.Parse(Decor.Price),
-                    CreatedBy = account.Id,
+                    CreatedBy = user.Id,
                     Status = 2,
                     CreatedTime = DateTime.UtcNow,
                     UpdatedTime = DateTime.UtcNow
@@ -91,7 +92,7 @@ namespace Services.Service
             }
         }
 
-        public async Task<bool> Update(UpdateDecorModel Decor, string user)
+        public async Task<bool> Update(UpdateDecorModel Decor, string userId)
         {
             try
             {
@@ -120,10 +121,14 @@ namespace Services.Service
                 {
                     throw new Exception("number invaild");
                 }
-                var account = JsonSerializer.Deserialize<Account>(user);
-                if (account == null)
+                var user = await _userRepository.GetUserById(int.Parse(userId));
+                if (user == null)
                 {
-                    throw new Exception("User happen error");
+                    throw new Exception("not found your account");
+                }
+                if (user.Role == 0)
+                {
+                    throw new Exception("you have access");
                 }
                 var DecorDTO = await _DecorRepo.GetById(Decor.Id);
                 if (DecorDTO == null)
@@ -134,9 +139,9 @@ namespace Services.Service
                 {
                     throw new Exception("Decor not active");
                 }
-                if (account.Role != 1)
+                if (user.Role != 1)
                 {
-                    if (DecorDTO.CreatedBy != account.Id)
+                    if (DecorDTO.CreatedBy != user.Id)
                     {
                         throw new Exception("Decor not yours");
                     }
@@ -155,7 +160,7 @@ namespace Services.Service
         }
         
 
-        public async Task<bool> Delete(int id, string user)
+        public async Task<bool> Delete(int id, string userId)
         {
             try
             {
@@ -163,10 +168,14 @@ namespace Services.Service
                 {
                     throw new Exception("number invaild");
                 }
-                var account = JsonSerializer.Deserialize<Account>(user);
-                if (account == null)
+                var user = await _userRepository.GetUserById(int.Parse(userId));
+                if (user == null)
                 {
-                    throw new Exception("User happen error");
+                    throw new Exception("not found your account");
+                }
+                if (user.Role == 0)
+                {
+                    throw new Exception("you have access");
                 }
                 var DecorDTO = await _DecorRepo.GetById(id);
                 if (DecorDTO == null)
@@ -177,9 +186,9 @@ namespace Services.Service
                 {
                     throw new Exception("Decor not active");
                 }
-                if (account.Role != 1)
+                if (user.Role != 1)
                 {
-                    if (DecorDTO.CreatedBy != account.Id)
+                    if (DecorDTO.CreatedBy != user.Id)
                     {
                         throw new Exception("Decor not yours");
                     }

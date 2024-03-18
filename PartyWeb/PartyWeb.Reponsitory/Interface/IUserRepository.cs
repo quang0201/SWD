@@ -13,5 +13,6 @@ namespace Reponsitories.Interface
         Task<Account> Login(LoginModel login);
         Task<bool> Register(Account account);
         Task<bool> GetUserByUserName(string userName);
+        Task<Account> GetUserById(int id);  
     }
 }

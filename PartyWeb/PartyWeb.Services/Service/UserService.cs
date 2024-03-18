@@ -39,7 +39,7 @@ namespace Services.Service
                 {
                     throw new Exception("Username contains special letters");
                 }
-                if (!Validation.Instance.CheckStringMinMax(login.Password, 5,100))
+                if (!Validation.Instance.CheckStringMinMax(login.Password, 5, 100))
                 {
                     throw new Exception("length of password invalid");
                 }
@@ -48,7 +48,7 @@ namespace Services.Service
                     throw new Exception("Password contains special letters");
                 }
                 var user = await _userrepository.Login(login);
-                if(user == null)
+                if (user == null)
                 {
                     throw new Exception("Not exist account");
                 }
@@ -57,14 +57,63 @@ namespace Services.Service
             }
             catch (Exception ex)
             {
-                throw new (ex.Message);
+                throw new(ex.Message);
             }
         }
+
+        public async Task<Account> GetUserById(int id, int idUserToken)
+        {
+            try
+            {
+                if (id < 1)
+                {
+                    throw new Exception("Id không phù hợp");
+                }
+                var userToken = await _userrepository.GetUserById(idUserToken);
+                if(userToken == null)
+                {
+                    throw new Exception("Id token not author");
+                }
+                if(userToken.Role != 1)
+                {
+                    throw new Exception("you not have access");
+                }
+                var user = await _userrepository.GetUserById(id);
+                if (user == null)
+                {
+                    throw new Exception("Id not found");
+                }
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
+        }
+
+        public async Task<Account> GetUserByIdToken(int id)
+        {
+            try
+            {
+                var user = await _userrepository.GetUserById(id);
+                if (user == null)
+                {
+                    throw new Exception("Id not found");
+                }
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
+        }
+
         public async Task<bool> Register(RegisterModel account)
         {
             try
             {
-                if (!Validation.Instance.CheckStringMinMax(account.Username,2,100))
+                if (!Validation.Instance.CheckStringMinMax(account.Username, 2, 100))
                 {
                     throw new Exception("Length of username invalid");
                 }

@@ -44,7 +44,7 @@ namespace Tools.Tool
             DateTime now = DateTime.Now;
             List<Claim> claims = new List<Claim>
             {
-                new Claim("user", JsonSerializer.Serialize(user)),
+                new Claim("id", user.Id.ToString()),
                 new Claim("exp", now.Ticks.ToString())
             };
 
