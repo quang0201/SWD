@@ -109,7 +109,7 @@ namespace DataAcess.ControllerDAO
                 {
                     var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Email == account.Email);
 
-                    if (user != null)
+                    if (user == null)
                     {
                         dbContext.Accounts.Add(account);
                         if (dbContext.SaveChanges() > 0)
@@ -137,7 +137,10 @@ namespace DataAcess.ControllerDAO
                     if (user != null)
                     {
                         user.Address = account.Address;
-                        user.Fullname = account.Fullname;
+                        user.Username = account.Username;
+                        user.CreatedTime = account.CreatedTime;
+                        user.DeletedTime = account.DeletedTime;
+                        user.Password = account.Password;
                         user.Infomation = account.Infomation;
                         user.Dob = account.Dob;
                         user.Fullname = account.Fullname;
@@ -166,9 +169,28 @@ namespace DataAcess.ControllerDAO
                 using (var dbContext = new SwdContext())
                 {
                     var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Email == email);
-
                     if (user != null)
                     {
+                        var orders = dbContext.Orders.Where(x => x.CreatedBy == user.Id).ToList();
+                        var decors = dbContext.Decors.Where(x => x.CreatedBy == user.Id).ToList();
+                        var foods = dbContext.Foods.Where(x => x.CreatedBy == user.Id).ToList();
+                        var rooms = dbContext.Rooms.Where(x => x.CreatedBy == user.Id).ToList();
+
+                        foreach(var item in orders)
+                        {
+                            var orderDecors = dbContext.OrderDecors.Where(x => x.IdOrder == item.Id).ToList();
+                            var orderFoods = dbContext.OrderFoods.Where(x => x.IdOrder == item.Id).ToList();
+                            var orderRooms = dbContext.OrderRooms.Where(x => x.IdOrder == item.Id).ToList();
+
+                            dbContext.RemoveRange(orderDecors);
+                            dbContext.RemoveRange(orderFoods);
+                            dbContext.RemoveRange(orderRooms);
+                        }
+
+                        dbContext.RemoveRange(orders);
+                        dbContext.RemoveRange(decors);
+                        dbContext.RemoveRange(foods);
+                        dbContext.RemoveRange(rooms);
                         dbContext.Remove(user);
                         if (dbContext.SaveChanges() > 0)
                         {
