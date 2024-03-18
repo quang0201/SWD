@@ -4,6 +4,7 @@ using DataAcess.ControllerDAO;
 using ModelViews.Models;
 using ModelViews.ModelView;
 using Reponsitories.Interface;
+using Reponsitories.Repositories;
 using Services.Interface;
 using System;
 using System.Collections.Generic;
@@ -19,14 +20,16 @@ namespace Services.Service
     {
         private readonly IRoomRepository _RoomRepo;
         private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
 
-        public RoomService(IRoomRepository RoomRepository, IMapper mapper)
+        public RoomService(IRoomRepository RoomRepository, IMapper mapper, IUserRepository userRepo)
         {
             _RoomRepo = RoomRepository;
             _mapper = mapper;
+            _userRepository = userRepo;
         }
 
-        public async Task<bool> AddRoom(RoomModel Room, string user)
+        public async Task<bool> AddRoom(RoomModel Room, string userId)
         {
             try
             {
@@ -54,7 +57,7 @@ namespace Services.Service
                 {
                     throw new Exception("number invaild");
                 }
-                var account = JsonSerializer.Deserialize<Account>(user);
+                var account = JsonSerializer.Deserialize<Account>(userId);
                 if (account == null)
                 {
                     throw new Exception("User happen error");
@@ -195,5 +198,67 @@ namespace Services.Service
             }
         }
 
+        public async Task<List<RoomViewModel>> PaggingRoom(int index, int pageSize, string? search, bool? sortDate, bool? sortPrice, bool? sortName)
+        {
+            try
+            {
+                if (index < 0)
+                {
+                    throw new ArgumentOutOfRangeException("index must be >= 0");
+                }
+                if (pageSize < 0 || pageSize > 100)
+                {
+                    throw new ArgumentOutOfRangeException("range 1-100");
+                }
+
+                var items = await RoomDAO.Instance.PaggingRoom(index, pageSize, search, sortDate, sortPrice, sortName);
+                var itemsMapper = _mapper.Map<List<RoomViewModel>>(items);
+                return itemsMapper; // Trả về dữ liệu thành công
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
+        }
+        public async Task<Room> Approve(int id, string userId)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    throw new Exception("number invaild");
+                }
+                var user = await _userRepository.GetUserById(int.Parse(userId));
+                if (user == null)
+                {
+                    throw new Exception("not found your account");
+                }
+                if (user.Role == 0)
+                {
+                    throw new Exception("you have access");
+                }
+                var roomDTO = await _RoomRepo.GetById(id);
+                if (roomDTO == null)
+                {
+                    throw new Exception("Food not found");
+                }
+                if (roomDTO.Status == 1)
+                {
+                    throw new Exception("Food is actived");
+                }
+                if (user.Role != 1)
+                {
+                    throw new Exception("Dont Access");
+                }
+                roomDTO.Status = 1;
+                roomDTO.UpdatedTime = DateTime.Now;
+                var result = await _RoomRepo.Update(roomDTO);
+                return roomDTO;
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
+        }
     }
 }

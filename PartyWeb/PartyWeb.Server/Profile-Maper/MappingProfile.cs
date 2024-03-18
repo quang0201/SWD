@@ -18,6 +18,8 @@ namespace Server.Profile_Maper
             CreateMap<OrderRoomModel, OrderRoom>().ReverseMap();
             CreateMap<Decor, DecorViewModel>()
                     .ForMember(dest => dest.DecorProvider, opt => opt.MapFrom(src => src.CreatedByNavigation.Username)).ReverseMap();
+            CreateMap<Room, RoomViewModel>()
+                   .ForMember(dest => dest.DecorProvider, opt => opt.MapFrom(src => src.CreatedByNavigation.Username)).ReverseMap();
 
 
             CreateMap<Feedback, FeedbackModel>().ReverseMap();
