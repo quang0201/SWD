@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessObjects.Models;
+using Microsoft.AspNetCore.Mvc;
 using ModelViews.ModelView;
 using Services.Interface;
 
@@ -25,13 +26,13 @@ namespace Server.Controllers
 
                 if (feedback == null)
                 {
-                    return NotFound();
+                    throw new Exception("Feedback not found");
                 }
-                return Ok(feedback);
+                return Ok(new { status = 200, tilte = "Success", data = feedback, message = "Get feedback successful" });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Get feedback failed" });
             }
         }
 
@@ -45,13 +46,13 @@ namespace Server.Controllers
 
                 if (status)
                 {
-                    return Ok("Add feedback succesful");
+                    return Ok(new { status = 200, tilte = "Success", data = feedback, message = "Add feedback successful" });
                 }
-                return BadRequest("Add feedback failed");
+                throw new Exception("Add feedback failed");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Add feedback failed" });
             }
         }
 
@@ -65,13 +66,13 @@ namespace Server.Controllers
 
                 if (status)
                 {
-                    return Ok("Update feedback succesful");
+                    return Ok(new { status = 200, tilte = "Success", data = feedback, message = "Update feedback successful" });
                 }
-                return BadRequest("Update feedback failed");
+                throw new Exception("Update feedback failed");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Update feedback failed" });
             }
         }
 
@@ -85,20 +86,20 @@ namespace Server.Controllers
 
                 if (feedback == null)
                 {
-                    return NotFound();
+                    throw new Exception("Feedback not found");
                 }
 
                 bool status = await _service.DeleteFeedback(id);
 
                 if (status)
                 {
-                    return Ok("Delete feedback succesful");
+                    return Ok(new { status = 200, tilte = "Success", data = feedback, message = "Delete feedback successful" });
                 }
-                return BadRequest("Delete feedback failed");
+                throw new Exception("Delete feedback failed");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Delete feedback failed" });
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessObjects.Models;
+using Microsoft.AspNetCore.Mvc;
 using ModelViews.ModelView;
 using Services.Interface;
 
@@ -14,6 +15,7 @@ namespace Server.Controllers
             _service = service;
         }
 
+
         [HttpGet]
         [Route("view-party-host/{id}")]
         public async Task<IActionResult> ViewPartyHost(int id)
@@ -24,13 +26,13 @@ namespace Server.Controllers
 
                 if (partyHost == null)
                 {
-                    return NotFound();
+                    throw new Exception("party host not found");
                 }
-                return Ok(partyHost);
+                return Ok(new { status = 200, tilte = "Success", data = partyHost, message = "Get party host successful" });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Get party host failed" });
             }
         }
 
@@ -44,13 +46,13 @@ namespace Server.Controllers
 
                 if (status)
                 {
-                    return Ok("Add party host succesful");
+                    return Ok(new { status = 200, tilte = "Success", data = partyHost, message = "Add party host successful" });
                 }
-                return BadRequest("Add party host failed");
+                throw new Exception("Add party host failed");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Add party host failed" });
             }
         }
 
@@ -60,19 +62,17 @@ namespace Server.Controllers
         {
             try
             {
-               
-
                 bool status = await _service.UpdatePartyHost(partyHost);
 
                 if (status)
                 {
-                    return Ok("Update party host succesful");
+                    return Ok(new { status = 200, tilte = "Success", data = partyHost, message = "Update party host successful" });
                 }
-                return BadRequest("Update party host failed");
+                throw new Exception("Update party host failed");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Update party host failed" });
             }
         }
 
@@ -84,18 +84,22 @@ namespace Server.Controllers
             {
                 PartyHostModel? partyHost = await _service.GetPartyHostById(id);
 
-                if (partyHost == null) return NotFound();
+                if (partyHost == null)
+                {
+                    throw new Exception("party host not found");
+                }
+
                 bool status = await _service.DeletePartyHost(id);
 
                 if (status)
                 {
-                    return Ok("Delete party host succesful");
+                    return Ok(new { status = 200, tilte = "Success", data = partyHost, message = "Delete party host successful" });
                 }
-                return BadRequest("Delete party host failed");
+                throw new Exception("Delete party host failed");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Delete party host failed" });
             }
         }
     }

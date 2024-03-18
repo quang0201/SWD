@@ -23,15 +23,15 @@ namespace Server.Controllers
             {
                 AccountModel? account = await _service.GetAccountByEmail(email);
 
-                if(account == null)
+                if (account == null)
                 {
                     return NotFound();
                 }
-                return Ok(account);
+                return Ok(new { status = 200, tilte = "Success", data = account, message = "Get account successful" });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Get account failed" });
             }
         }
 
@@ -45,19 +45,19 @@ namespace Server.Controllers
 
                 if (acc != null)
                 {
-                    return BadRequest($"Account with email {account.Email} is already exist.");
+                    throw new Exception($"Account with email {account.Email} is already exist.");
                 }
                 bool status = await _service.AddNewAccount(account);
 
-                if(status)
+                if (status)
                 {
-                    return Ok("Add account succesful");
+                    return Ok(new { status = 200, tilte = "Success", data = account, message = "Add account successful" });
                 }
-                return BadRequest("Add account failed");
+                throw new Exception("Add account failed");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Add account failed" });
             }
         }
 
@@ -71,13 +71,13 @@ namespace Server.Controllers
 
                 if (status)
                 {
-                    return Ok("Update account succesful");
+                    return Ok(new { status = 200, tilte = "Success", data = account, message = "Update account successful" });
                 }
-                return BadRequest("Update account failed");
+                throw new Exception("Update account failed");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Add account failed" });
             }
         }
 
@@ -97,13 +97,13 @@ namespace Server.Controllers
 
                 if (status)
                 {
-                    return Ok("Delete account succesful");
+                    return Ok(new { status = 200, tilte = "Success", data = account, message = "Delete account successful" });
                 }
-                return BadRequest("Delete account failed");
+                throw new Exception("Delete account failed");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { status = 400, tilte = "Error", data = ex.Message, message = "Delete account failed" });
             }
         }
     }
