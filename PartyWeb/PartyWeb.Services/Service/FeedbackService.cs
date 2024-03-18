@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessObjects.Models;
 using ModelViews.ModelView;
 using Reponsitories.Interface;
 using Services.Interface;
@@ -17,59 +18,66 @@ namespace Services.Service
 
         }
 
-        public Task<bool> AddNewFeedbackModel(FeedbackModel feedback)
+        public async Task<bool> AddNewFeedback(FeedbackModel feedback)
         {
 
             try
             {
-
+                Feedback acc = _mapper.Map<Feedback>(feedback);
+                return await _repo.AddNewFeedback(acc);
             }
             catch (Exception ex)
             {
 
                 Console.WriteLine($"Error: {ex.ToString()}");
+                return false;
             }
         }
 
-        public Task<bool> DeleteFeedbackModel(int id)
+        public async Task<bool> DeleteFeedback(int id)
         {
 
             try
             {
-
+                return await _repo.DeleteFeedback(id);
             }
             catch (Exception ex)
             {
 
                 Console.WriteLine($"Error: {ex.ToString()}");
+                return false;
             }
         }
 
-        public Task<FeedbackModel> GetFeedbackModelById(int id)
+        public async Task<FeedbackModel> GetFeedbackById(int id)
         {
             try
             {
-
+                Feedback feedback = await _repo.GetFeedbackById(id);
+                return _mapper.Map<FeedbackModel>(feedback);
             }
             catch (Exception ex)
             {
 
                 Console.WriteLine($"Error: {ex.ToString()}");
             }
-          
+            return new FeedbackModel();
+
+
         }
 
-        public Task<bool> UpdateFeedbackModel(FeedbackModel feedback)
+        public async Task<bool> UpdateFeedback(FeedbackModel feedback)
         {
 
             try
             {
-
+                Feedback acc = _mapper.Map<Feedback>(feedback);
+                return await _repo.UpdateFeedback(acc);
             }
             catch (Exception ex)
             {
-
                 Console.WriteLine($"Error: {ex.ToString()}");
+                return false;
             }
         }
     }

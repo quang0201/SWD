@@ -4,9 +4,9 @@ namespace Services.Interface
 {
     public interface IFeedbackService
     {
-        Task<FeedbackModel> GetFeedbackModelById(int id);
-        Task<bool> AddNewFeedbackModel(FeedbackModel feedback);
-        Task<bool> DeleteFeedbackModel(int id);
-        Task<bool> UpdateFeedbackModel(FeedbackModel feedback);
+        Task<FeedbackModel> GetFeedbackById(int id);
+        Task<bool> AddNewFeedback(FeedbackModel feedback);
+        Task<bool> DeleteFeedback(int id);
+        Task<bool> UpdateFeedback(FeedbackModel feedback);
     }
 }
