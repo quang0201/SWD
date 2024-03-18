@@ -15,27 +15,64 @@ namespace Services.Service
         {
             _repo = repo;
             _mapper = mapper;
-         
+
         }
 
-        public Task<bool> AddNewAccount(AccountModel account)
+        public async Task<bool> AddNewAccount(AccountModel account)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Account acc = _mapper.Map<Account>(account);
+                return await _repo.AddNewAccount(acc);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.ToString()}");
+                return false;
+            }
         }
 
-        public Task<bool> DeleteAccount(string email)
+        public async Task<bool> DeleteAccount(string email)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _repo.DeleteAccount(email);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.ToString()}");
+                return false;
+            }
         }
 
-        public Task<AccountModel> GetAccountByEmail(string email)
+        public async Task<AccountModel> GetAccountByEmail(string email)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                Account acc = await _repo.GetAccountByEmail(email);
+                return _mapper.Map<AccountModel>(acc);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.ToString()}");
+                return new AccountModel();
+            }
         }
 
-        public Task<bool> UpdateAccount(AccountModel account)
+        public async Task<bool> UpdateAccount(AccountModel account)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                Account acc = _mapper.Map<Account>(account);
+                return await _repo.UpdateAccount(acc);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.ToString()}");
+                return false;
+            }
         }
     }
 }

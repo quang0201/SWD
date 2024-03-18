@@ -19,22 +19,58 @@ namespace Services.Service
 
         public Task<bool> AddNewFeedbackModel(FeedbackModel feedback)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error: {ex.ToString()}");
+            }
         }
 
         public Task<bool> DeleteFeedbackModel(int id)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error: {ex.ToString()}");
+            }
         }
 
         public Task<FeedbackModel> GetFeedbackModelById(int id)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error: {ex.ToString()}");
+            }
         }
 
         public Task<bool> UpdateFeedbackModel(FeedbackModel feedback)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error: {ex.ToString()}");
+            }
         }
     }
 }
