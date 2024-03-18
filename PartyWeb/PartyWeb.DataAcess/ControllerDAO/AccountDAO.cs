@@ -1,11 +1,6 @@
 ﻿using BusinessObjects.Models;
 using Microsoft.EntityFrameworkCore;
 using ModelViews.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAcess.ControllerDAO
 {
@@ -62,11 +57,11 @@ namespace DataAcess.ControllerDAO
                 using (var dbContext = new SwdContext())
                 {
                     var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Username == userName);
-                    if(user == null)
+                    if (user == null)
                     {
                         return false;
                     }
-                    return true;    
+                    return true;
                 }
             }
             catch (Exception ex)
@@ -87,6 +82,105 @@ namespace DataAcess.ControllerDAO
             catch (Exception ex)
             {
                 throw new Exception("Lỗi xảy ra: " + ex.Message);
+            }
+        }
+
+        public async Task<Account> GetAccountByEmail(string email)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Email == email);
+                    return user;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.Message);
+            }
+        }
+
+        public async Task<bool> AddAccount(Account account)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Email == account.Email);
+
+                    if (user != null)
+                    {
+                        dbContext.Accounts.Add(account);
+                        if (dbContext.SaveChanges() > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.ToString());
+            }
+        }
+
+        public async Task<bool> UpdateAccount(Account account)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Email == account.Email);
+
+                    if (user != null)
+                    {
+                        user.Address = account.Address;
+                        user.Fullname = account.Fullname;
+                        user.Infomation = account.Infomation;
+                        user.Dob = account.Dob;
+                        user.Fullname = account.Fullname;
+                        user.Status = account.Status;
+                        user.Role = account.Role;
+                        user.UpdatedTime = account.UpdatedTime;
+                        dbContext.Accounts.Update(user);
+                        if (dbContext.SaveChanges() > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.ToString());
+            }
+        }
+
+        public async Task<bool> DeleteAccount(string email)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Email == email);
+
+                    if (user != null)
+                    {
+                        dbContext.Remove(user);
+                        if (dbContext.SaveChanges() > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi xảy ra: " + ex.ToString());
             }
         }
     }

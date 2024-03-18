@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace BusinessObjects.Models;
 
@@ -34,6 +32,10 @@ public partial class SwdContext : DbContext
     public virtual DbSet<Room> Rooms { get; set; }
 
     public virtual DbSet<Status> Statuses { get; set; }
+    public virtual DbSet<PartyHost> PartyHosts { get; set; }
+    public virtual DbSet<Feedback> Feedbacks { get; set; }
+
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -77,6 +79,32 @@ public partial class SwdContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("username");
+        });
+
+        modelBuilder.Entity<Feedback>(entity =>
+        {
+            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__5213E83F2BDA6CF1");
+
+            entity.ToTable("feedback");
+            entity.Property(e => e.Stars).HasColumnName("stars");
+            entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.CreatedDate).HasColumnName("created_date");
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Feedbacks)
+              .HasForeignKey(d => d.CreatedBy)
+              .HasConstraintName("fk_feedback_account_id");
+        });
+        modelBuilder.Entity<PartyHost>(entity =>
+        {
+            entity.HasKey(e => e.PartyHostId).HasName("PK__PartyHost__6413E83F2BDA6CF1");
+
+            entity.ToTable("party_host");
+            entity.Property(e => e.PartyHostTitle).HasColumnName("party_host_title");
+            entity.Property(e => e.PartyHostDetails).HasColumnName("party_host_details");
+            entity.Property(e => e.StartedTime).HasColumnName("started_time");
+            entity.Property(e => e.EndedTime).HasColumnName("ended_time");
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PartyHosts)
+              .HasForeignKey(d => d.CreatedBy)
+              .HasConstraintName("fk_party_host_account_id");
         });
 
         modelBuilder.Entity<Decor>(entity =>
