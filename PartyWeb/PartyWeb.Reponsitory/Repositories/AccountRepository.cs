@@ -10,10 +10,7 @@ namespace Reponsitories.Repositories
 
         public Task<bool> DeleteAccount(string email) => AccountDAO.Instance.DeleteAccount(email);
 
-        public Task<Account> GetAccountByEmail(string email)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<Account> GetAccountByEmail(string email) => AccountDAO.Instance.GetAccountByEmail(email);
 
         public Task<bool> UpdateAccount(Account account)
         {
