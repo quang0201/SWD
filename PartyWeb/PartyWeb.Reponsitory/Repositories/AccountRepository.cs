@@ -12,9 +12,6 @@ namespace Reponsitories.Repositories
 
         public Task<Account> GetAccountByEmail(string email) => AccountDAO.Instance.GetAccountByEmail(email);
 
-        public Task<bool> UpdateAccount(Account account)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<bool> UpdateAccount(Account account) => AccountDAO.Instance.UpdateAccount(account);
     }
 }
