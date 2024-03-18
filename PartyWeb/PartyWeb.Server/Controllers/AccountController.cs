@@ -41,6 +41,12 @@ namespace Server.Controllers
         {
             try
             {
+                AccountModel? acc = await _service.GetAccountByEmail(account.Email ?? "");
+
+                if (acc != null)
+                {
+                    return BadRequest($"Account with email {account.Email} is already exist.");
+                }
                 bool status = await _service.AddNewAccount(account);
 
                 if(status)
@@ -81,6 +87,12 @@ namespace Server.Controllers
         {
             try
             {
+                AccountModel? account = await _service.GetAccountByEmail(email);
+
+                if (account == null)
+                {
+                    return NotFound();
+                }
                 bool status = await _service.DeleteAccount(email);
 
                 if (status)

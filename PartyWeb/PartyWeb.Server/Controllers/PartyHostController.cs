@@ -60,6 +60,8 @@ namespace Server.Controllers
         {
             try
             {
+               
+
                 bool status = await _service.UpdatePartyHost(partyHost);
 
                 if (status)
@@ -80,6 +82,9 @@ namespace Server.Controllers
         {
             try
             {
+                PartyHostModel? partyHost = await _service.GetPartyHostById(id);
+
+                if (partyHost == null) return NotFound();
                 bool status = await _service.DeletePartyHost(id);
 
                 if (status)

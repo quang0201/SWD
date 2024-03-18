@@ -81,6 +81,13 @@ namespace Server.Controllers
         {
             try
             {
+                FeedbackModel? feedback = await _service.GetFeedbackById(id);
+
+                if (feedback == null)
+                {
+                    return NotFound();
+                }
+
                 bool status = await _service.DeleteFeedback(id);
 
                 if (status)
