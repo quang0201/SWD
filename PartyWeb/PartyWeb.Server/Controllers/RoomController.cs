@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using ModelViews.Models;
 using ModelViews.ModelView;
 using Services.Interface;
+using Services.Service;
 
 namespace Server.Controllers
 {
@@ -63,6 +64,36 @@ namespace Server.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Delete fail" });
+            }
+        }
+        [AllowAnonymous]
+        [HttpGet("pagging-room")]
+        public async Task<IActionResult> GetOrdersPaging(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
+        {
+            try
+            {
+                var items = await _RoomService.PaggingRoom(index, pageSize, search, sortDateAsc, sortPriceAsc, sortNameAsc);
+
+                return Ok(new { status = 200, tilte = "Success", data = items, mess = "Get items success" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Get items fail" });
+            }
+        }
+        [Authorize]
+        [HttpPut("room-approve")]
+        public async Task<ActionResult> ApproveFood(int id)
+        {
+            try
+            {
+                var user = User.FindFirst("id")?.Value;
+                var items = await _RoomService.Approve(id, user);
+                return Ok(new { status = 200, data = items, tilte = "Success", mess = "Active success" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Active fail" });
             }
         }
     }
