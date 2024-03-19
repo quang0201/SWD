@@ -223,8 +223,20 @@ a:focus {
     color: #ffffff;
 }
 
+.services {
+    background-color: #4CBEE4;
+    color: #ffffff !important;
+    transition: 1s;
+}
+
+.services:hover {
+    background: #BCFCF9 !important;
+    border-color: #BCFCF9;
+    color: #ffffff !important;
+    transition: 1s;
+}
+
 .food_section .box {
-    position: relative;
     margin-top: 25px;
     background-color: #ffffff;
     border-radius: 10px;
@@ -343,11 +355,21 @@ a:focus {
     color: #ffffff !important;
     transition: 1s;
 }
+.btn.btn-green:hover{background: #444444 !important; border-color: #444444; color: #ffffff !important; transition: 1s;}
+.btn.btn-cart {
+    background: #ffbe33;
+    border-color: #84b813;
+    color: #ffffff !important;
+    transition: 1s;
+}
+.btn.btn-cart:hover{background: #444444 !important; border-color: #444444; color: #ffffff !important; transition: 1s;}
+
 .btn.btn-gray {
     background: #CECECE;
     color: #ffffff !important;
     transition: 1s;
 }
+
 /**/
 input[type='number'] {
     width: 100px;
@@ -371,24 +393,134 @@ input[type='number']:focus {
     border-color: #007bff;
     /* Màu viền khi focus */
 }
+
 /**/
 .loader {
-    border: 4px solid #f3f3f3; /* Màu nền */
-    border-top: 4px solid #3498db; /* Màu đỉnh của vòng tròn */
-    border-radius: 50%; /* Tạo hình tròn */
-    width: 50px; /* Độ rộng */
-    height: 50px; /* Chiều cao */
-    animation: spin 1s linear infinite; /* Áp dụng animation */
-    margin: 0 auto; /* Căn giữa */
+    border: 4px solid #f3f3f3;
+    /* Màu nền */
+    border-top: 4px solid #3498db;
+    /* Màu đỉnh của vòng tròn */
+    border-radius: 50%;
+    /* Tạo hình tròn */
+    width: 50px;
+    /* Độ rộng */
+    height: 50px;
+    /* Chiều cao */
+    animation: spin 1s linear infinite;
+    /* Áp dụng animation */
+    margin: 0 auto;
+    /* Căn giữa */
 }
+
 .loading {
-    display: block; /* Hiển thị phần tử */
-  }
-  
-  .hide {
-    display: none; /* Ẩn phần tử */
-  }
+    display: block;
+    /* Hiển thị phần tử */
+}
+
+.hide {
+    display: none;
+    /* Ẩn phần tử */
+}
+
 @keyframes spin {
-    0% { transform: rotate(0deg); } /* Độ xoay ban đầu */
-    100% { transform: rotate(360deg); } /* Độ xoay cuối cùng */
+    0% {
+        transform: rotate(0deg);
+    }
+
+    /* Độ xoay ban đầu */
+    100% {
+        transform: rotate(360deg);
+    }
+
+    /* Độ xoay cuối cùng */
+}
+/***/
+.cart-container {
+    position: fixed;
+    top: 30%; /* Điều chỉnh tùy theo vị trí mong muốn */
+    right: 0;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cart-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.cart-body {
+    /* Chiều cao của phần nội dung giỏ hàng */
+    max-height: 60%;
+    overflow-y: auto; /* Cho phép cuộn khi nội dung vượt quá kích thước */
+}
+
+.cart-footer {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.btn-checkout {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 20px;
+    cursor: pointer;
+}
+
+.btn-checkout:hover {
+    background-color: #0056b3;
+}
+/***/
+.btn-remove {
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 20px;
+    cursor: pointer;
+}
+
+.btn-remove:hover {
+    background-color: yellow;
+}
+/***/
+.quantity-controls button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.quantity-controls button:hover {
+    background-color: #0056b3;
+}
+
+.quantity-controls {
+    position: relative;
+    left: 8em;
+    top: -3em;
+}
+
+.btn-remove {
+    background-color: #dc3545; /* Màu đỏ */
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    position: relative;
+    left: 15em;
+    top: -5em;
+}
+
+.btn-remove:hover {
+    background-color: #bd2130; /* Màu đỏ sáng khi hover */
 }

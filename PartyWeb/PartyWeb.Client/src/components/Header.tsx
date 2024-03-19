@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 const Header: React.FC = () => {
@@ -20,16 +21,13 @@ const Header: React.FC = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav  mx-auto ">
                             <li className="nav-item">
-                                <a className="nav-link" href="index.html">Home </a>
+                            <Link className="nav-link" to="/">Trang chủ</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="menu.html">Menu  </a>
+                                <Link className="nav-link" to="/room">Dịch vụ</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="about.html">About</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="book.html">Book Table</a>
+                                <Link className="nav-link" to="/room">Đăng nhập</Link>
                             </li>
                         </ul>
 

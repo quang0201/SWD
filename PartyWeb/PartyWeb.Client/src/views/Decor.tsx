@@ -2,16 +2,43 @@ import { FaShoppingCart } from 'react-icons/fa';
 import MainLayout from '../components/MainLayout';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Cart from '../components/Cart';
 
 function Decor() {
     const [isLoading, setIsLoading] = useState(true); // Trạng thái của loading
     const [items, setItems] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
+
+    const [cartFood, setCartFood] = useState<any[]>([]);
+
+    const [decorFood, setCartDecor] = useState<any[]>([]);
+
+    useEffect(() => {
+        const cartOrderLocal = localStorage.getItem('decor');
+        if (cartOrderLocal) {
+            const parsedCartOrder = JSON.parse(cartOrderLocal);
+            setCartDecor(parsedCartOrder);
+        }
+    }, [])
+
     useEffect(() => {
         fetchData();
     }, [currentPage]);
 
+    const addToCart = (Item) => {
+        const existingItemIndex = decorFood.findIndex(item => item.id === Item.id);
+        if (existingItemIndex !== -1) {
+            const updatedCart = [...decorFood];
+            updatedCart[existingItemIndex].quantity++; // Tăng số lượng
+            setCartFood(updatedCart);
+            localStorage.setItem('decor', JSON.stringify(updatedCart));
+        } else {
+           const updatedCart = [...decorFood, { ...Item, quantity: 1 }];
+           setCartFood(updatedCart);
+           localStorage.setItem('decor', JSON.stringify(updatedCart));
+        }
+    };
 
     const fetchData = async () => {
         try {
@@ -27,8 +54,11 @@ function Decor() {
             setIsLoading(false);
         }
     };
+
     return (
         <MainLayout>
+            <Cart></Cart>
+            
             <section className="food_section layout_padding">
                 <div className="container">
                     <div className="heading_container heading_center">
@@ -38,8 +68,8 @@ function Decor() {
                     </div>
 
                     <ul className="filters_menu">
-                        <li data-filter=""><Link to="/room">Phòng</Link></li>
-                        <li data-filter="active"><Link to="/decor">Trang trí</Link></li>
+                        <li data-filter="" ><Link to="/room">Phòng</Link></li>
+                        <li data-filter="" className='services'><Link to="/decor">Trang trí</Link></li>
                         <li data-filter=""><Link to="/food">Thức ăn & Đồ uống</Link></li>
                     </ul>
                     <div>
@@ -70,7 +100,7 @@ function Decor() {
                                                             {item.content}
                                                         </p>
                                                         <h6>
-                                                            Nhà cung cấp: {item.foodProvider}
+                                                            Nhà cung cấp: {item.decorProvider}
                                                         </h6>
                                                         <h6>
                                                             Số người mua:
@@ -79,10 +109,9 @@ function Decor() {
                                                             <h6>
                                                                 Giá: {item.price}.000
                                                             </h6>
-                                                            <input type='number'></input>
-                                                            <a href="">
+                                                            <button className='btn btn-cart' onClick={() => addToCart(item)}>
                                                                 <FaShoppingCart />
-                                                            </a>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>

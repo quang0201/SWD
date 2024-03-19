@@ -47,6 +47,7 @@ namespace Services.Service
                 {
                     throw new Exception("Not found room");
                 }
+
                 var roomOrder = _mapper.Map<OrderRoom>(model.orderRooms);
                 foreach (var item in model.orderDecors)
                 {

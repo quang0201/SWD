@@ -10,7 +10,7 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     return (
         <div className="sub_page">
-
+            
             <div className="hero_area">
                 <Header />
             </div>
