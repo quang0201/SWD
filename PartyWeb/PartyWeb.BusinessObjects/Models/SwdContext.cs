@@ -19,6 +19,8 @@ public partial class SwdContext : DbContext
 
     public virtual DbSet<Decor> Decors { get; set; }
 
+    public virtual DbSet<Feedback> Feedbacks { get; set; }
+
     public virtual DbSet<Food> Foods { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -28,6 +30,8 @@ public partial class SwdContext : DbContext
     public virtual DbSet<OrderFood> OrderFoods { get; set; }
 
     public virtual DbSet<OrderRoom> OrderRooms { get; set; }
+
+    public virtual DbSet<PartyHost> PartyHosts { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -51,7 +55,7 @@ public partial class SwdContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Address)
-                .HasMaxLength(1)
+                .HasMaxLength(1000)
                 .HasColumnName("address");
             entity.Property(e => e.CreatedTime).HasColumnName("created_time");
             entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
@@ -61,7 +65,7 @@ public partial class SwdContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("email");
             entity.Property(e => e.Fullname)
-                .HasMaxLength(1)
+                .HasMaxLength(1000)
                 .HasColumnName("fullname");
             entity.Property(e => e.Infomation)
                 .HasColumnType("ntext")
@@ -104,6 +108,27 @@ public partial class SwdContext : DbContext
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Decors)
                 .HasForeignKey(d => d.CreatedBy)
                 .HasConstraintName("fk_decor_account_id");
+        });
+
+        modelBuilder.Entity<Feedback>(entity =>
+        {
+            entity.HasKey(e => e.FeedbackId).HasName("PK__feedback__7A6B2B8CEE93A5BD");
+
+            entity.ToTable("feedback");
+
+            entity.Property(e => e.FeedbackId).HasColumnName("feedback_id");
+            entity.Property(e => e.Content)
+                .HasMaxLength(1000)
+                .HasColumnName("content");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("created_date");
+            entity.Property(e => e.Stars).HasColumnName("stars");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("FK__feedback__create__5070F446");
         });
 
         modelBuilder.Entity<Food>(entity =>
@@ -230,6 +255,33 @@ public partial class SwdContext : DbContext
             entity.HasOne(d => d.IdRoomNavigation).WithMany(p => p.OrderRooms)
                 .HasForeignKey(d => d.IdRoom)
                 .HasConstraintName("fk_order_room_room_id");
+        });
+
+        modelBuilder.Entity<PartyHost>(entity =>
+        {
+            entity.HasKey(e => e.PartyHostId).HasName("PK__party_ho__F491A0BBB9A5A2F0");
+
+            entity.ToTable("party_host");
+
+            entity.Property(e => e.PartyHostId).HasColumnName("party_host_id");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+            entity.Property(e => e.EndedTime)
+                .HasColumnType("datetime")
+                .HasColumnName("ended_time");
+            entity.Property(e => e.NumberOfPeople).HasColumnName("number_of_people");
+            entity.Property(e => e.PartyHostDetails)
+                .HasMaxLength(1000)
+                .HasColumnName("party_host_details");
+            entity.Property(e => e.PartyHostTitle)
+                .HasMaxLength(1000)
+                .HasColumnName("party_host_title");
+            entity.Property(e => e.StartedTime)
+                .HasColumnType("datetime")
+                .HasColumnName("started_time");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PartyHosts)
+                .HasForeignKey(d => d.CreatedBy)
+                .HasConstraintName("FK__party_hos__creat__59063A47");
         });
 
         modelBuilder.Entity<Role>(entity =>

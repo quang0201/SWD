@@ -33,9 +33,13 @@ public partial class Account
 
     public virtual ICollection<Decor> Decors { get; set; } = new List<Decor>();
 
+    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+
     public virtual ICollection<Food> Foods { get; set; } = new List<Food>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<PartyHost> PartyHosts { get; set; } = new List<PartyHost>();
 
     public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }
