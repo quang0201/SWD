@@ -21,6 +21,10 @@ namespace Server.Profile_Maper
             CreateMap<Room, RoomViewModel>()
                    .ForMember(dest => dest.DecorProvider, opt => opt.MapFrom(src => src.CreatedByNavigation.Username)).ReverseMap();
 
+
+            CreateMap<Feedback, FeedbackModel>().ReverseMap();
+            CreateMap<Account, AccountModel>().ReverseMap();
+            CreateMap<PartyHost, PartyHostModel>().ReverseMap();
         }
     }
 }

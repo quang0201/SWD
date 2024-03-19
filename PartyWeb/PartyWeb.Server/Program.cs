@@ -1,7 +1,6 @@
 ﻿using BusinessObjects.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Reponsitories.Interface;
@@ -28,6 +27,9 @@ builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IDecorService, DecorService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+builder.Services.AddScoped<IPartyHostService, PartyHostService>();
 
 //config repo
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -35,6 +37,9 @@ builder.Services.AddScoped<IFoodRepository, FoodRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IDecorRepository, DecorRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IPartyHostRepository, PartyHostRepository>();
 
 //config database
 
