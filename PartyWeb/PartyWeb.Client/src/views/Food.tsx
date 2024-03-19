@@ -25,7 +25,7 @@ function Decor() {
 
     const addToCart = (foodItem) => {
         const existingItemIndex = cartFood.findIndex(item => item.id === foodItem.id);
-    
+
         if (existingItemIndex !== -1) {
             // Nếu món đã tồn tại trong giỏ hàng, cập nhật số lượng của món đó
             const updatedCart = [...cartFood];
@@ -39,6 +39,7 @@ function Decor() {
             localStorage.setItem('food', JSON.stringify(updatedCart));
         }
     };
+
     const removeFromCart = (index) => {
         const updatedCart = [...cartFood];
         updatedCart.splice(index, 1); // Xóa món ở vị trí index khỏi giỏ hàng
@@ -46,7 +47,7 @@ function Decor() {
         localStorage.setItem('food', JSON.stringify(updatedCart)); // Cập nhật localStorage
     };
 
-    
+
 
     useEffect(() => {
         handleSearch();
@@ -70,6 +71,7 @@ function Decor() {
             setIsLoading(false);
         }
     };
+    
     const increaseQuantity = (index) => {
         const updatedCart = [...cartFood];
         updatedCart[index].quantity++; // Tăng số lượng
@@ -89,18 +91,17 @@ function Decor() {
         <MainLayout>
 
             <div>
-                <div className=" cart-container col-md-2">
+                <div className=" cart-container">
                     <div className="cart-header">
-                        <h3>Giỏ hàng</h3>
+                        <h3>Thức ăn</h3>
                     </div>
                     <div className="cart-body">
-                    <h3>Thức ăn</h3>
                         {cartFood.map((foodItem, index) => (
                             <div key={index}>
                                 <p>Tên món ăn: {foodItem.name}</p>
                                 <p>Giá: {foodItem.price}.000</p>
                                 <div className="quantity-controls">
-                                <button onClick={() => decreaseQuantity(index)} disabled={foodItem.quantity === 1}>-</button>
+                                    <button onClick={() => decreaseQuantity(index)} disabled={foodItem.quantity === 1}>-</button>
                                     <span>{foodItem.quantity}</span>
                                     <button onClick={() => increaseQuantity(index)}>+</button>
                                 </div>
@@ -109,7 +110,7 @@ function Decor() {
                         ))}
                     </div>
                     <div className="cart-footer">
-                        <button className="btn-checkout">Thanh toán</button>
+                    <button className="btn-checkout"><Link to="/order">Đặt tiệc</Link></button>
                     </div>
                 </div>
             </div>

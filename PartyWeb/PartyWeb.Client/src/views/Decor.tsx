@@ -10,7 +10,6 @@ function Decor() {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
 
-    const [cartFood, setCartFood] = useState<any[]>([]);
 
     const [decorFood, setCartDecor] = useState<any[]>([]);
 
@@ -31,11 +30,11 @@ function Decor() {
         if (existingItemIndex !== -1) {
             const updatedCart = [...decorFood];
             updatedCart[existingItemIndex].quantity++; // Tăng số lượng
-            setCartFood(updatedCart);
+            setCartDecor(updatedCart);
             localStorage.setItem('decor', JSON.stringify(updatedCart));
         } else {
            const updatedCart = [...decorFood, { ...Item, quantity: 1 }];
-           setCartFood(updatedCart);
+           setCartDecor(updatedCart);
            localStorage.setItem('decor', JSON.stringify(updatedCart));
         }
     };
@@ -54,10 +53,53 @@ function Decor() {
             setIsLoading(false);
         }
     };
+    const increaseQuantity = (index) => {
+        const updatedCart = [...decorFood];
+        updatedCart[index].quantity++; // Tăng số lượng
+        setCartDecor(updatedCart); // Cập nhật giỏ hàng mới
+        localStorage.setItem('decor', JSON.stringify(updatedCart)); // Cập nhật dữ liệu vào localStorage
+    };
 
+    const decreaseQuantity = (index) => {
+        const updatedCart = [...decorFood];
+        if (updatedCart[index].quantity > 1) {
+            updatedCart[index].quantity--; // Giảm số lượng nếu lớn hơn 1
+            setCartDecor(updatedCart); // Cập nhật giỏ hàng mới
+            localStorage.setItem('decor', JSON.stringify(updatedCart)); // Cập nhật dữ liệu vào localStorage
+        }
+    };
+    const removeFromCart = (index) => {
+        const updatedCart = [...decorFood];
+        updatedCart.splice(index, 1); // Xóa món ở vị trí index khỏi giỏ hàng
+        setCartDecor(updatedCart); // Cập nhật giỏ hàng mới
+        localStorage.setItem('food', JSON.stringify(updatedCart)); // Cập nhật localStorage
+    };
     return (
         <MainLayout>
-            <Cart></Cart>
+            <div>
+                <div className=" cart-container">
+                    <div className="cart-header">
+                        <h3>Trang tri</h3>
+                    </div>
+                    <div className="cart-body">
+                        {decorFood.map((Item, index) => (
+                            <div key={index}>
+                                <p>Tên món ăn: {Item.name}</p>
+                                <p>Giá: {Item.price}.000</p>
+                                <div className="quantity-controls">
+                                    <button onClick={() => decreaseQuantity(index)} disabled={Item.quantity === 1}>-</button>
+                                    <span>{Item.quantity}</span>
+                                    <button onClick={() => increaseQuantity(index)}>+</button>
+                                </div>
+                                <button className='btn btn-remove' onClick={() => removeFromCart(index)}>Remove</button>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="cart-footer">
+                    <button className="btn-checkout"><Link to="/order">Đặt tiệc</Link></button>
+                    </div>
+                </div>
+            </div>
             
             <section className="food_section layout_padding">
                 <div className="container">

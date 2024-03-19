@@ -24,9 +24,6 @@ const Header: React.FC = () => {
                             <Link className="nav-link" to="/">Trang chủ</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/room">Dịch vụ</Link>
-                            </li>
-                            <li className="nav-item">
                                 <Link className="nav-link" to="/room">Đăng nhập</Link>
                             </li>
                         </ul>

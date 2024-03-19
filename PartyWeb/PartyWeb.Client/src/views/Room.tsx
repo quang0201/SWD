@@ -2,17 +2,28 @@ import { FaShoppingCart } from 'react-icons/fa';
 import MainLayout from '../components/MainLayout';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Cart from '../components/Cart';
 
 function Room() {
-    const [isLoading, setIsLoading] = useState(true); // Trạng thái của loading
+    const [isLoading, setIsLoading] = useState(true);
     const [items, setItems] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
+    const [cartRoom, setCartRoom] = useState(null);
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     useEffect(() => {
         fetchData();
     }, [currentPage]);
 
+    useEffect(() => {
+        const cartRoomLocal = localStorage.getItem('room');
+        if (cartRoomLocal) {
+            const item = JSON.parse(cartRoomLocal);
+            setCartRoom(item);
+            setStartDate(item.startDate);
+            setEndDate(item.endDate);
+        }
+    }, []);
 
     const fetchData = async () => {
         try {
@@ -28,9 +39,46 @@ function Room() {
             setIsLoading(false);
         }
     };
+
+    const addToCart = (item) => {
+        setCartRoom(item); // Thêm phòng vào giỏ hàng
+        localStorage.setItem('room', JSON.stringify(item));  // Lưu giỏ hàng vào local storage
+    };
+    const addToCartWithDate = () => {
+        if (startDate && endDate) {
+            const cartRoomWithDate = { ...cartRoom, startDate, endDate };
+            setCartRoom(cartRoomWithDate);
+            localStorage.setItem('room', JSON.stringify(cartRoomWithDate));
+        } else {
+            console.log("Vui lòng chọn ngày bắt đầu và ngày kết thúc!");
+        }
+    };
     return (
         <MainLayout>
-            <Cart></Cart>
+            <div>
+                <div className=" cart-container">
+                    <div className="cart-header">
+                        <h3>Phòng của bạn</h3>
+                    </div>
+                    <div className="cart-body">
+                        {cartRoom && (
+                            <div>
+                                <p>Tên phòng: {cartRoom.name}</p>
+                                <p>Giá: {cartRoom.price}.000</p>
+                                <h6>Chọn ngày đặt lịch</h6>
+                                <p>Ngày tổ chức</p>
+                                <input type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)}></input>
+                                <p>Ngày kết thúc</p>
+                                <input type='date' value={endDate} onChange={(e) => setEndDate(e.target.value)}></input><br />
+                                <button className='btn btn-green' onClick={addToCartWithDate}>Kiểm tra</button>
+                            </div>
+                        )}
+                    </div>
+                    <div className="cart-footer">
+                        <button className="btn-checkout"><Link to="/order">Đặt tiệc</Link></button>
+                    </div>
+                </div>
+            </div>
 
             <section className="food_section layout_padding">
                 <div className="container">
@@ -45,7 +93,7 @@ function Room() {
                         <li data-filter=""><Link to="/decor">Trang trí</Link></li>
                         <li data-filter=""><Link to="/food">Thức ăn & Đồ uống</Link></li>
                     </ul>
-                    
+
                     <div>
                         <input type="text" className="form-control" placeholder="Nhập tên thức ăn,tên người bán..." />
                         <div className="btn_box">
@@ -79,14 +127,14 @@ function Room() {
                                                         <h6>
                                                             Số người mua:
                                                         </h6>
-                                                        
+
                                                         <div className="options">
                                                             <h6>
                                                                 Giá: {item.price}.000
                                                             </h6>
-                                                            <a href="">
+                                                            <button className='btn btn-cart' onClick={() => addToCart(item)}>
                                                                 <FaShoppingCart />
-                                                            </a>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
