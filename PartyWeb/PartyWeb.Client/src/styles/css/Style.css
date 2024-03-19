@@ -49,40 +49,40 @@ h2 {
     align-items: flex-start;
 }
 
-    .heading_container h2 {
-        position: relative;
-        margin-bottom: 0;
-        font-size: 2.5rem;
-        font-weight: bold;
-    }
+.heading_container h2 {
+    position: relative;
+    margin-bottom: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
 
-        .heading_container h2 span {
-            color: #ffbe33;
-        }
+.heading_container h2 span {
+    color: #ffbe33;
+}
 
-    .heading_container p {
-        margin-top: 10px;
-        margin-bottom: 0;
-    }
+.heading_container p {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
 
-    .heading_container.heading_center {
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        text-align: center;
-    }
+.heading_container.heading_center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+}
 
 a,
 a:hover,
 a:focus {
     text-decoration: none;
-    color : black;
+    color: black;
 }
 
-    a:hover,
-    a:focus {
-        color: initial;
-    }
+a:hover,
+a:focus {
+    color: initial;
+}
 
 .btn,
 .btn:focus {
@@ -112,88 +112,90 @@ a:focus {
     height: 100%;
 }
 
-    .bg-box img {
-        width: 100%;
-        height: 100%;
-        -o-object-fit: cover;
-        object-fit: cover;
-    }
+.bg-box img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
 
 .sub_page .hero_area {
     min-height: auto;
 }
 
-    .sub_page .hero_area .bg-box {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
+.sub_page .hero_area .bg-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 
-        .sub_page .hero_area .bg-box img {
-            width: 100%;
-            height: 100%;
-            -o-object-fit: cover;
-            object-fit: cover;
-            -o-object-position: right top;
-            object-position: right top;
-        }
+.sub_page .hero_area .bg-box img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: right top;
+    object-position: right top;
+}
 
 .header_section {
     padding: 15px 0;
-    background-color : black;
+    background-color: black;
 }
 
-    .header_section .container-fluid {
-        padding-right: 25px;
-        padding-left: 25px;
-    }
+.header_section .container-fluid {
+    padding-right: 25px;
+    padding-left: 25px;
+}
 
 .navbar-brand {
     font-family: 'Dancing Script', cursive;
 }
 
-    .navbar-brand span {
-        font-weight: bold;
-        font-size: 32px;
-        color: #ffffff;
-    }
+.navbar-brand span {
+    font-weight: bold;
+    font-size: 32px;
+    color: #ffffff;
+}
 
 .custom_nav-container {
     padding: 0;
 }
 
-    .custom_nav-container .navbar-nav {
-        padding-left: 18%;
-    }
+.custom_nav-container .navbar-nav {
+    padding-left: 18%;
+}
 
-        .custom_nav-container .navbar-nav .nav-item .nav-link {
-            padding: 5px 20px;
-            color: #ffffff;
-            text-align: center;
-            text-transform: uppercase;
-            border-radius: 5px;
-            -webkit-transition: all 0.3s;
-            transition: all 0.3s;
-        }
+.custom_nav-container .navbar-nav .nav-item .nav-link {
+    padding: 5px 20px;
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 5px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
 
-        .custom_nav-container .navbar-nav .nav-item:hover .nav-link, .custom_nav-container .navbar-nav .nav-item.active .nav-link {
-            color: #ffbe33;
-        }
+.custom_nav-container .navbar-nav .nav-item:hover .nav-link,
+.custom_nav-container .navbar-nav .nav-item.active .nav-link {
+    color: #ffbe33;
+}
 
-    .custom_nav-container .nav_search-btn {
-        width: auto;
-        height: auto;
-        padding: 0;
-        border: none;
-        color: #ffffff;
-        margin: 0 10px;
-    }
+.custom_nav-container .nav_search-btn {
+    width: auto;
+    height: auto;
+    padding: 0;
+    border: none;
+    color: #ffffff;
+    margin: 0 10px;
+}
 
-        .custom_nav-container .nav_search-btn:hover {
-            color: #ffbe33;
-        }
+.custom_nav-container .nav_search-btn:hover {
+    color: #ffbe33;
+}
+
 /*end header section*/
 
 .food_section .filters_menu {
@@ -210,16 +212,16 @@ a:focus {
     margin: 45px 0 20px 0;
 }
 
-    .food_section .filters_menu li {
-        padding: 7px 25px;
-        cursor: pointer;
-        border-radius: 25px;
-    }
+.food_section .filters_menu li {
+    padding: 7px 25px;
+    cursor: pointer;
+    border-radius: 25px;
+}
 
-        .food_section .filters_menu li.active {
-            background-color: #222831;
-            color: #ffffff;
-        }
+.food_section .filters_menu li.active {
+    background-color: #222831;
+    color: #ffffff;
+}
 
 .food_section .box {
     position: relative;
@@ -232,81 +234,81 @@ a:focus {
     background: linear-gradient(to bottom, #f1f2f3 25px, #222831 25px);
 }
 
-    .food_section .box .img-box {
-        background: #f1f2f3;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        height: 215px;
-        border-radius: 0 0 0 45px;
-        margin: -1px;
-        padding: 25px;
-    }
+.food_section .box .img-box {
+    background: #f1f2f3;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 215px;
+    border-radius: 0 0 0 45px;
+    margin: -1px;
+    padding: 25px;
+}
 
-        .food_section .box .img-box img {
-            max-width: 100%;
-            max-height: 145px;
-            -webkit-transition: all .2s;
-            transition: all .2s;
-        }
+.food_section .box .img-box img {
+    max-width: 100%;
+    max-height: 145px;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
 
-    .food_section .box .detail-box {
-        padding: 25px;
-    }
+.food_section .box .detail-box {
+    padding: 25px;
+}
 
-        .food_section .box .detail-box h5 {
-            font-weight: 600;
-        }
+.food_section .box .detail-box h5 {
+    font-weight: 600;
+}
 
-        .food_section .box .detail-box p {
-            font-size: 15px;
-        }
+.food_section .box .detail-box p {
+    font-size: 15px;
+}
 
-        .food_section .box .detail-box h6 {
-            margin-top: 10px;
-        }
+.food_section .box .detail-box h6 {
+    margin-top: 10px;
+}
 
-    .food_section .box .options {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-        justify-content: space-between;
-    }
+.food_section .box .options {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
 
-        .food_section .box .options a {
-            width: 40px;
-            height: 40px;
-            border-radius: 100%;
-            background: #ffbe33;
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-pack: center;
-            -ms-flex-pack: center;
-            justify-content: center;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
-            align-items: center;
-        }
+.food_section .box .options a {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background: #ffbe33;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
 
-            .food_section .box .options a svg {
-                width: 18px;
-                height: auto;
-                fill: #ffffff;
-            }
+.food_section .box .options a svg {
+    width: 18px;
+    height: auto;
+    fill: #ffffff;
+}
 
-    .food_section .box:hover .img-box img {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
-    }
+.food_section .box:hover .img-box img {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
 
 .food_section .btn-box {
     display: -webkit-box;
@@ -318,17 +320,75 @@ a:focus {
     margin-top: 45px;
 }
 
-    .food_section .btn-box a {
-        display: inline-block;
-        padding: 10px 55px;
-        background-color: #ffbe33;
-        color: #ffffff;
-        border-radius: 45px;
-        -webkit-transition: all 0.3s;
-        transition: all 0.3s;
-        border: none;
-    }
+.food_section .btn-box a {
+    display: inline-block;
+    padding: 10px 55px;
+    background-color: #ffbe33;
+    color: #ffffff;
+    border-radius: 45px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    border: none;
+}
 
-        .food_section .btn-box a:hover {
-            background-color: #e69c00;
-        }
+.food_section .btn-box a:hover {
+    background-color: #e69c00;
+}
+
+/***/
+
+.btn.btn-green {
+    background: #84b813;
+    border-color: #84b813;
+    color: #ffffff !important;
+    transition: 1s;
+}
+.btn.btn-gray {
+    background: #CECECE;
+    color: #ffffff !important;
+    transition: 1s;
+}
+/**/
+input[type='number'] {
+    width: 100px;
+    /* Điều chỉnh chiều rộng */
+    padding: 8px;
+    /* Điều chỉnh lề và đệm */
+    border: 1px solid #ccc;
+    /* Điều chỉnh viền */
+    border-radius: 5px;
+    /* Bo góc */
+    outline: none;
+    /* Loại bỏ viền khi được focus */
+    font-size: 14px;
+    /* Điều chỉnh kích thước chữ */
+    transition: border-color 0.3s ease;
+    /* Hiệu ứng chuyển đổi màu viền */
+}
+
+/* Thiết lập hiệu ứng khi ô input được focus */
+input[type='number']:focus {
+    border-color: #007bff;
+    /* Màu viền khi focus */
+}
+/**/
+.loader {
+    border: 4px solid #f3f3f3; /* Màu nền */
+    border-top: 4px solid #3498db; /* Màu đỉnh của vòng tròn */
+    border-radius: 50%; /* Tạo hình tròn */
+    width: 50px; /* Độ rộng */
+    height: 50px; /* Chiều cao */
+    animation: spin 1s linear infinite; /* Áp dụng animation */
+    margin: 0 auto; /* Căn giữa */
+}
+.loading {
+    display: block; /* Hiển thị phần tử */
+  }
+  
+  .hide {
+    display: none; /* Ẩn phần tử */
+  }
+@keyframes spin {
+    0% { transform: rotate(0deg); } /* Độ xoay ban đầu */
+    100% { transform: rotate(360deg); } /* Độ xoay cuối cùng */
+}

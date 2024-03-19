@@ -14,11 +14,10 @@ function Home() {
                     </div>
 
                     <ul className="filters_menu">
-                        <li className="active" data-filter="*">Tất cả</li>
-                        
-                        <li  data-filter=".burger"><Link to="/viewroom">Phòng</Link></li>
-                        <li data-filter=".pizza">Trang trí</li>
-                        <li data-filter=".pasta">Thức ăn & Đồ uống</li>
+                        <li  data-filter="."><Link to="/room">Phòng</Link></li>
+                        <li data-filter=""><Link to="/decor">Trang trí</Link></li>
+                        <li data-filter=""><Link to="/food">Thức ăn & Đồ uống</Link></li>
+
                     </ul>
 
                     <div className="filters-content">
@@ -48,6 +47,7 @@ function Home() {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="col-sm-6 col-lg-4 all burger">
                                 <div className="box">
                                     <div>
@@ -70,6 +70,7 @@ function Home() {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="col-sm-6 col-lg-4 all pizza">
                                 <div className="box">
                                     <div>
@@ -95,6 +96,7 @@ function Home() {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="col-sm-6 col-lg-4 all pasta">
                                 <div className="box">
                                     <div>
@@ -120,6 +122,7 @@ function Home() {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="col-sm-6 col-lg-4 all fries">
                                 <div className="box">
                                     <div>
@@ -145,6 +148,7 @@ function Home() {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="col-sm-6 col-lg-4 all pizza">
                                 <div className="box">
                                     <div>

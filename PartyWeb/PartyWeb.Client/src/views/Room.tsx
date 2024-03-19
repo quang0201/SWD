@@ -5,12 +5,20 @@ import { useEffect, useState } from 'react';
 function ViewRoom() {
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        // Fetch data from the API
-        fetch('/api/decor/pagging-decor')
-            .then(response => response.json())
-            .then(data => setProducts(data))
-            .catch(error => console.log(error));
+        const fetchData = async () => {
+            try {
+                // Lấy dữ liệu từ API
+                const response = await fetch('/api/food/pagging-food?index=1&pageSize=9');
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
     }, []);
+
     return (
         <MainLayout>
             <section className="food_section layout_padding">
@@ -22,11 +30,9 @@ function ViewRoom() {
                     </div>
 
                     <ul className="filters_menu">
-                        <li className="active" data-filter="*">Tất cả</li>
-
-                        <li data-filter=".burger"><Link to="/viewroom">Phòng</Link></li>
-                        <li data-filter=".pizza">Trang trí</li>
-                        <li data-filter=".pasta">Thức ăn & Đồ uống</li>
+                        <li  data-filter="."><Link to="/room">Phòng</Link></li>
+                        <li data-filter=""><Link to="/decor">Trang trí</Link></li>
+                        <li data-filter=""><Link to="/food">Thức ăn & Đồ uống</Link></li>
                     </ul>
 
                     <div className="filters-content">
@@ -44,10 +50,14 @@ function ViewRoom() {
                                             <p>
                                                 Veniam debitis quaerat officiis quasi cupiditate quo, quisquam velit, magnam voluptatem repellendus sed eaque
                                             </p>
+                                            <h6>
+                                                $20
+                                            </h6>
                                             <div className="options">
                                                 <h6>
                                                     $20
                                                 </h6>
+                                                
                                                 <a href="">
                                                     <FaShoppingCart />
                                                 </a>
