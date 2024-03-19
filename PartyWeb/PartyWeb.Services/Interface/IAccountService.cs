@@ -1,14 +1,16 @@
-﻿using BusinessObjects.Models;
-using ModelViews.ModelView;
+﻿using ModelViews.ModelView.Accounts;
 
 namespace Services.Interface
 {
     public  interface IAccountService
     {
-        Task<AccountModel> GetAccountByEmail(string email);
-        Task<bool> AddNewAccount(AccountModel account);
-        Task<bool> DeleteAccount(string email);
-        Task<bool> UpdateAccount(AccountModel account);
+        Task<ViewAccountModel> GetAccountById(int id);
+        Task<List<ViewAccountModel>> GetAccounts();
+        Task<bool> IsExistAccountEmail(string email);
+        Task<bool> IsExistAccountUsername(string username);
+        Task<bool> AddNewAccount(AddNewAccountModel account);
+        Task<bool> DeleteAccount(int id);
+        Task<bool> UpdateAccount(UpdateAccountModel account);
 
     }
 }

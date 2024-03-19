@@ -29,7 +29,7 @@ builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IDecorService, DecorService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
-builder.Services.AddScoped<IPartyHostService, PartyHostService>();
+builder.Services.AddScoped<IPartyPostService, PartyPostService>();
 
 //config repo
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -39,7 +39,7 @@ builder.Services.AddScoped<IDecorRepository, DecorRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
-builder.Services.AddScoped<IPartyHostRepository, PartyHostRepository>();
+builder.Services.AddScoped<IPartyPostRepository, PartyPostRepository>();
 
 //config database
 

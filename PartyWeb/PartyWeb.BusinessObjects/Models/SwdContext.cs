@@ -31,7 +31,7 @@ public partial class SwdContext : DbContext
 
     public virtual DbSet<OrderRoom> OrderRooms { get; set; }
 
-    public virtual DbSet<PartyHost> PartyHosts { get; set; }
+    public virtual DbSet<PartyPost> PartyPosts { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -41,7 +41,7 @@ public partial class SwdContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server =103.110.33.123; database = swd;uid=swd;pwd=123456789;TrustServerCertificate=true");
+        => optionsBuilder.UseSqlServer("Data Source=(local);Initial Catalog=SWD;User ID=sa;Password=12345;Trusted_Connection=True;Trust Server Certificate=True;Timeout=30;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -257,31 +257,23 @@ public partial class SwdContext : DbContext
                 .HasConstraintName("fk_order_room_room_id");
         });
 
-        modelBuilder.Entity<PartyHost>(entity =>
+        modelBuilder.Entity<PartyPost>(entity =>
         {
-            entity.HasKey(e => e.PartyHostId).HasName("PK__party_ho__F491A0BBB9A5A2F0");
+            entity.HasKey(e => e.PartyPostId).HasName("PK__party_po__F46F9EEC8C477DD2");
 
-            entity.ToTable("party_host");
+            entity.ToTable("party_post");
 
-            entity.Property(e => e.PartyHostId).HasColumnName("party_host_id");
+            entity.Property(e => e.PartyPostId).HasColumnName("party_post_id");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
-            entity.Property(e => e.EndedTime)
+            entity.Property(e => e.CreatedTime)
                 .HasColumnType("datetime")
-                .HasColumnName("ended_time");
-            entity.Property(e => e.NumberOfPeople).HasColumnName("number_of_people");
-            entity.Property(e => e.PartyHostDetails)
-                .HasMaxLength(1000)
-                .HasColumnName("party_host_details");
-            entity.Property(e => e.PartyHostTitle)
-                .HasMaxLength(1000)
-                .HasColumnName("party_host_title");
-            entity.Property(e => e.StartedTime)
-                .HasColumnType("datetime")
-                .HasColumnName("started_time");
+                .HasColumnName("created_time");
+            entity.Property(e => e.PartyPostDetails).HasColumnName("party_post_details");
+            entity.Property(e => e.PartyPostTitle).HasColumnName("party_post_title");
 
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PartyHosts)
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PartyPosts)
                 .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK__party_hos__creat__59063A47");
+                .HasConstraintName("FK__party_pos__creat__6383C8BA");
         });
 
         modelBuilder.Entity<Role>(entity =>
