@@ -18,7 +18,7 @@ namespace Server.Controllers
 
         [HttpGet]
         [Route("get-all-account")]
-       public async Task<IActionResult> GetAccounts()
+        public async Task<IActionResult> GetAccounts()
         {
             try
             {
