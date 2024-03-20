@@ -22,7 +22,7 @@ namespace DataAcess.ControllerDAO
                 return instance;
             }
         }
-        public async Task<bool> Add(Order order)
+        public async Task<int> Add(Order order)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace DataAcess.ControllerDAO
                 {
                     await dbContext.Orders.AddAsync(order);
                     await dbContext.SaveChangesAsync();
-                    return true;
+                    return order.Id; // Trả về ID của order sau khi đã thêm vào cơ sở dữ liệu
                 }
             }
             catch (Exception ex)

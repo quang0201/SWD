@@ -5,7 +5,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 function OrderHistory() {
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10); // Giá trị mặc định
+    const [pageSize, setPageSize] = useState(6); // Giá trị mặc định
 
     useEffect(() => {
         fetchOrders();
@@ -27,6 +27,15 @@ function OrderHistory() {
             }
         } catch (error) {
             console.error('Error fetching orders:', error);
+        }
+    };
+    const handleNextPage = () => {
+            setCurrentPage(prevPage => prevPage + 1);
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(prevPage => prevPage - 1);
         }
     };
     const handlePayment = async (orderId) => {
@@ -64,7 +73,10 @@ function OrderHistory() {
                             ))}
 
                         </tbody>
+
                     </table>
+                    <button onClick={handlePreviousPage}>Previous trang</button>
+                    <button onClick={handleNextPage}>Next trang</button>
                 </div>
             </div>
         </MainLayout>

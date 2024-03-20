@@ -18,4 +18,6 @@ public partial class Payment
     public string? TransIdSystem { get; set; }
 
     public int? CreatedBy { get; set; }
+
+    public int? IdOrder { get; set; }
 }

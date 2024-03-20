@@ -39,7 +39,7 @@ public partial class Account
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual ICollection<PartyPost> PartyPosts { get; set; } = new List<PartyPost>();
+    public virtual ICollection<PartyHost> PartyHosts { get; set; } = new List<PartyHost>();
 
     public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }

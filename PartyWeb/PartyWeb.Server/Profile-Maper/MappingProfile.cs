@@ -30,7 +30,6 @@ namespace Server.Profile_Maper
 
 
             CreateMap<Feedback, FeedbackModel>().ReverseMap();
-            CreateMap<PartyPost, PartyPostModel>().ReverseMap();
         }
     }
 }

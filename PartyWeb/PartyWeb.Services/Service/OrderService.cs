@@ -158,15 +158,8 @@ namespace Services.Service
                 int totalPayment = await _waymentRepo.GetTotalPayment();
 
                 var payment = await PayOSPayment.Instance.CreatePayment(user,(int)total, totalPayment);
-                var paymentOs = new Payment()
-                {
-                    CreatedBy = user.Id,
-                    Status = 2,
-                    Amount = (int)total,
-                    TimeCreate = DateTime.Now,
-                    TransIdSystem = payment.paymentLinkId
-                };
-                await _waymentRepo.Add(paymentOs);
+                
+               
                 var order = new Order()
                 {
                     Status = 2,
@@ -178,7 +171,15 @@ namespace Services.Service
                     Price = total
                 };
                 var result = await _orderRepo.Add(order);
-
+                var paymentOs = new Payment()
+                {
+                    CreatedBy = user.Id,
+                    Status = 2,
+                    Amount = (int)total,
+                    TimeCreate = DateTime.Now,
+                    TransIdSystem = payment.paymentLinkId
+                };
+                await _waymentRepo.Add(paymentOs);
                 //if (!result)
                 //{
                 //    throw new Exception("Error create order");
