@@ -44,7 +44,8 @@ namespace Services.Service
                 List<OrderDecor> decors =new List<OrderDecor>();
                 decimal total = 0;
                 var room = await _roomRepo.GetById(model.orderRooms.IdRoom);
-                Console.WriteLine(room == null);
+
+                Console.WriteLine(model.orderRooms.IdRoom);
                 if (room == null)
                 {
                     throw new Exception("Not found room");
@@ -151,12 +152,12 @@ namespace Services.Service
                     OrderRoom = roomOrder,
                     Price = total
                 };
-                var result = await _orderRepo.Add(order);
+                //var result = await _orderRepo.Add(order);
 
-                if (!result)
-                {
-                    throw new Exception("Error create order");
-                }
+                //if (!result)
+                //{
+                //    throw new Exception("Error create order");
+                //}
                 return payment;
             }
             catch (Exception ex)

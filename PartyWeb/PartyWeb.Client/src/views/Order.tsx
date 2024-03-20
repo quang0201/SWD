@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
 import { FaShoppingCart } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 function Order() {
     const [decorFood, setDecorFood] = useState<any[]>([]);
@@ -27,18 +28,56 @@ function Order() {
         setPaymentMethod(event.target.value);
     };
 
-    const handlePayment = () => {
-        // Xử lý thanh toán tùy thuộc vào phương thức được chọn
-        if (paymentMethod === 'cash') {
-            // Xử lý thanh toán bằng tiền mặt
-            console.log('Thanh toán bằng tiền mặt');
-        } else if (paymentMethod === 'credit_card') {
-            // Xử lý thanh toán bằng thẻ tín dụng
-            console.log('Thanh toán bằng thẻ tín dụng');
-        } else {
-            // Xử lý thanh toán bằng các phương thức khác
-            console.log('Thanh toán bằng phương thức khác');
+    const token = localStorage.getItem('jwt');
+    const handlePayment = async ()  => {
+        const decorFoodData = decorFood.map(item => ({
+            id: item.id,
+            quantity: item.quantity
+        }));
+
+        const cartFoodData = cartFood.map(item => ({
+            id: item.id,
+            quantity: item.quantity
+        }));
+
+        const paymentData = {
+            orderRooms: {
+                idRoom: cartRoom.id,
+                startDate: cartRoom.startDate,
+                endDate: cartRoom.endDate
+            },
+            orderDecors: decorFoodData,
+            orderFoods: cartFoodData
+        };
+        try {
+            // Gọi API ở đây, ví dụ:
+            const response = await fetch('api/order/add-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(paymentData)
+            });
+    
+            if (response.status === 401) {
+                toast.error("Vui lòng đăng nhập để đặt tiệc");
+            }
+            const responseData = await response.json();
+            if (!response.ok) {
+                toast.error(responseData.error);
+
+            } else {
+                toast.success(responseData.mess);
+                setTimeout(() => {
+                    window.location.href = responseData.data.checkoutUrl;
+                }, 3000);
+            }
+        } catch (error) {
+            console.error('Lỗi khi gọi API:', error);
+            toast.error('Đã xảy ra lỗi khi đặt đơn hàng. Vui lòng thử lại.');
         }
+
     };
     return (
         <MainLayout>
@@ -108,7 +147,7 @@ function Order() {
                     </div>
                     <div>
                         <h3>Chọn phương thức thanh toán</h3>
-                        <div>
+                        {/* <div>
                             <input
                                 type="radio"
                                 id="cash"
@@ -118,7 +157,7 @@ function Order() {
                                 onChange={handlePaymentMethodChange}
                             />
                             <label htmlFor="cash">Tiền mặt</label>
-                        </div>
+                        </div> */}
                         <div>
                             <input
                                 type="radio"

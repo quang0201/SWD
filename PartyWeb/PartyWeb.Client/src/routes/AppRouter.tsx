@@ -1,10 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from '../views/Home';
+import Home from '../views/Home'
 import Room from '../views/Room'
 import Food from '../views/Food'
 import Decor from '../views/Decor'
-import Order from '../views/Order';
+import Order from '../views/Order'
+import Login from '../views/Login'
+import Register from '../views/Register'
+import OrderHistory from '../views/OrderHistory';
 const AppRouter: React.FC = () => {
     return (
         <Router>
@@ -15,7 +18,9 @@ const AppRouter: React.FC = () => {
                 <Route path="/food" element={<Food />} />
                 <Route path="/decor" element={<Decor />} />
                 <Route path="/order" element={<Order />} />
-
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path='/order-history' element={<OrderHistory/>}/>
             </Routes>
         </Router>
     );

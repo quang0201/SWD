@@ -32,17 +32,13 @@ namespace Tools.Tool
             try
             {
                 PayOS payOS = new PayOS(clientId, apiKey, checkSumKey);
-
                 
                 DateTime currentTime = DateTime.Now;
                 DateTime futureTime = currentTime.AddMinutes(15);
-
                 int unixTimestamp = (int)(futureTime.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds;
-               
                 List<ItemData> items = new List<ItemData>();
-                items.Add(new ItemData($"Đơn hàng khách {account.Username}", 1, totalPayment));
-                Console.WriteLine(totalPayment);
-                PaymentData paymentData = new PaymentData(totalPayment + 100, totalPayment, "",
+                items.Add(new ItemData($"Đơn hàng khách {account.Username}", 1, money));
+                PaymentData paymentData = new PaymentData(totalPayment + 100, money, "",
                     items, "bancantoi.site",
                     "bancantoi.site",
                     account.Username,

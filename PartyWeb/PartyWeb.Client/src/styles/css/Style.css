@@ -553,4 +553,32 @@ input[type='number']:focus {
   .table tr:hover {
     background-color: #ddd;
   }
+  /***/
+  .login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
   
+  .login h1 {
+    color: #333;
+  }
+  
+  .login input {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .login button {
+    background-color: #f44336;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .login a {
+    color: #007bff;
+    text-decoration: none;
+  }
