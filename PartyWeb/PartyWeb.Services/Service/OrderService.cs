@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using BusinessObjects.Models;
 using ModelViews.Models;
+using Net.payOS.Types;
 using Reponsitories.Interface;
 using Reponsitories.Repositories;
 using Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -22,7 +24,9 @@ namespace Services.Service
         IFoodRepository _foodRepo = default!;
         IDecorRepository _decorRepo = default!;
         IUserRepository _userRepository;
-        public OrderService(IUserRepository userRepository,IOrderRepository orderRepository,IMapper mapper, IRoomRepository roomRepo, IFoodRepository foodRepo, IDecorRepository decorRepo)
+        IPaymentRepository _waymentRepo = default!;
+        public OrderService(IUserRepository userRepository, IOrderRepository orderRepository,
+            IMapper mapper, IRoomRepository roomRepo, IFoodRepository foodRepo, IDecorRepository decorRepo, IPaymentRepository waymentRepo)
         {
             _mapper = mapper;
             _orderRepo = orderRepository;
@@ -30,25 +34,43 @@ namespace Services.Service
             _foodRepo = foodRepo;
             _decorRepo = decorRepo;
             _userRepository = userRepository;
+            _waymentRepo = waymentRepo;
         }
-        public async Task<bool> Add(OrderModel model, string userId)
+        public async Task<CreatePaymentResult> Add(OrderModel model, string userId)
         {
             try
             {
-                List<OrderFood> foods = default!;
-                List<OrderDecor> decors = default!;
-                if(Validation.Instance.CheckDateTime(model.orderRooms.StartDate,model.orderRooms.EndDate))
-                {
-                    throw new Exception("The day not alivable");
-                }
+                List<OrderFood> foods=new List<OrderFood>();
+                List<OrderDecor> decors =new List<OrderDecor>();
+                decimal total = 0;
                 var room = await _roomRepo.GetById(model.orderRooms.IdRoom);
                 Console.WriteLine(room == null);
                 if (room == null)
                 {
                     throw new Exception("Not found room");
                 }
+                if (Validation.Instance.CheckDateTime(model.orderRooms.StartDate, model.orderRooms.EndDate))
+                {
+                    throw new Exception("The day not alivable");
+                }
+                var checkDate = await _orderRepo.CheckDateOrder(room.Id, model.orderRooms.StartDate, model.orderRooms.EndDate);
+                if (checkDate)
+                {
+                    throw new Exception("The day exist book");
+                }
+                TimeSpan duration = model.orderRooms.EndDate.Subtract(model.orderRooms.StartDate);
+                int numberOfDays = duration.Days+1;
+                total += (numberOfDays * room.Price ?? 0);
 
-                var roomOrder = _mapper.Map<OrderRoom>(model.orderRooms);
+                var roomOrder = new OrderRoom
+                {
+                    IdRoom = room.Id,
+                    Status = 2,
+                    StartDate = model.orderRooms.StartDate,
+                    EndDate = model.orderRooms.EndDate,
+                    TotalPrice = (numberOfDays * room.Price ?? 0),
+                };
+
                 foreach (var item in model.orderDecors)
                 {
                     if (item.Id < 0)
@@ -59,11 +81,22 @@ namespace Services.Service
                     {
                         throw new Exception("Quatity must integer number");
                     }
-                    if(_decorRepo.GetById(item.Id) == null)
+                    var decor = await _decorRepo.GetById(item.Id);
+                    if (decor == null)
                     {
                         throw new Exception("Not found decor");
                     }
+                    total += item.Quality * decor.Price ?? 0;
+                    var orderItem = new OrderDecor
+                    {
+                        IdDecor = item.Id,
+                        Quality = item.Quality,
+                        TotalPrice = item.Quality * decor.Price ?? 0,
+                        Status = 2
+                    };
+                    decors.Add(orderItem);
                 }
+
                 foreach (var item in model.orderFoods)
                 {
                     if (item.Id < 0)
@@ -74,29 +107,57 @@ namespace Services.Service
                     {
                         throw new Exception("Quatity must integer number");
                     }
-                    if (_foodRepo.GetById(item.Id) == null)
+                    var food = await _foodRepo.GetById(item.Id);
+                    if (food == null)
                     {
                         throw new Exception("Not found food");
                     }
+                    total += item.Quatity * food.Price ?? 0;
+                    var orderItem = new OrderFood
+                    {
+                        IdFood = item.Id,
+                        Quality = item.Quatity,
+                        TotalPrice = item.Quatity * food.Price ?? 0,
+                        Status = 2
+                    };
+                    foods.Add(orderItem);
                 }
+
+
                 var user = await _userRepository.GetUserById(int.Parse(userId));
                 if (user == null)
                 {
                     throw new Exception("not found your account");
                 }
+                int totalPayment = await _waymentRepo.GetTotalPayment();
 
+                var payment = await PayOSPayment.Instance.CreatePayment(user,(int)total, totalPayment);
+                var paymentOs = new Payment()
+                {
+                    CreatedBy = user.Id,
+                    Status = 2,
+                    Amount = (int)total,
+                    TimeCreate = DateTime.Now,
+                    TransIdSystem = payment.paymentLinkId
+                };
+                await _waymentRepo.Add(paymentOs);
                 var order = new Order()
                 {
                     Status = 2,
                     CreatedTime = DateTime.Now,
                     CreatedBy = user.Id,
+                    OrderDecors = decors,
+                    OrderFoods = foods,
+                    OrderRoom = roomOrder,
+                    Price = total
                 };
                 var result = await _orderRepo.Add(order);
-                if (result)
+
+                if (!result)
                 {
-                    return true;
+                    throw new Exception("Error create order");
                 }
-                return false;
+                return payment;
             }
             catch (Exception ex)
             {

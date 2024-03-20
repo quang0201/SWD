@@ -1,4 +1,6 @@
-﻿using ModelViews.Models;
+﻿using BusinessObjects.Models;
+using ModelViews.Models;
+using Net.payOS.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace Services.Interface
 {
     public interface IOrderService
     {
-        public Task<bool> Add(OrderModel model,string user);
+        public Task<CreatePaymentResult> Add(OrderModel model,string user);
 
     }
 }

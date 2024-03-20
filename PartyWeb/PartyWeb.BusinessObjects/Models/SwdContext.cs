@@ -33,6 +33,8 @@ public partial class SwdContext : DbContext
 
     public virtual DbSet<PartyHost> PartyHosts { get; set; }
 
+    public virtual DbSet<Payment> Payments { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Room> Rooms { get; set; }
@@ -41,7 +43,7 @@ public partial class SwdContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server =103.110.33.123; database = swd;uid=swd;pwd=123456789;TrustServerCertificate=true");
+        => optionsBuilder.UseSqlServer("server =localhost; database = swd;uid=sa;pwd=sa;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,7 +57,7 @@ public partial class SwdContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Address)
-                .HasMaxLength(1000)
+                .HasMaxLength(1)
                 .HasColumnName("address");
             entity.Property(e => e.CreatedTime).HasColumnName("created_time");
             entity.Property(e => e.DeletedTime).HasColumnName("deleted_time");
@@ -65,7 +67,7 @@ public partial class SwdContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("email");
             entity.Property(e => e.Fullname)
-                .HasMaxLength(1000)
+                .HasMaxLength(1)
                 .HasColumnName("fullname");
             entity.Property(e => e.Infomation)
                 .HasColumnType("ntext")
@@ -112,7 +114,7 @@ public partial class SwdContext : DbContext
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__feedback__7A6B2B8CEE93A5BD");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__feedback__7A6B2B8CD5981BEB");
 
             entity.ToTable("feedback");
 
@@ -128,7 +130,7 @@ public partial class SwdContext : DbContext
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK__feedback__create__5070F446");
+                .HasConstraintName("FK__feedback__create__4F7CD00D");
         });
 
         modelBuilder.Entity<Food>(entity =>
@@ -259,7 +261,7 @@ public partial class SwdContext : DbContext
 
         modelBuilder.Entity<PartyHost>(entity =>
         {
-            entity.HasKey(e => e.PartyHostId).HasName("PK__party_ho__F491A0BBB9A5A2F0");
+            entity.HasKey(e => e.PartyHostId).HasName("PK__party_ho__F491A0BBA9C149FE");
 
             entity.ToTable("party_host");
 
@@ -281,7 +283,26 @@ public partial class SwdContext : DbContext
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PartyHosts)
                 .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK__party_hos__creat__59063A47");
+                .HasConstraintName("FK__party_hos__creat__5812160E");
+        });
+
+        modelBuilder.Entity<Payment>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__payment__3213E83F43096629");
+
+            entity.ToTable("payment");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Amount).HasColumnName("amount");
+            entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.TimeCreate).HasColumnName("time_create");
+            entity.Property(e => e.TimeUpdate).HasColumnName("time_update");
+            entity.Property(e => e.TransIdSystem)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .UseCollation("Vietnamese_CI_AS")
+                .HasColumnName("trans_id_system");
         });
 
         modelBuilder.Entity<Role>(entity =>

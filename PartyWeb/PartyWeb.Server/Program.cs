@@ -40,6 +40,7 @@ builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IPartyHostRepository, PartyHostRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
 //config database
 

@@ -25,11 +25,10 @@ namespace Tools.Tool
         }
         public bool CheckDateTime(DateTime time1, DateTime time2)
         {
-            if (time1 > DateTime.Now || time2 > DateTime.Now)
+            if (time1 < DateTime.Now || time2 < DateTime.Now)
             {
                 return true;
             }
-            // Kiểm tra xem time2 có lớn hơn time1 không
             if (time2 < time1)
             {
                 return true;

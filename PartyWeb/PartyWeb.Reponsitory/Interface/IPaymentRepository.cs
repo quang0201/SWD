@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Reponsitories.Interface
 {
-    public interface IOrderRepository
+    public interface IPaymentRepository
     {
-        public Task<bool> Add(Order order);
-        public Task<bool> CheckDateOrder(int id,DateTime startDate,DateTime endDate);
+        public Task<bool> Add(Payment payment);
+        public Task<int> GetTotalPayment();
     }
 }

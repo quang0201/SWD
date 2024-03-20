@@ -21,6 +21,25 @@ function Order() {
             setCartFood(JSON.parse(food));
         }
     }, []);
+    const [paymentMethod, setPaymentMethod] = useState('cash');
+
+    const handlePaymentMethodChange = (event) => {
+        setPaymentMethod(event.target.value);
+    };
+
+    const handlePayment = () => {
+        // Xử lý thanh toán tùy thuộc vào phương thức được chọn
+        if (paymentMethod === 'cash') {
+            // Xử lý thanh toán bằng tiền mặt
+            console.log('Thanh toán bằng tiền mặt');
+        } else if (paymentMethod === 'credit_card') {
+            // Xử lý thanh toán bằng thẻ tín dụng
+            console.log('Thanh toán bằng thẻ tín dụng');
+        } else {
+            // Xử lý thanh toán bằng các phương thức khác
+            console.log('Thanh toán bằng phương thức khác');
+        }
+    };
     return (
         <MainLayout>
             <section className="food_section layout_padding">
@@ -87,7 +106,33 @@ function Order() {
                             </div>
                         )}
                     </div>
-                    <button>Thanh toán</button>
+                    <div>
+                        <h3>Chọn phương thức thanh toán</h3>
+                        <div>
+                            <input
+                                type="radio"
+                                id="cash"
+                                name="paymentMethod"
+                                value="cash"
+                                checked={paymentMethod === 'cash'}
+                                onChange={handlePaymentMethodChange}
+                            />
+                            <label htmlFor="cash">Tiền mặt</label>
+                        </div>
+                        <div>
+                            <input
+                                type="radio"
+                                id="credit_card"
+                                name="paymentMethod"
+                                value="credit_card"
+                                checked={paymentMethod === 'credit_card'}
+                                onChange={handlePaymentMethodChange}
+                            />
+                            <label htmlFor="credit_card">Thẻ tín dụng</label>
+                        </div>
+                        {/* Các phương thức thanh toán khác */}
+                        <button onClick={handlePayment}>Thanh toán</button>
+                    </div>
 
                     {decorFood.length === 0 && !cartRoom && cartFood.length === 0 && (
                         <p>Vui lòng chọn ít nhất một mục trước khi hiển thị thông tin.</p>
