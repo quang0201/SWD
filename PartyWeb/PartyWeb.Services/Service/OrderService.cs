@@ -177,7 +177,8 @@ namespace Services.Service
                     Status = 2,
                     Amount = (int)total,
                     TimeCreate = DateTime.Now,
-                    TransIdSystem = payment.paymentLinkId
+                    TransIdSystem = payment.paymentLinkId,
+                    IdOrder = result
                 };
                 await _waymentRepo.Add(paymentOs);
                 //if (!result)
