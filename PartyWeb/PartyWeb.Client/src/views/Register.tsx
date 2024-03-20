@@ -35,7 +35,6 @@ function Register() {
                 }, 3000);
             }
         } catch (error) {
-            console.error('Lỗi đăng ký:', error.message);
             toast.error('Đăng ký không thành công! Vui lòng thử lại.');
             setIsRegistering(false);
         } finally {

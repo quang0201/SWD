@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
-import { FaShoppingCart } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 function Order() {
     const [decorFood, setDecorFood] = useState<any[]>([]);
@@ -147,17 +145,6 @@ function Order() {
                     </div>
                     <div>
                         <h3>Chọn phương thức thanh toán</h3>
-                        {/* <div>
-                            <input
-                                type="radio"
-                                id="cash"
-                                name="paymentMethod"
-                                value="cash"
-                                checked={paymentMethod === 'cash'}
-                                onChange={handlePaymentMethodChange}
-                            />
-                            <label htmlFor="cash">Tiền mặt</label>
-                        </div> */}
                         <div>
                             <input
                                 type="radio"

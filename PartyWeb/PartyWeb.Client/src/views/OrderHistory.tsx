@@ -2,10 +2,16 @@ import { useState, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
 import { FaShoppingCart } from 'react-icons/fa';
 
+interface Order {
+    id: number;
+    price: number;
+    status: number;
+}
+
 function OrderHistory() {
-    const [orders, setOrders] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(6); // Giá trị mặc định
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [pageSize, setPageSize] = useState<number>(6); // Giá trị mặc định
 
     useEffect(() => {
         fetchOrders();
@@ -29,8 +35,9 @@ function OrderHistory() {
             console.error('Error fetching orders:', error);
         }
     };
+
     const handleNextPage = () => {
-            setCurrentPage(prevPage => prevPage + 1);
+        setCurrentPage(prevPage => prevPage + 1);
     };
 
     const handlePreviousPage = () => {
@@ -38,10 +45,15 @@ function OrderHistory() {
             setCurrentPage(prevPage => prevPage - 1);
         }
     };
-    const handlePayment = async (orderId) => {
-    }
-    const handleCancelOrder = async (orderId) => {
-    }
+
+    const handlePayment = async (orderId: number) => {
+        // Xử lý thanh toán
+    };
+
+    const handleCancelOrder = async (orderId: number) => {
+        // Xử lý hủy đơn hàng
+    };
+
     return (
         <MainLayout>
             <div>
@@ -50,9 +62,10 @@ function OrderHistory() {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>Mã đơn hàng</th>
-                                <th>Giá</th>
-                                <th>Trạng thái</th>
+                                <th>Mã đơn hàng</th>
+                                <th>Giá</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,12 +84,10 @@ function OrderHistory() {
                                     </td>
                                 </tr>
                             ))}
-
                         </tbody>
-
                     </table>
-                    <button onClick={handlePreviousPage}>Previous trang</button>
-                    <button onClick={handleNextPage}>Next trang</button>
+                    <button onClick={handlePreviousPage}>Trang trước</button>
+                    <button onClick={handleNextPage}>Trang tiếp theo</button>
                 </div>
             </div>
         </MainLayout>

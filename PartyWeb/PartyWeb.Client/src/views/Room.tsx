@@ -4,14 +4,31 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+interface Item {
+    id: number;
+    name: string;
+    content: string;
+    roomProvider: string;
+    price: number;
+}
+
+interface ItemCart {
+    id: number;
+    name: string;
+    price: number;
+    startDate: string;
+    endDate: string;
+}
+
 function Room() {
     const [isLoading, setIsLoading] = useState(true);
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState<Item[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6);
-    const [cartRoom, setCartRoom] = useState(null);
+    const [cartRoom, setCartRoom] = useState<ItemCart | null>(null);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+
     useEffect(() => {
         fetchData();
     }, [currentPage]);
@@ -19,7 +36,7 @@ function Room() {
     useEffect(() => {
         const cartRoomLocal = localStorage.getItem('room');
         if (cartRoomLocal) {
-            const item = JSON.parse(cartRoomLocal);
+            const item: ItemCart = JSON.parse(cartRoomLocal);
             setCartRoom(item);
             setStartDate(item.startDate);
             setEndDate(item.endDate);
@@ -41,19 +58,20 @@ function Room() {
         }
     };
 
-    const addToCart = (item) => {
-        setCartRoom(item); // Thêm phòng vào giỏ hàng
-        localStorage.setItem('room', JSON.stringify(item));  // Lưu giỏ hàng vào local storage
+    const addToCart = (item: Item) => {
+        setCartRoom({ id: item.id, name: item.name, price: item.price, startDate: '', endDate: '' }); // Thêm phòng vào giỏ hàng
+        localStorage.setItem('room', JSON.stringify({ id: item.id, name: item.name, price: item.price, startDate: '', endDate: '' })); // Lưu giỏ hàng vào local storage
     };
+
     const addToCartWithDate = async () => {
         if (startDate && endDate) {
             try {
-                const url = `/api/order/check-room?id=${cartRoom.id}&startDate=${startDate}&endDate=${endDate}`;
+                const url = `/api/order/check-room?id=${cartRoom?.id}&startDate=${startDate}&endDate=${endDate}`;
                 const response = await fetch(url, {
                     method: 'POST'
                 });
                 if (response.ok) {
-                    toast.success('Bạn đã chọn phòng thành công');
+                    toast.success('Bạn đã chọn phòng thành công');
                     const cartRoomWithDate = { ...cartRoom, startDate, endDate };
                     setCartRoom(cartRoomWithDate);
                     localStorage.setItem('room', JSON.stringify(cartRoomWithDate));
@@ -67,7 +85,7 @@ function Room() {
             console.log("Vui lòng chọn ngày bắt đầu và ngày kết thúc!");
         }
     };
-    
+
     return (
         <MainLayout>
             <div>
@@ -90,7 +108,7 @@ function Room() {
                         )}
                     </div>
                     <div className="cart-footer">
-                        <button className="btn-checkout"><Link to="/order">Đặt tiệc</Link></button>
+                        <button className="btn-checkout"><Link to="/order">Đặt tiệc</Link></button>
                     </div>
                 </div>
             </div>
@@ -98,22 +116,20 @@ function Room() {
             <section className="food_section layout_padding">
                 <div className="container">
                     <div className="heading_container heading_center">
-                        <h2>
-                            Các dịch vụ
-                        </h2>
+                        <h2>Các dịch vụ</h2>
                     </div>
 
                     <ul className="filters_menu">
-                        <li data-filter="" className='services'><Link to="/room">Phòng</Link></li>
-                        <li data-filter=""><Link to="/decor">Trang trí</Link></li>
-                        <li data-filter=""><Link to="/food">Thức ăn & Đồ uống</Link></li>
+                        <li data-filter="" className='services'><Link to="/room">Phòng</Link></li>
+                        <li data-filter=""><Link to="/decor">Trang trí</Link></li>
+                        <li data-filter=""><Link to="/food">Thức ăn & Đồ uống</Link></li>
                     </ul>
 
                     <div>
-                        <input type="text" className="form-control" placeholder="Nhập tên thức ăn,tên người bán..." />
+                        <input type="text" className="form-control" placeholder="Nhập tên thức ăn, tên người bán..." />
                         <div className="btn_box">
                             <button className='btn btn-gray'>
-                                Tìm ngay
+                                Tìm ngay
                             </button>
                         </div>
                     </div>

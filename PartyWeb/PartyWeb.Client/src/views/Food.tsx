@@ -1,60 +1,62 @@
-import { FaShoppingCart } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Cart from '../components/Cart';
+import { FaShoppingCart } from 'react-icons/fa';
 
-function Decor() {
-    const [isLoading, setIsLoading] = useState(true); // Trạng thái của loading
+interface FoodItem {
+    id: number;
+    name: string;
+    content: string;
+    foodProvider: string;
+    price: number;
+}
 
-    const [items, setItems] = useState([{}]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6);
-    const [searchValue, setSearchValue] = useState('');
+interface CartItem {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+}
 
-    const [cartFood, setCartFood] = useState<any[]>([]);
+function Food() {
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [items, setItems] = useState<FoodItem[]>([]);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [itemsPerPage, setItemsPerPage] = useState<number>(6);
+    const [searchValue, setSearchValue] = useState<string>('');
+    const [cartFood, setCartFood] = useState<CartItem[]>([]);
 
     useEffect(() => {
         const cartFoodLocal = localStorage.getItem('food');
         if (cartFoodLocal) {
-            const parsedCartFood = JSON.parse(cartFoodLocal);
-            console.log(parsedCartFood);
+            const parsedCartFood: CartItem[] = JSON.parse(cartFoodLocal);
             setCartFood(parsedCartFood);
         }
-    }, [])
+    }, []);
 
-    const addToCart = (foodItem) => {
+    useEffect(() => {
+        fetchData();
+    }, [currentPage, searchValue]);
+
+    const addToCart = (foodItem: FoodItem) => {
         const existingItemIndex = cartFood.findIndex(item => item.id === foodItem.id);
-
         if (existingItemIndex !== -1) {
-            // Nếu món đã tồn tại trong giỏ hàng, cập nhật số lượng của món đó
             const updatedCart = [...cartFood];
-            updatedCart[existingItemIndex].quantity++; // Tăng số lượng
+            updatedCart[existingItemIndex].quantity++;
             setCartFood(updatedCart);
             localStorage.setItem('food', JSON.stringify(updatedCart));
         } else {
-            // Nếu món chưa tồn tại trong giỏ hàng, thêm món mới vào giỏ hàng với số lượng mặc định là 1
-            const updatedCart = [...cartFood, { ...foodItem, quantity: 1 }];
+            const updatedCart = [...cartFood, { id: foodItem.id, name: foodItem.name, price: foodItem.price, quantity: 1 }];
             setCartFood(updatedCart);
             localStorage.setItem('food', JSON.stringify(updatedCart));
         }
     };
 
-    const removeFromCart = (index) => {
+    const removeFromCart = (index: number) => {
         const updatedCart = [...cartFood];
-        updatedCart.splice(index, 1); // Xóa món ở vị trí index khỏi giỏ hàng
-        setCartFood(updatedCart); // Cập nhật giỏ hàng mới
-        localStorage.setItem('food', JSON.stringify(updatedCart)); // Cập nhật localStorage
-    };
-
-
-
-    useEffect(() => {
-        handleSearch();
-    }, [currentPage]);
-
-    const handleSearch = () => {
-        fetchData();
+        updatedCart.splice(index, 1);
+        setCartFood(updatedCart);
+        localStorage.setItem('food', JSON.stringify(updatedCart));
     };
 
     const fetchData = async () => {
@@ -72,28 +74,28 @@ function Decor() {
         }
     };
     
-    const increaseQuantity = (index) => {
+    const increaseQuantity = (index: number) => {
         const updatedCart = [...cartFood];
-        updatedCart[index].quantity++; // Tăng số lượng
-        setCartFood(updatedCart); // Cập nhật giỏ hàng mới
-        localStorage.setItem('food', JSON.stringify(updatedCart)); // Cập nhật dữ liệu vào localStorage
+        updatedCart[index].quantity++;
+        setCartFood(updatedCart);
+        localStorage.setItem('food', JSON.stringify(updatedCart));
     };
 
-    const decreaseQuantity = (index) => {
+    const decreaseQuantity = (index: number) => {
         const updatedCart = [...cartFood];
         if (updatedCart[index].quantity > 1) {
-            updatedCart[index].quantity--; // Giảm số lượng nếu lớn hơn 1
-            setCartFood(updatedCart); // Cập nhật giỏ hàng mới
-            localStorage.setItem('food', JSON.stringify(updatedCart)); // Cập nhật dữ liệu vào localStorage
+            updatedCart[index].quantity--;
+            setCartFood(updatedCart);
+            localStorage.setItem('food', JSON.stringify(updatedCart));
         }
     };
+
     return (
         <MainLayout>
-
             <div>
-                <div className=" cart-container">
+                <div className="cart-container">
                     <div className="cart-header">
-                        <h3>Thức ăn</h3>
+                        <h3>Thức ăn</h3>
                     </div>
                     <div className="cart-body">
                         {cartFood.map((foodItem, index) => (
@@ -110,24 +112,21 @@ function Decor() {
                         ))}
                     </div>
                     <div className="cart-footer">
-                    <button className="btn-checkout"><Link to="/order">Đặt tiệc</Link></button>
+                        <button className="btn-checkout"><Link to="/order">Đặt tiệc</Link></button>
                     </div>
                 </div>
             </div>
 
-
             <section className="food_section layout_padding">
                 <div className="container">
                     <div className="heading_container heading_center">
-                        <h2>
-                            Các dịch vụ
-                        </h2>
+                        <h2>Các dịch vụ</h2>
                     </div>
 
                     <ul className="filters_menu">
-                        <li data-filter=""><Link to="/room">Phòng</Link></li>
-                        <li data-filter=""><Link to="/decor">Trang trí</Link></li>
-                        <li data-filter="" className='services'><Link to="/food">Thức ăn & Đồ uống</Link></li>
+                        <li data-filter=""><Link to="/room">Phòng</Link></li>
+                        <li data-filter=""><Link to="/decor">Trang trí</Link></li>
+                        <li data-filter="" className='services'><Link to="/food">Thức ăn & Đồ uống</Link></li>
                     </ul>
 
                     <div>
@@ -139,12 +138,11 @@ function Decor() {
                             onChange={(e) => setSearchValue(e.target.value)}
                         />
                         <div className="btn_box">
-                            <button className="btn btn-gray" onClick={handleSearch}>
+                            <button className="btn btn-gray" onClick={fetchData}>
                                 Tìm ngay
                             </button>
                         </div>
                     </div>
-
                     {isLoading ? <div className="loader"></div> :
                         <div>
                             <div className="filters-content">
@@ -157,22 +155,12 @@ function Decor() {
                                                         <img src="images/f1.png" alt="" />
                                                     </div>
                                                     <div className="detail-box">
-                                                        <h5>
-                                                            {item.name}
-                                                        </h5>
-                                                        <p>
-                                                            {item.content}
-                                                        </p>
-                                                        <h6>
-                                                            Nhà cung cấp: {item.foodProvider}
-                                                        </h6>
-                                                        <h6>
-                                                            Số người mua:
-                                                        </h6>
+                                                        <h5>{item.name}</h5>
+                                                        <p>{item.content}</p>
+                                                        <h6>Nhà cung cấp: {item.foodProvider}</h6>
+                                                        <h6>Số người mua:</h6>
                                                         <div className="options">
-                                                            <h6>
-                                                                Giá: {item.price}.000
-                                                            </h6>
+                                                            <h6>Giá: {item.price}.000</h6>
                                                             <button className='btn btn-cart' onClick={() => addToCart(item)}>
                                                                 <FaShoppingCart />
                                                             </button>
@@ -181,8 +169,7 @@ function Decor() {
                                                 </div>
                                             </div>
                                         </div>
-                                    ))
-                                    }
+                                    ))}
                                 </div>
                             </div>
                             <div className="pagination">
@@ -196,12 +183,10 @@ function Decor() {
                             </div>
                         </div>
                     }
-
-
                 </div>
             </section>
-        </MainLayout >
+        </MainLayout>
     );
 }
 
-export default Decor;
+export default Food;

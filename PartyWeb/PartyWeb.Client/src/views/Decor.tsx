@@ -1,41 +1,53 @@
-import { FaShoppingCart } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Cart from '../components/Cart';
+import { FaShoppingCart } from 'react-icons/fa';
+
+interface DecorItem {
+    id: number;
+    name: string;
+    content: string;
+    decorProvider: string;
+    price: number;
+}
+
+interface CartItem {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+}
 
 function Decor() {
-    const [isLoading, setIsLoading] = useState(true); // Trạng thái của loading
-    const [items, setItems] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6);
-
-
-    const [decorFood, setCartDecor] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [items, setItems] = useState<DecorItem[]>([]);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [itemsPerPage, setItemsPerPage] = useState<number>(6);
+    const [cartDecor, setCartDecor] = useState<CartItem[]>([]);
 
     useEffect(() => {
-        const cartOrderLocal = localStorage.getItem('decor');
-        if (cartOrderLocal) {
-            const parsedCartOrder = JSON.parse(cartOrderLocal);
-            setCartDecor(parsedCartOrder);
+        const cartDecorLocal = localStorage.getItem('decor');
+        if (cartDecorLocal) {
+            const parsedCartDecor: CartItem[] = JSON.parse(cartDecorLocal);
+            setCartDecor(parsedCartDecor);
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
         fetchData();
     }, [currentPage]);
 
-    const addToCart = (Item) => {
-        const existingItemIndex = decorFood.findIndex(item => item.id === Item.id);
+    const addToCart = (item: DecorItem) => {
+        const existingItemIndex = cartDecor.findIndex(cartItem => cartItem.id === item.id);
         if (existingItemIndex !== -1) {
-            const updatedCart = [...decorFood];
-            updatedCart[existingItemIndex].quantity++; // Tăng số lượng
+            const updatedCart = [...cartDecor];
+            updatedCart[existingItemIndex].quantity++;
             setCartDecor(updatedCart);
             localStorage.setItem('decor', JSON.stringify(updatedCart));
         } else {
-           const updatedCart = [...decorFood, { ...Item, quantity: 1 }];
-           setCartDecor(updatedCart);
-           localStorage.setItem('decor', JSON.stringify(updatedCart));
+            const updatedCart = [...cartDecor, { id: item.id, name: item.name, price: item.price, quantity: 1 }];
+            setCartDecor(updatedCart);
+            localStorage.setItem('decor', JSON.stringify(updatedCart));
         }
     };
 
@@ -53,42 +65,45 @@ function Decor() {
             setIsLoading(false);
         }
     };
-    const increaseQuantity = (index) => {
-        const updatedCart = [...decorFood];
-        updatedCart[index].quantity++; // Tăng số lượng
-        setCartDecor(updatedCart); // Cập nhật giỏ hàng mới
-        localStorage.setItem('decor', JSON.stringify(updatedCart)); // Cập nhật dữ liệu vào localStorage
+
+    const increaseQuantity = (index: number) => {
+        const updatedCart = [...cartDecor];
+        updatedCart[index].quantity++;
+        setCartDecor(updatedCart);
+        localStorage.setItem('decor', JSON.stringify(updatedCart));
     };
 
-    const decreaseQuantity = (index) => {
-        const updatedCart = [...decorFood];
+    const decreaseQuantity = (index: number) => {
+        const updatedCart = [...cartDecor];
         if (updatedCart[index].quantity > 1) {
-            updatedCart[index].quantity--; // Giảm số lượng nếu lớn hơn 1
-            setCartDecor(updatedCart); // Cập nhật giỏ hàng mới
-            localStorage.setItem('decor', JSON.stringify(updatedCart)); // Cập nhật dữ liệu vào localStorage
+            updatedCart[index].quantity--;
+            setCartDecor(updatedCart);
+            localStorage.setItem('decor', JSON.stringify(updatedCart));
         }
     };
-    const removeFromCart = (index) => {
-        const updatedCart = [...decorFood];
-        updatedCart.splice(index, 1); // Xóa món ở vị trí index khỏi giỏ hàng
-        setCartDecor(updatedCart); // Cập nhật giỏ hàng mới
-        localStorage.setItem('food', JSON.stringify(updatedCart)); // Cập nhật localStorage
+
+    const removeFromCart = (index: number) => {
+        const updatedCart = [...cartDecor];
+        updatedCart.splice(index, 1);
+        setCartDecor(updatedCart);
+        localStorage.setItem('decor', JSON.stringify(updatedCart));
     };
+
     return (
         <MainLayout>
             <div>
-                <div className=" cart-container">
+                <div className="cart-container">
                     <div className="cart-header">
-                        <h3>Trang tri</h3>
+                        <h3>Trang trí</h3>
                     </div>
                     <div className="cart-body">
-                        {decorFood.map((Item, index) => (
+                        {cartDecor.map((item, index) => (
                             <div key={index}>
-                                <p>Tên món ăn: {Item.name}</p>
-                                <p>Giá: {Item.price}.000</p>
+                                <p>Tên món ăn: {item.name}</p>
+                                <p>Giá: {item.price}.000</p>
                                 <div className="quantity-controls">
-                                    <button onClick={() => decreaseQuantity(index)} disabled={Item.quantity === 1}>-</button>
-                                    <span>{Item.quantity}</span>
+                                    <button onClick={() => decreaseQuantity(index)} disabled={item.quantity === 1}>-</button>
+                                    <span>{item.quantity}</span>
                                     <button onClick={() => increaseQuantity(index)}>+</button>
                                 </div>
                                 <button className='btn btn-remove' onClick={() => removeFromCart(index)}>Remove</button>
@@ -96,29 +111,28 @@ function Decor() {
                         ))}
                     </div>
                     <div className="cart-footer">
-                    <button className="btn-checkout"><Link to="/order">Đặt tiệc</Link></button>
+                        <button className="btn-checkout"><Link to="/order">Đặt tiệc</Link></button>
                     </div>
                 </div>
             </div>
-            
+
             <section className="food_section layout_padding">
                 <div className="container">
                     <div className="heading_container heading_center">
-                        <h2>
-                            Các dịch vụ
-                        </h2>
+                        <h2>Các dịch vụ</h2>
                     </div>
 
                     <ul className="filters_menu">
-                        <li data-filter="" ><Link to="/room">Phòng</Link></li>
-                        <li data-filter="" className='services'><Link to="/decor">Trang trí</Link></li>
-                        <li data-filter=""><Link to="/food">Thức ăn & Đồ uống</Link></li>
+                        <li data-filter=""><Link to="/room">Phòng</Link></li>
+                        <li data-filter="" className='services'><Link to="/decor">Trang trí</Link></li>
+                        <li data-filter=""><Link to="/food">Thức ăn & Đồ uống</Link></li>
                     </ul>
+
                     <div>
-                        <input type="text" className="form-control" placeholder="Nhập tên thức ăn,tên người bán..." />
+                        <input type="text" className="form-control" placeholder="Nhập tên thức ăn, tên người bán..." />
                         <div className="btn_box">
                             <button className='btn btn-gray'>
-                                Tìm ngay
+                                Tìm ngay
                             </button>
                         </div>
                     </div>
@@ -135,22 +149,11 @@ function Decor() {
                                                         <img src="images/f1.png" alt="" />
                                                     </div>
                                                     <div className="detail-box">
-                                                        <h5>
-                                                            {item.name}
-                                                        </h5>
-                                                        <p>
-                                                            {item.content}
-                                                        </p>
-                                                        <h6>
-                                                            Nhà cung cấp: {item.decorProvider}
-                                                        </h6>
-                                                        <h6>
-                                                            Số người mua:
-                                                        </h6>
+                                                        <h5>{item.name}</h5>
+                                                        <p>{item.content}</p>
+                                                        <h6>Nhà cung cấp: {item.decorProvider}</h6>
                                                         <div className="options">
-                                                            <h6>
-                                                                Giá: {item.price}.000
-                                                            </h6>
+                                                            <h6>Giá: {item.price}.000</h6>
                                                             <button className='btn btn-cart' onClick={() => addToCart(item)}>
                                                                 <FaShoppingCart />
                                                             </button>
@@ -173,11 +176,9 @@ function Decor() {
                             </div>
                         </div>
                     }
-
-
                 </div>
             </section>
-        </MainLayout >
+        </MainLayout>
     );
 }
 
