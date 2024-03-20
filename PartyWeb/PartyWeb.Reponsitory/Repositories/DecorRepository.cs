@@ -17,8 +17,6 @@ namespace Reponsitories.Repositories
         public Task<Decor> GetById(int id) => DecorDAO.Instance.GetById(id);
 
         public Task<List<Decor>> PaggingDecor(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
-        {
-            return DecorDAO.Instance.PaggingDecor(index,pageSize,search,sortDateAsc,sortPriceAsc,sortNameAsc);
-        }
+         => DecorDAO.Instance.PaggingDecor(index, pageSize, search, sortDateAsc, sortPriceAsc, sortNameAsc);
     }
 }

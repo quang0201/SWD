@@ -13,5 +13,7 @@ namespace Reponsitories.Interface
         Task<bool> Add(Food food);
         Task<bool> Update(Food food);
         Task<Food> GetById(int id);
+
+        Task<List<Food>> PaggingFood(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc);
     }
 }

@@ -15,5 +15,8 @@ namespace Reponsitories.Repositories
         public async Task<bool> Update(Room room) => await RoomDAO.Instance.Update(room);
 
         public Task<Room> GetById(int id) => RoomDAO.Instance.GetById(id);
+
+        public Task<List<Room>> PaggingRoom(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
+        => RoomDAO.Instance.PaggingRoom(index, pageSize, search, sortDateAsc, sortPriceAsc, sortNameAsc);
     }
 }

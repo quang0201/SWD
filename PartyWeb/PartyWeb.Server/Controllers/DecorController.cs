@@ -86,5 +86,20 @@ namespace Server.Controllers
                 return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Delete fail" });
             }
         }
+        [Authorize]
+        [HttpPut("decor-approve")]
+        public async Task<ActionResult> ApproveFood(int id)
+        {
+            try
+            {
+                var user = User.FindFirst("id")?.Value;
+                var items = await _DecorService.Approve(id, user);
+                return Ok(new { status = 200, data = items, tilte = "Success", mess = "Active success" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Active fail" });
+            }
+        }
     }
 }

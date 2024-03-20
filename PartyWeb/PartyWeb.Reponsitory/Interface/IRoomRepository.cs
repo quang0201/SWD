@@ -12,6 +12,6 @@ namespace Reponsitories.Interface
         Task<bool> Add(Room room);
         Task<Room> GetById(int id);
         Task<bool> Update(Room room);
-
+        Task<List<Room>> PaggingRoom(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc);
     }
 }

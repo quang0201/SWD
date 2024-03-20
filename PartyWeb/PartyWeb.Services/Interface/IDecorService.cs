@@ -1,4 +1,5 @@
-﻿using ModelViews.ModelView;
+﻿using BusinessObjects.Models;
+using ModelViews.ModelView;
 
 namespace Services.Interface
 {
@@ -9,6 +10,8 @@ namespace Services.Interface
 
         public Task<bool> Update(UpdateDecorModel food, string user);
         public Task<bool> Delete(int id, string user);
+
+        public Task<Decor> Approve(int id, string user);
 
     }
 }

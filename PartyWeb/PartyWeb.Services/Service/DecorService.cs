@@ -226,5 +226,47 @@ namespace Services.Service
                 throw new(ex.Message);
             }
         }
+        public async Task<Decor> Approve(int id, string userId)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    throw new Exception("number invaild");
+                }
+                var user = await _userRepository.GetUserById(int.Parse(userId));
+                if (user == null)
+                {
+                    throw new Exception("not found your account");
+                }
+                if (user.Role == 0)
+                {
+                    throw new Exception("you have access");
+                }
+                var decorDTO = await _DecorRepo.GetById(id);
+                if (decorDTO == null)
+                {
+                    throw new Exception("Decor not found");
+                }
+                if (decorDTO.Status == 1)
+                {
+                    throw new Exception("Decor is actived");
+                }
+                if (user.Role != 1)
+                {
+                    throw new Exception("Dont Access");
+                }
+                decorDTO.Status = 1;
+                decorDTO.UpdatedTime = DateTime.Now;
+                var result = await _DecorRepo.Update(decorDTO);
+                return decorDTO;
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
+        }
+
+        
     }
 }
