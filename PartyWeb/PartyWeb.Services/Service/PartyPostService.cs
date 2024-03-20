@@ -6,25 +6,25 @@ using Services.Interface;
 
 namespace Services.Service
 {
-    public class PartyHostService : IPartyHostService
+    public class PartyPostService : IPartyPostService
     {
-        private readonly IPartyHostRepository _repo;
+        private readonly IPartyPostRepository _repo;
         private readonly IMapper _mapper;
 
-        public PartyHostService(IPartyHostRepository repo, IMapper mapper)
+        public PartyPostService(IPartyPostRepository repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
 
         }
 
-        public async Task<bool> AddNewPartyHost(PartyHostModel partyHost)
+        public async Task<bool> AddNewPartyPost(PartyPostModel partyPost)
         {
 
             try
             {
-                PartyHost acc = _mapper.Map<PartyHost>(partyHost);
-                return await _repo.AddNewPartyHost(acc);
+                PartyPost acc = _mapper.Map<PartyPost>(partyPost);
+                return await _repo.AddNewPartyPost(acc);
             }
             catch (Exception ex)
             {
@@ -34,12 +34,12 @@ namespace Services.Service
             }
         }
 
-        public async Task<bool> DeletePartyHost(int id)
+        public async Task<bool> DeletePartyPost(int id)
         {
 
             try
             {
-                return await _repo.DeletePartyHost(id);
+                return await _repo.DeletePartyPost(id);
             }
             catch (Exception ex)
             {
@@ -49,30 +49,30 @@ namespace Services.Service
             }
         }
 
-        public async Task<PartyHostModel> GetPartyHostById(int id)
+        public async Task<PartyPostModel> GetPartyPostById(int id)
         {
             try
             {
-                PartyHost partyHost = await _repo.GetPartyHostById(id);
-                return _mapper.Map<PartyHostModel>(partyHost);
+                PartyPost partyPost = await _repo.GetPartyPostById(id);
+                return _mapper.Map<PartyPostModel>(partyPost);
             }
             catch (Exception ex)
             {
 
                 Console.WriteLine($"Error: {ex.ToString()}");
             }
-            return new PartyHostModel();
+            return new PartyPostModel();
 
 
         }
 
-        public async Task<bool> UpdatePartyHost(PartyHostModel partyHost)
+        public async Task<bool> UpdatePartyPost(PartyPostModel partyPost)
         {
 
             try
             {
-                PartyHost acc = _mapper.Map<PartyHost>(partyHost);
-                return await _repo.UpdatePartyHost(acc);
+                PartyPost acc = _mapper.Map<PartyPost>(partyPost);
+                return await _repo.UpdatePartyPost(acc);
             }
             catch (Exception ex)
             {

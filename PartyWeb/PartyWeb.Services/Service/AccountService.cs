@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessObjects.Models;
 using ModelViews.ModelView;
+using ModelViews.ModelView.Accounts;
 using Reponsitories.Interface;
 using Services.Interface;
 
@@ -18,7 +19,7 @@ namespace Services.Service
 
         }
 
-        public async Task<bool> AddNewAccount(AccountModel account)
+        public async Task<bool> AddNewAccount(AddNewAccountModel account)
         {
             try
             {
@@ -32,11 +33,11 @@ namespace Services.Service
             }
         }
 
-        public async Task<bool> DeleteAccount(string email)
+        public async Task<bool> DeleteAccount(int id)
         {
             try
             {
-                return await _repo.DeleteAccount(email);
+                return await _repo.DeleteAccount(id);
             }
             catch (Exception ex)
             {
@@ -45,22 +46,64 @@ namespace Services.Service
             }
         }
 
-        public async Task<AccountModel> GetAccountByEmail(string email)
+        public async Task<ViewAccountModel> GetAccountById(int id)
         {
 
             try
             {
-                Account acc = await _repo.GetAccountByEmail(email);
-                return _mapper.Map<AccountModel>(acc);
+                Account acc = await _repo.GetAccountById(id);
+                return _mapper.Map<ViewAccountModel>(acc);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.ToString()}");
-                return new AccountModel();
+                return new ViewAccountModel();
             }
         }
 
-        public async Task<bool> UpdateAccount(AccountModel account)
+        public async Task<List<ViewAccountModel>> GetAccounts()
+        {
+            try
+            {
+                List<Account> accounts = await _repo.GetAccounts();
+                List<ViewAccountModel> vms = _mapper.Map<List<ViewAccountModel>>(accounts);
+                return vms;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.ToString()}");
+                return new List<ViewAccountModel>();
+            }
+        }
+
+        public async Task<bool> IsExistAccountEmail(string email)
+        {
+            try
+            {
+                return await _repo.IsExistAccountEmail(email);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.ToString()}");
+                return false;
+            }
+        }
+
+        public async Task<bool> IsExistAccountUsername(string username)
+        {
+            try
+            {
+                return await _repo.IsExistAccountUsername(username);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.ToString()}");
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateAccount(UpdateAccountModel account)
         {
 
             try
