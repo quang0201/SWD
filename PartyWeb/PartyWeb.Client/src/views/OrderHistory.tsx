@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
-import { FaShoppingCart } from 'react-icons/fa';
 
 interface Order {
     id: number;
@@ -11,7 +10,7 @@ interface Order {
 function OrderHistory() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(6); // Giá trị mặc định
+    const [pageSize] = useState<number>(6); // Giá trị mặc định
 
     useEffect(() => {
         fetchOrders();
@@ -46,11 +45,11 @@ function OrderHistory() {
         }
     };
 
-    const handlePayment = async (orderId: number) => {
+    const handlePayment = async () => {
         // Xử lý thanh toán
     };
 
-    const handleCancelOrder = async (orderId: number) => {
+    const handleCancelOrder = async () => {
         // Xử lý hủy đơn hàng
     };
 
@@ -79,8 +78,8 @@ function OrderHistory() {
                                                 order.status === 0 ? 'Đã hủy đơn hàng' : ''}
                                     </td>
                                     <td>
-                                        {order.status === 2 && <button onClick={() => handlePayment(order.id)}>Thanh toán</button>}
-                                        {order.status === 2 && <button onClick={() => handleCancelOrder(order.id)}>Hủy đơn hàng</button>}
+                                        {order.status === 2 && <button onClick={() => handlePayment()}>Thanh toán</button>}
+                                        {order.status === 2 && <button onClick={() => handleCancelOrder()}>Hủy đơn hàng</button>}
                                     </td>
                                 </tr>
                             ))}

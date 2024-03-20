@@ -24,7 +24,7 @@ function Room() {
     const [isLoading, setIsLoading] = useState(true);
     const [items, setItems] = useState<Item[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6);
+    const [itemsPerPage] = useState(6);
     const [cartRoom, setCartRoom] = useState<ItemCart | null>(null);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -64,9 +64,9 @@ function Room() {
     };
 
     const addToCartWithDate = async () => {
-        if (startDate && endDate) {
+        if (startDate && endDate && cartRoom) {
             try {
-                const url = `/api/order/check-room?id=${cartRoom?.id}&startDate=${startDate}&endDate=${endDate}`;
+                const url = `/api/order/check-room?id=${cartRoom.id}&startDate=${startDate}&endDate=${endDate}`;
                 const response = await fetch(url, {
                     method: 'POST'
                 });

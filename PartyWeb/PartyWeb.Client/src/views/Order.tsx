@@ -22,7 +22,7 @@ function Order() {
     }, []);
     const [paymentMethod, setPaymentMethod] = useState('cash');
 
-    const handlePaymentMethodChange = (event) => {
+    const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPaymentMethod(event.target.value);
     };
 

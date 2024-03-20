@@ -22,7 +22,7 @@ function Food() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [items, setItems] = useState<FoodItem[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [itemsPerPage, setItemsPerPage] = useState<number>(6);
+    const [itemsPerPage] = useState<number>(6);
     const [searchValue, setSearchValue] = useState<string>('');
     const [cartFood, setCartFood] = useState<CartItem[]>([]);
 

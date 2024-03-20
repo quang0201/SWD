@@ -20,8 +20,11 @@
   <ItemGroup>
     <ProjectReference Include="..\partyweb.client\Client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PartyWeb.Services\Services.csproj" />
+    <ProjectReference Include="..\PartyWeb.Services\Services.csproj">
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

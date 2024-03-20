@@ -22,7 +22,7 @@ function Decor() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [items, setItems] = useState<DecorItem[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [itemsPerPage, setItemsPerPage] = useState<number>(6);
+    const [itemsPerPage] = useState<number>(6);
     const [cartDecor, setCartDecor] = useState<CartItem[]>([]);
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 function Register() {
