@@ -2,6 +2,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import MainLayout from '../components/MainLayout';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 function Room() {
     const [isLoading, setIsLoading] = useState(true);
@@ -44,15 +45,29 @@ function Room() {
         setCartRoom(item); // Thêm phòng vào giỏ hàng
         localStorage.setItem('room', JSON.stringify(item));  // Lưu giỏ hàng vào local storage
     };
-    const addToCartWithDate = () => {
+    const addToCartWithDate = async () => {
         if (startDate && endDate) {
-            const cartRoomWithDate = { ...cartRoom, startDate, endDate };
-            setCartRoom(cartRoomWithDate);
-            localStorage.setItem('room', JSON.stringify(cartRoomWithDate));
+            try {
+                const url = `/api/order/check-room?id=${cartRoom.id}&startDate=${startDate}&endDate=${endDate}`;
+                const response = await fetch(url, {
+                    method: 'POST'
+                });
+                if (response.ok) {
+                    toast.success('Bạn đã chọn phòng thành công');
+                    const cartRoomWithDate = { ...cartRoom, startDate, endDate };
+                    setCartRoom(cartRoomWithDate);
+                    localStorage.setItem('room', JSON.stringify(cartRoomWithDate));
+                } else {
+                    toast.error('Phòng không thể đặt vào ngày đã chọn. Vui lòng chọn ngày khác.');
+                }
+            } catch (error) {
+                toast.error('Đã xảy ra lỗi. Vui lòng thử lại sau.');
+            }
         } else {
             console.log("Vui lòng chọn ngày bắt đầu và ngày kết thúc!");
         }
     };
+    
     return (
         <MainLayout>
             <div>

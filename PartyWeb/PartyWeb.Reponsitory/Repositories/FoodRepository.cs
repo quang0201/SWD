@@ -17,6 +17,9 @@ namespace Reponsitories.Repositories
 
         public Task<Food> GetById(int id) => FoodDAO.Instance.GetById(id);
 
+        public Task<List<Food>> PaggingFood(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
+            => FoodDAO.Instance.PaggingFood(index,pageSize,search,sortDateAsc,sortPriceAsc,sortNameAsc);
+
         public Task<bool> Update(Food food) => FoodDAO.Instance.Update(food);
     }
 }

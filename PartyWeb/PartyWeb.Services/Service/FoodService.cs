@@ -116,7 +116,7 @@ namespace Services.Service
                     throw new ArgumentOutOfRangeException("range 1-100");
                 }
 
-                var items = await FoodDAO.Instance.PaggingFood(index, pageSize, search, sortDateAsc, sortPriceAsc, sortNameAsc);
+                var items = await _foodRepo.PaggingFood(index, pageSize, search, sortDateAsc, sortPriceAsc, sortNameAsc);
                 var itemsMapper = _mapper.Map<List<FoodViewModel>>(items);
                 return itemsMapper; // Trả về dữ liệu thành công
             }

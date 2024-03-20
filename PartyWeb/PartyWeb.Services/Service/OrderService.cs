@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessObjects.Models;
+using DataAcess.ControllerDAO;
 using ModelViews.Models;
 using Net.payOS.Types;
 using Reponsitories.Interface;
@@ -36,6 +37,32 @@ namespace Services.Service
             _userRepository = userRepository;
             _waymentRepo = waymentRepo;
         }
+        public async Task<bool> CheckDateRoom(int id,DateTime startDate,DateTime endDate)
+        {
+            try
+            {
+               
+                var room = await _roomRepo.GetById(id);
+                if (room == null)
+                {
+                    throw new Exception("Not found room");
+                }
+                if (Validation.Instance.CheckDateTime(startDate, endDate))
+                {
+                    throw new Exception("The day not alivable");
+                }
+                var checkDate = await _orderRepo.CheckDateOrder(room.Id, startDate, endDate);
+                if (checkDate)
+                {
+                    throw new Exception("The day exist book");
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
+        }
         public async Task<CreatePaymentResult> Add(OrderModel model, string userId)
         {
             try
@@ -44,8 +71,6 @@ namespace Services.Service
                 List<OrderDecor> decors =new List<OrderDecor>();
                 decimal total = 0;
                 var room = await _roomRepo.GetById(model.orderRooms.IdRoom);
-
-                Console.WriteLine(model.orderRooms.IdRoom);
                 if (room == null)
                 {
                     throw new Exception("Not found room");
@@ -152,7 +177,7 @@ namespace Services.Service
                     OrderRoom = roomOrder,
                     Price = total
                 };
-                //var result = await _orderRepo.Add(order);
+                var result = await _orderRepo.Add(order);
 
                 //if (!result)
                 //{
@@ -165,5 +190,29 @@ namespace Services.Service
                 throw new(ex.Message);
             }
         }
+
+        public async Task<List<Order>> GetPaggingOrder(string userId, int index, int pageSize, bool? sortDateAsc, bool? sortPriceAsc)
+        {
+            try
+            {
+                if (index < 0)
+                {
+                    throw new ArgumentOutOfRangeException("index must be >= 0");
+                }
+                if (pageSize < 0 || pageSize > 100)
+                {
+                    throw new ArgumentOutOfRangeException("range 1-100");
+                }
+
+                var items = await _orderRepo.Pagging(int.Parse(userId), index, pageSize, sortDateAsc, sortPriceAsc);
+                return items; // Trả về dữ liệu thành công
+            }
+            catch (Exception ex)
+            {
+                throw new(ex.Message);
+            }
+        }
+
+        
     }
 }
