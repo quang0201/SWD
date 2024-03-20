@@ -33,16 +33,12 @@ namespace Tools.Tool
             {
                 PayOS payOS = new PayOS(clientId, apiKey, checkSumKey);
                 
-                DateTime currentTime = DateTime.Now;
-                DateTime futureTime = currentTime.AddMinutes(15);
-                int unixTimestamp = (int)(futureTime.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds;
                 List<ItemData> items = new List<ItemData>();
                 items.Add(new ItemData($"Đơn hàng khách {account.Username}", 1, money * 10));
                 PaymentData paymentData = new PaymentData(totalPayment + 100, money*10, "",
                     items, "bancantoi.site",
                     "bancantoi.site",
-                    account.Username,
-                    expiredAt: unixTimestamp
+                    account.Username
                     );
                 CreatePaymentResult createPayment = await payOS.createPaymentLink(paymentData);
                 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Header: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Trạng thái đăng nhập
@@ -23,7 +24,10 @@ const Header: React.FC = () => {
 
     // Hàm xử lý đăng xuất
     const handleLogout = () => {
-        // Thực hiện xử lý đăng xuất tại đây
+        toast.success('Đăng xuất thành công');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 3000);
         localStorage.removeItem('jwt'); // Xóa mã JWT khỏi local storage
         setIsLoggedIn(false);
     };

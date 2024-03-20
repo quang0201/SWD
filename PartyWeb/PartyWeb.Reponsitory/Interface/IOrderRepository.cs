@@ -9,7 +9,7 @@ namespace Reponsitories.Interface
 {
     public interface IOrderRepository
     {
-        public Task<bool> Add(Order order);
+        public Task<int> Add(Order order);
         public Task<bool> CheckDateOrder(int id,DateTime startDate,DateTime endDate);
         public Task<List<Order>> Pagging(int id, int index, int pageSize, bool? sortDateAsc, bool? sortPriceAsc);
     }
