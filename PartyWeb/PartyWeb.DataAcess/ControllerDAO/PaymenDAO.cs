@@ -45,7 +45,7 @@ namespace DataAcess.ControllerDAO
             {
                 using (var dbContext = new SwdContext())
                 {
-                    return await dbContext.Payments.CountAsync();
+                    return await dbContext.Payments.CountAsync()+1000;
                 }
             }
             catch (Exception ex)

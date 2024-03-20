@@ -35,6 +35,7 @@ namespace Tools.Tool
                 
                 List<ItemData> items = new List<ItemData>();
                 items.Add(new ItemData($"Đơn hàng khách {account.Username}", 1, money * 10));
+                Console.WriteLine(totalPayment);
                 PaymentData paymentData = new PaymentData(totalPayment + 100, money*10, "",
                     items, "https://bancantoi.site/",
                     "https://bancantoi.site/",

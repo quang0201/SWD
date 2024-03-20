@@ -157,7 +157,6 @@ namespace Services.Service
                 }
                 int totalPayment = await _waymentRepo.GetTotalPayment();
 
-                var payment = await PayOSPayment.Instance.CreatePayment(user,(int)total, totalPayment);
                 
                
                 var order = new Order()
@@ -170,6 +169,7 @@ namespace Services.Service
                     OrderRoom = roomOrder,
                     Price = total
                 };
+
                 var result = await _orderRepo.Add(order);
                 var paymentOs = new Payment()
                 {
@@ -177,7 +177,6 @@ namespace Services.Service
                     Status = 2,
                     Amount = (int)total,
                     TimeCreate = DateTime.Now,
-                    TransIdSystem = payment.paymentLinkId,
                     IdOrder = result
                 };
                 await _waymentRepo.Add(paymentOs);
@@ -185,7 +184,7 @@ namespace Services.Service
                 //{
                 //    throw new Exception("Error create order");
                 //}
-                return payment;
+                return null;
             }
             catch (Exception ex)
             {

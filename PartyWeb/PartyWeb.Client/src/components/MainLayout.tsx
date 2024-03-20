@@ -10,13 +10,14 @@ interface MainLayoutProps {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+    
     return (
         <div className="sub_page">
-            <ToastContainer/>
+            <ToastContainer />
             <div className="hero_area">
                 <Header />
             </div>
-            
+
             {children}
             <Footer />
         </div>

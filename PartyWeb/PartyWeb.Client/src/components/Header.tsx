@@ -17,12 +17,10 @@ const Header: React.FC = () => {
         }
     };
 
-    // Kiểm tra trạng thái đăng nhập khi thành phần được tạo hoặc khi thay đổi
     useEffect(() => {
         checkLoginStatus();
     }, []);
 
-    // Hàm xử lý đăng xuất
     const handleLogout = () => {
         toast.success('Đăng xuất thành công');
                 setTimeout(() => {
@@ -31,7 +29,32 @@ const Header: React.FC = () => {
         localStorage.removeItem('jwt'); // Xóa mã JWT khỏi local storage
         setIsLoggedIn(false);
     };
-
+    useEffect(() => {
+        const token = localStorage.getItem('jwt'); // Get the JWT token from localStorage
+        const apiUrl = '/api/user/get-user';
+    
+        fetch(apiUrl, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error('Lỗi khi lấy thông tin người dùng');
+            }
+          })
+          .then(data => {
+            // Xử lý dữ liệu người dùng
+            console.log('Thông tin người dùng:', data);
+          })
+          .catch(error => {
+            // Xử lý lỗi
+            console.error('Lỗi khi lấy thông tin người dùng:', error);
+          });
+      }, []);
+      
     return (
         <header className="header_section">
             <div className="container">

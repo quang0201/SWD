@@ -67,8 +67,11 @@ function Order() {
 
             } else {
                 toast.success(responseData.mess);
+                localStorage.removeItem('food');
+                localStorage.removeItem('room');
+                localStorage.removeItem('decor');
                 setTimeout(() => {
-                    window.location.href = responseData.data.checkoutUrl;
+                    window.location.href = '/order-history';
                 }, 3000);
             }
         } catch (error) {
