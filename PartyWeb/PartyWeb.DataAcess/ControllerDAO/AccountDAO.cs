@@ -18,6 +18,54 @@ namespace DataAcess.ControllerDAO
                 return instance;
             }
         }
+        public async Task<bool> IsExistedEmail(string email)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    var count = await dbContext.Accounts.Where(x => x.Email == email).CountAsync();
+                    if (count > 0) return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
+            }
+            return false;
+        }
+        public async Task<List<Account>> GetAccounts()
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    return await dbContext.Accounts.ToListAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
+            }
+            return new List<Account>();
+        }
+
+        public async Task<bool> IsExistedUsername(string username)
+        {
+            try
+            {
+                using (var dbContext = new SwdContext())
+                {
+                    var count = await dbContext.Accounts.Where(x => x.Username == username).CountAsync();
+                    if (count > 0) return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
+            }
+            return false;
+        }
 
         public async Task<Account> Login(LoginModel account)
         {
@@ -31,8 +79,9 @@ namespace DataAcess.ControllerDAO
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi xảy ra: " + ex.Message);
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
             }
+            return null;
         }
         public async Task<bool> Register(Account account)
         {
@@ -47,8 +96,9 @@ namespace DataAcess.ControllerDAO
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi xảy ra: " + ex.Message);
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
             }
+            return false;
         }
         public async Task<bool> GetUserByUserName(string userName)
         {
@@ -66,8 +116,10 @@ namespace DataAcess.ControllerDAO
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi xảy ra: " + ex.Message);
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
             }
+            return false;
+
         }
         public async Task<Account> GetUserByUserId(int id)
         {
@@ -81,24 +133,26 @@ namespace DataAcess.ControllerDAO
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi xảy ra: " + ex.Message);
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
             }
+            return null;
         }
 
-        public async Task<Account> GetAccountByEmail(string email)
+        public async Task<Account> GetAccountById(int id)
         {
             try
             {
                 using (var dbContext = new SwdContext())
                 {
-                    var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Email == email);
+                    var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Id == id);
                     return user;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi xảy ra: " + ex.Message);
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
             }
+            return new Account();
         }
 
         public async Task<bool> AddAccount(Account account)
@@ -117,13 +171,13 @@ namespace DataAcess.ControllerDAO
                             return true;
                         }
                     }
-                    return false;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi xảy ra: " + ex.ToString());
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
             }
+            return false;
         }
 
         public async Task<bool> UpdateAccount(Account account)
@@ -153,22 +207,22 @@ namespace DataAcess.ControllerDAO
                             return true;
                         }
                     }
-                    return false;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi xảy ra: " + ex.ToString());
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
             }
+            return false;
         }
 
-        public async Task<bool> DeleteAccount(string email)
+        public async Task<bool> DeleteAccount(int id)
         {
             try
             {
                 using (var dbContext = new SwdContext())
                 {
-                    var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Email == email);
+                    var user = await dbContext.Accounts.FirstOrDefaultAsync(u => u.Id == id);
                     if (user != null)
                     {
                         var orders = dbContext.Orders.Where(x => x.CreatedBy == user.Id).ToList();
@@ -176,7 +230,7 @@ namespace DataAcess.ControllerDAO
                         var foods = dbContext.Foods.Where(x => x.CreatedBy == user.Id).ToList();
                         var rooms = dbContext.Rooms.Where(x => x.CreatedBy == user.Id).ToList();
 
-                        foreach(var item in orders)
+                        foreach (var item in orders)
                         {
                             var orderDecors = dbContext.OrderDecors.Where(x => x.IdOrder == item.Id).ToList();
                             var orderFoods = dbContext.OrderFoods.Where(x => x.IdOrder == item.Id).ToList();
@@ -197,13 +251,13 @@ namespace DataAcess.ControllerDAO
                             return true;
                         }
                     }
-                    return false;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi xảy ra: " + ex.ToString());
+                Console.WriteLine("Lỗi xảy ra: " + ex.ToString());
             }
+            return false;
         }
     }
 }

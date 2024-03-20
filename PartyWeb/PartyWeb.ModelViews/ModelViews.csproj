@@ -10,4 +10,8 @@
     <ProjectReference Include="..\PartyWeb.BusinessObjects\BusinessObjects.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModelView\PartyPosts\" />
+  </ItemGroup>
+
 </Project>

@@ -3,6 +3,7 @@ using AutoMapper;
 using BusinessObjects.Models;
 using ModelViews.Models;
 using ModelViews.ModelView;
+using ModelViews.ModelView.Accounts;
 
 namespace Server.Profile_Maper
 {
@@ -21,10 +22,15 @@ namespace Server.Profile_Maper
             CreateMap<Room, RoomViewModel>()
                    .ForMember(dest => dest.DecorProvider, opt => opt.MapFrom(src => src.CreatedByNavigation.Username)).ReverseMap();
 
+            // account mappers
+            CreateMap<Account, AccountModel>().ReverseMap();
+            CreateMap<Account, AddNewAccountModel>().ReverseMap();
+            CreateMap<Account, UpdateAccountModel>().ReverseMap();
+            CreateMap<Account, ViewAccountModel>().ReverseMap();
+
 
             CreateMap<Feedback, FeedbackModel>().ReverseMap();
-            CreateMap<Account, AccountModel>().ReverseMap();
-            CreateMap<PartyHost, PartyHostModel>().ReverseMap();
+            CreateMap<PartyPost, PartyPostModel>().ReverseMap();
         }
     }
 }
