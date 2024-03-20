@@ -36,8 +36,8 @@ namespace Tools.Tool
                 List<ItemData> items = new List<ItemData>();
                 items.Add(new ItemData($"Đơn hàng khách {account.Username}", 1, money * 10));
                 PaymentData paymentData = new PaymentData(totalPayment + 100, money*10, "",
-                    items, "bancantoi.site",
-                    "bancantoi.site",
+                    items, "https://bancantoi.site/",
+                    "https://bancantoi.site/",
                     account.Username
                     );
                 CreatePaymentResult createPayment = await payOS.createPaymentLink(paymentData);
