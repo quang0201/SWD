@@ -60,13 +60,15 @@ namespace Server.Controllers
             }
         }
         [Authorize]
-        [HttpGet("get-order-host")]
-        public async Task<IActionResult> GetOrderHost()
+        [HttpGet("get-order-host-food")]
+        public async Task<IActionResult> GetOrderHostFood(int index, int pageSize, bool? sortDateAsc, bool? sortPriceAsc)
         {
             try
             {
                 var user = User.FindFirst("id")?.Value;
-                return Ok(new { status = 200, tilte = "Success", data = "fine", mess = "Create order success" });
+                var result = await _orderService.PaggingFoodHost(user, index, pageSize, sortDateAsc, sortPriceAsc);
+                
+                return Ok(new { status = 200, tilte = "Success", data = result, mess = "Create order success" });
             }
             catch (Exception ex)
             {

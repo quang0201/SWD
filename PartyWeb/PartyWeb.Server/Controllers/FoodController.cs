@@ -60,7 +60,22 @@ namespace Server.Controllers
                 return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Get items fail" });
             }
         }
+        [Authorize]
+        [HttpGet("pagging-food-host")]
+        public async Task<IActionResult> GetOrdersPagingHost(int index, int pageSize, string? search, bool? sortDateAsc, bool? sortPriceAsc, bool? sortNameAsc)
+        {
+            try
+            {
+                var user = User.FindFirst("id")?.Value;
+                var items = await _foodService.PaggingFood(index, pageSize, search, sortDateAsc, sortPriceAsc, sortNameAsc);
 
+                return Ok(new { status = 200, tilte = "Success", data = items, mess = "Get items success" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = 400, tilte = "Error", error = ex.Message, mess = "Get items fail" });
+            }
+        }
         [Authorize]
         [HttpPut("food-update")]
         public async Task<IActionResult> UpdateFood(UpdateFoodModel food)

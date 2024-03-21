@@ -8,6 +8,8 @@ import Order from '../views/Order'
 import Login from '../views/Login'
 import Register from '../views/Register'
 import OrderHistory from '../views/OrderHistory';
+import Seller from '../views/Seller'
+import RoomHost from '../views/RoomHost'
 const AppRouter: React.FC = () => {
     return (
         <Router>
@@ -21,6 +23,9 @@ const AppRouter: React.FC = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path='/order-history' element={<OrderHistory/>}/>
+                <Route path='/seller' element={<Seller/>}/>
+                <Route path='/room-host' element={<RoomHost/>}/>
+
             </Routes>
         </Router>
     );

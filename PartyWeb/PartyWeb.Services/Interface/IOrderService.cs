@@ -14,5 +14,7 @@ namespace Services.Interface
         public Task<CreatePaymentResult> Add(OrderModel model,string user);
         public Task<bool> CheckDateRoom(int id,DateTime startDate, DateTime endDate);
         public Task<List<Order>> GetPaggingOrder(string userId, int index, int pageSize, bool? sortDateAsc, bool? sortPriceAsc);
+        public Task<List<Food>> PaggingFoodHost(string userId, int index, int pageSize, bool? sortDateAsc, bool? sortPriceAsc);
+
     }
 }

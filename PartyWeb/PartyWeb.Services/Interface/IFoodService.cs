@@ -16,5 +16,6 @@ namespace Services.Interface
         public Task<bool> Update(UpdateFoodModel food, string user);
         public Task<bool> Delete(int id,string user);
         public Task<Food> Approve(int id,string user);
+
     }
 }

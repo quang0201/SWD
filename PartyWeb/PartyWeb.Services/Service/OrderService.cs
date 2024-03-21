@@ -214,6 +214,10 @@ namespace Services.Service
             }
         }
 
-        
+        public async Task<List<Food>> PaggingFoodHost(string userId, int index, int pageSize, bool? sortDateAsc, bool? sortPriceAsc)
+        {
+            return await _orderRepo.PaggingHost(int.Parse(userId),index,pageSize,sortDateAsc,sortPriceAsc);
+
+        }
     }
 }
